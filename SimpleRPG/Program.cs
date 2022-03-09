@@ -32,7 +32,7 @@
         }
         public static void CollectCharacterInformation()
         {
-            Character player = new Character();
+            Character player = new(); // Create new player character.
 
             WriteText("What be your name, traveler?");
 
@@ -47,8 +47,6 @@
             player.Gender = ValidateAndGetInput(); // Checks if null. If null then prompts for another value.
 
             WriteText("\nAlright. Let's get this adventure started.\n\nPress any key to continue...");
-
-            player.Level = 1;
 
             Console.ReadKey(true);
         }

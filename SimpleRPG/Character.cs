@@ -11,9 +11,8 @@
                 name = value;
             }
         }
-
         private string? location;
-        public string? Location
+        public string? Location // Player location. Flavor text if in game town is chosen.
         {
             get { return location; }
             set
@@ -45,7 +44,6 @@
                 location = value;
             }
         }
-
         private string? gender;
         public string? Gender
         {
@@ -55,8 +53,7 @@
                 gender = value;
             }
         }
-
-        private int level;
+        private int level = 1;
         public int Level
         {
             get { return level; }
@@ -65,22 +62,54 @@
                 level = value;
             }
         }
-
         private int experience;
-        public int Experience
+        public int Experience // Level up mechanic.
         {
             get { return experience; }
             set
             {
-                if (value >= 50)
+                int maxLevelExperience = 50;
+
+                if (value >= maxLevelExperience)
                 {
-                    value %= 50;
+                    value %= maxLevelExperience;
+
                     level++;
+
                     Console.Write($"\nYou are now level {level}!\n");
                 }
                 else
                 {
                     experience = value;
+                }
+            }
+        }
+        private int hitPoints = 25;
+        public int HitPoints // Amount of HP. When HP reaches 0, the player dies. Maximum HP a player can have is 40.
+        {
+            get { return hitPoints; }
+            set
+            {
+                int maxHitPoints = 40;
+                int characterDeath = 0;
+
+                if (value <= characterDeath)
+                {
+                    Console.Write($"\nYou have died! Fare thee well, {name}.\n\nPress any key to exit the game...\n");
+
+                    Console.ReadKey(true);
+
+                    Environment.Exit(0);
+                }
+                else if (value >= maxHitPoints)
+                {
+                    hitPoints = maxHitPoints;
+
+                    Console.Write($"\nYou already have max HP! You can't have more than {maxHitPoints} HP.\n");
+                }
+                else
+                {
+                    hitPoints = value;
                 }
             }
         }
