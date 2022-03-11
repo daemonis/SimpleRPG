@@ -2,7 +2,7 @@
 {
     public class Character
     {
-        private string? name;
+        private string? name; // Character name.
         public string? Name
         {
             get { return name; }
@@ -11,6 +11,7 @@
                 name = value;
             }
         }
+
         private string? location;
         public string? Location // Player location. Flavor text if in game town is chosen.
         {
@@ -44,7 +45,8 @@
                 location = value;
             }
         }
-        private string? gender;
+
+        private string? gender; // Character gender.
         public string? Gender
         {
             get { return gender; }
@@ -53,7 +55,8 @@
                 gender = value;
             }
         }
-        private int level = 1;
+
+        private int level = 1; // Character level.
         public int Level
         {
             get { return level; }
@@ -62,6 +65,17 @@
                 level = value;
             }
         }
+
+        private string[]? inventory; // Inventory array.
+        public string[] Inventory
+        {
+            get { return inventory; }
+            set
+            {
+                inventory = value;
+            }
+        }
+
         private int experience;
         public int Experience // Level up mechanic.
         {
@@ -72,7 +86,7 @@
 
                 if (value >= maxLevelExperience)
                 {
-                    value %= maxLevelExperience;
+                    experience %= maxLevelExperience;
 
                     level++;
 
@@ -84,17 +98,40 @@
                 }
             }
         }
-        private int hitPoints = 25;
-        public int HitPoints // Amount of HP. When HP reaches 0, the player dies. Maximum HP a player can have is 40.
+
+        private int attack = 5; // Attack power.
+        public int Attack
+        {
+            get { return attack; }
+            set
+            {
+                attack = value;
+            }
+        }
+
+        private int defense = 1; // Defense power.
+        public int Defense
+        {
+            get { return defense; }
+            set
+            {
+                defense = value;
+            }
+        }
+
+        private int hitPoints = 25; // Amount of HP. When HP reaches 0, the player dies. Maximum HP a player can have is 40.
+        public int HitPoints
         {
             get { return hitPoints; }
             set
             {
                 int maxHitPoints = 40;
-                int characterDeath = 0;
+                int death = 0;
 
-                if (value <= characterDeath)
+                if (value <= death)
                 {
+                    isAlive = false;
+
                     Console.Write($"\nYou have died! Fare thee well, {name}.\n\nPress any key to exit the game...\n");
 
                     Console.ReadKey(true);
@@ -103,14 +140,28 @@
                 }
                 else if (value >= maxHitPoints)
                 {
+                    isAlive = true;
+
                     hitPoints = maxHitPoints;
 
                     Console.Write($"\nYou already have max HP! You can't have more than {maxHitPoints} HP.\n");
                 }
                 else
                 {
+                    isAlive = true;
+
                     hitPoints = value;
                 }
+            }
+        }
+
+        private bool isAlive; // Is the character alive? See HitPoints.
+        public bool IsAlive
+        {
+            get { return isAlive; }
+            set
+            {
+                isAlive = value;
             }
         }
     }
