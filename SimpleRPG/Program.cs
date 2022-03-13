@@ -97,7 +97,7 @@
             }
             else
             {
-                Program.WriteText("\nNever heard o' there before, but alright then.\n"); // End of flavor text.
+                WriteText("\nNever heard o' there before, but alright then.\n"); // End of flavor text.
             }
 
             WriteText($"\n{name} of {location}. That has a nice ring to it, doesn't it? Now, are ye a lass or lad?\n");
@@ -157,7 +157,7 @@
         {
             if (String.IsNullOrEmpty(input))
             {
-                Console.Write("Nothing was entered.\n");
+                WriteText("No one can read minds. Say what ye mean.\n");
                 return true;
             }
             else
@@ -172,7 +172,7 @@
             {
                 if (!Char.IsLetter(ch))
                 {
-                    Console.Write("Answer must not contain a number.\n");
+                    WriteText("No one asked for math. What do ye mean?\n");
                     return true;
                 }
             }
@@ -186,7 +186,7 @@
 
             if (input.Length < minimumInputLength || input.Length > maximumInputLength)
             {
-                Console.Write($"Answer must be between {minimumInputLength}-{maximumInputLength} characters.\n");
+                WriteText($"Aye, slow down there! Ye answer must be {minimumInputLength}-{maximumInputLength} characters long.\n");
                 return false;
             }
             else
