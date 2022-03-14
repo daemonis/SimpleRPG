@@ -12,13 +12,23 @@
             }
         }
 
-        private string? location;
-        public string? Location // Character location.
+        private Town? homeTown; // Character home location.
+        public Town? HomeTown
         {
-            get { return location; }
+            get { return homeTown; }
             set
             {
-                location = value;
+                homeTown = value;
+            }
+        }
+
+        private Town? currentTown; // Character's current location.
+        public Town? CurrentTown
+        {
+            get { return currentTown; }
+            set
+            {
+                currentTown = value;
             }
         }
 
@@ -42,8 +52,8 @@
             }
         }
 
-        private string[]? inventory; // Inventory array.
-        public string[] Inventory
+        private List<Item>? inventory; // Inventory list.
+        public List<Item>? Inventory
         {
             get { return inventory; }
             set
@@ -52,7 +62,7 @@
             }
         }
 
-        private int experience;
+        private int experience; // Amount of experience points.
         public int Experience // Level up mechanic.
         {
             get { return experience; }
@@ -75,23 +85,50 @@
             }
         }
 
-        private int attack = 5; // Attack power.
-        public int Attack
+        private int baseAttack = 5; // Base attack.
+        public int BaseAttack
         {
-            get { return attack; }
+            get { return baseAttack; }
             set
             {
-                attack = value;
+                baseAttack = value;
             }
         }
 
-        private int defense = 1; // Defense power.
-        public int Defense
+        public int Attack // Current attack.
         {
-            get { return defense; }
+            get
+            {
+                int itemAttack = 0;
+
+                foreach (Item item in inventory)
+                {
+                    itemAttack += item.Attack;
+                }
+                return baseAttack + itemAttack;
+            }
+        }
+
+        private int baseDefense = 1; // Base defense.
+        public int BaseDefense
+        {
+            get { return baseDefense; }
             set
             {
-                defense = value;
+                baseDefense = value;
+            }
+        }
+
+        public int Defense // Current defense.
+        {
+            get
+            {
+                int itemDefense = 0;
+                foreach (Item item in inventory)
+                {
+                    itemDefense += item.Defense;
+                }
+                return baseDefense + itemDefense;
             }
         }
 

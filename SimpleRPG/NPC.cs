@@ -7,7 +7,7 @@
             Name = name;
             Level = level;
             HitPoints = hitPoints;
-            Inventory = inventory;
+            //Inventory = inventory;
             IsAlive = isAlive;
         }
 
@@ -16,7 +16,7 @@
             Name = name;
             Level = level;
             HitPoints = hitPoints;
-            Inventory = inventory;
+            //Inventory = inventory;
             IsAlive = isAlive;
         }
 
@@ -40,15 +40,15 @@
             }
         }
 
-        private string[] inventory = { "Sword", "Shield", "Armor" }; // Default inventory array.
-        public string[] Inventory
-        {
-            get { return inventory; }
-            set
-            {
-                inventory = value;
-            }
-        }
+        //private string[] inventory = { "Sword", "Shield", "Armor" }; // Default inventory array.
+        //public string[] Inventory
+        //{
+        //    get { return inventory; }
+        //    set
+        //    {
+        //        inventory = value;
+        //    }
+        //}
 
         private int attack = 5; // Attack power.
         public int Attack
