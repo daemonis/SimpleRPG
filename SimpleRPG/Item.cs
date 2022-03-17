@@ -1,45 +1,44 @@
-﻿namespace SimpleRPG
+﻿namespace SimpleRPG;
+
+public class Item
 {
-    public class Item
+    private string name; // Item name.
+    public string Name
     {
-        private string name; // Item name.
-        public string Name
+        get { return name; }
+        set
         {
-            get { return name; }
-            set
-            {
-                name = value;
-            }
+            name = value;
         }
-        private int attack; // Item attack.
-        public int Attack
+    }
+    private int attack; // Item attack.
+    public int Attack
+    {
+        get { return attack; }
+        set
         {
-            get { return attack; }
-            set
-            {
-                attack = value;
-            }
+            attack = value;
         }
-        private int defense; // Item defense.
-        public int Defense
+    }
+    private int defense; // Item defense.
+    public int Defense
+    {
+        get { return defense; }
+        set
         {
-            get { return defense; }
-            set
-            {
-                defense = value;
-            }
+            defense = value;
         }
+    }
 
-        public Item(string name, int attack, int defense) // Create an item with a name and attack/defense values.
-        {
-            this.name = name;
-            this.attack = attack;
-            this.defense = defense;
-        }
+    public Item(string name, int attack, int defense) // Create an item with a name and attack/defense values.
+    {
+        this.name = name;
+        this.attack = attack;
+        this.defense = defense;
+    }
 
-        public override string? ToString() // ToString override. Returns the item name as a string.
-        {
-            return name;
-        }
+    public override string? ToString() // ToString override. Returns the item name as a string.
+    {
+        return name;
     }
 }
