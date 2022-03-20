@@ -2,6 +2,14 @@
 
 public class Item
 {
+    public Item(string name, int attack, int defense, int moneyValue) // Create an item with a name and attack/defense values.
+    {
+        this.Name = name;
+        this.Attack = attack;
+        this.Defense = defense;
+        this.MoneyValue = moneyValue;
+    }
+
     private string name; // Item name.
     public string Name
     {
@@ -30,11 +38,14 @@ public class Item
         }
     }
 
-    public Item(string name, int attack, int defense) // Create an item with a name and attack/defense values.
+    private int moneyValue;
+    public int MoneyValue
     {
-        this.name = name;
-        this.attack = attack;
-        this.defense = defense;
+        get { return moneyValue; }
+        set
+        {
+            moneyValue = value;
+        }
     }
 
     public override string? ToString() // ToString override. Returns the item name as a string.

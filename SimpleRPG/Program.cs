@@ -4,28 +4,29 @@ class Program
 {
     private readonly static string worldName = "MERIDIA";
 
-    private static readonly Town steelSwamp = new("STEELSWAMP", null, "Ah, rainy ol' STEELSWAMP. creepy place, that is. There be a strange inn there.");
-    private static readonly Town ironHold = new("IRONHOLD", null, "Ah, busy ol' IRONHOLD. Scary place, that is. They make weapons there.");
-    private static readonly Town meadowLand = new("MEADOWLAND", null, "Ah, peaceful ol' MEADOWLAND. Relaxing place, that is. They sell medicinal herbs there.");
-    private static readonly Town forestView = new("FORESTVIEW", null, "Ah, quiet ol' FORESTVIEW. Interesting place, that is. They make nice bows there.");
-    private static readonly Town groveRest = new("GROVEREST", null, "Ah, good ol' GROVEREST. Historical place, that is. The first Holy Church was built there.");
+    private static readonly Town steelSwamp = new("STEELSWAMP", null, 1, "Ah, rainy ol' STEELSWAMP. creepy place, that is. There be a strange inn there.");
+    private static readonly Town ironHold = new("IRONHOLD", null, 2, "Ah, busy ol' IRONHOLD. Scary place, that is. They make weapons there.");
+    private static readonly Town meadowLand = new("MEADOWLAND", null, 3, "Ah, peaceful ol' MEADOWLAND. Relaxing place, that is. They sell medicinal herbs there.");
+    private static readonly Town forestView = new("FORESTVIEW", null, 4, "Ah, quiet ol' FORESTVIEW. Interesting place, that is. They make nice bows there.");
+    private static readonly Town groveRest = new("GROVEREST", null, 5, "Ah, good ol' GROVEREST. Historical place, that is. The first Holy Church was built there.");
 
     private readonly static List<Town> towns = new() { steelSwamp, ironHold, meadowLand, forestView, groveRest };
 
-    private static readonly Item sword = new("SWORD", 1, 0);
-    private static readonly Item bag = new("BAG", 0, 0);
-    private static readonly Item armor = new("ARMOR", 0, 2);
-    private static readonly Item shield = new("SHIELD", 0, 1);
+    private static readonly Item sword = new("SWORD", 1, 0, 25);
+    private static readonly Item bag = new("BAG", 0, 0, 0);
+    private static readonly Item armor = new("ARMOR", 0, 2, 50);
+    private static readonly Item shield = new("SHIELD", 0, 1, 25);
 
     private static readonly List<Item> itemList = new() { sword, bag, armor, shield };
 
     private static readonly string grabAction = "GRAB";
     private static readonly string inventoryAction = "INVENTORY";
+    private static readonly string lookAction = "LOOK";
     private static readonly string moveAction = "MOVE";
     private static readonly string helpAction = "HELP";
     private static readonly string clearAction = "CLEAR";
 
-    private static readonly List<string> playerActions = new() { grabAction, inventoryAction, moveAction, helpAction, clearAction };
+    private static readonly List<string> playerActions = new() { grabAction, inventoryAction, lookAction, moveAction, helpAction, clearAction };
 
     public static void Main()
     {
@@ -41,6 +42,33 @@ class Program
         player.IsAlive = true;
         player.Inventory = new List<Item>();
         player.CurrentTown = steelSwamp;
+
+        // A Building[] is an ARRAY of FLOORS, and Floors are LISTS of Rooms.
+
+        //Building[] inn = new Building[3];
+        //{
+        //    Floor innLoft = new(3);
+
+        //    innLoft.Layout = new List<Room>
+        //    {
+        //        new Room("BEDROOM", 1),
+        //        new Room("BATHROOM", 2),
+        //        new Room("HALLWAY", 3)
+        //    };
+
+        //    Floor innCommons = new(2);
+        //    innCommons.Layout = new List<Room>
+        //    {
+        //        new Room("BAR", 1),
+        //        new Room("REST AREA", 2)
+        //    };
+
+        //    Floor innStables = new(1);
+        //    innStables.Layout = new List<Room>
+        //    {
+        //        new Room("STABLES", 1)
+        //    };
+        //}
 
         CollectCharacterInformation(player);
 

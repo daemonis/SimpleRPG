@@ -4,18 +4,18 @@ public class Monster
 {
     public Monster(string name) // Generic level 1 monster with a custom name.
     {
-        Name = name;
-        Level = level;
-        HitPoints = hitPoints;
-        IsAlive = isAlive;
+        this.Name = name;
+        this.Level = level;
+        this.HitPoints = hitPoints;
+        this.IsAlive = isAlive;
     }
 
     public Monster(string name, int level, int hitPoints) // Custom monster.
     {
-        Name = name;
-        Level = level;
-        HitPoints = hitPoints;
-        IsAlive = isAlive;
+        this.Name = name;
+        this.Level = level;
+        this.HitPoints = hitPoints;
+        this.IsAlive = isAlive;
     }
 
     private string name = "Ghoul"; // Default name.
