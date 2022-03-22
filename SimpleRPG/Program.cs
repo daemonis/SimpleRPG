@@ -4,11 +4,11 @@ class Program
 {
     private readonly static string worldName = "MERIDIA";
 
-    private static readonly Town steelSwamp = new("STEELSWAMP", null, 1, "Ah, rainy ol' STEELSWAMP. creepy place, that is. There be a strange inn there.");
-    private static readonly Town ironHold = new("IRONHOLD", null, 2, "Ah, busy ol' IRONHOLD. Scary place, that is. They make weapons there.");
-    private static readonly Town meadowLand = new("MEADOWLAND", null, 3, "Ah, peaceful ol' MEADOWLAND. Relaxing place, that is. They sell medicinal herbs there.");
-    private static readonly Town forestView = new("FORESTVIEW", null, 4, "Ah, quiet ol' FORESTVIEW. Interesting place, that is. They make nice bows there.");
-    private static readonly Town groveRest = new("GROVEREST", null, 5, "Ah, good ol' GROVEREST. Historical place, that is. The first Holy Church was built there.");
+    private static readonly Town steelSwamp = new("STEELSWAMP", null, 0, "Ah, rainy ol' STEELSWAMP. creepy place, that is. There be a strange inn there.");
+    private static readonly Town ironHold = new("IRONHOLD", null, 1, "Ah, busy ol' IRONHOLD. Scary place, that is. They make weapons there.");
+    private static readonly Town meadowLand = new("MEADOWLAND", null, 2, "Ah, peaceful ol' MEADOWLAND. Relaxing place, that is. They sell medicinal herbs there.");
+    private static readonly Town forestView = new("FORESTVIEW", null, 3, "Ah, quiet ol' FORESTVIEW. Interesting place, that is. They make nice bows there.");
+    private static readonly Town groveRest = new("GROVEREST", null, 4, "Ah, good ol' GROVEREST. Historical place, that is. The first Holy Church was built there.");
 
     private readonly static List<Town> towns = new() { steelSwamp, ironHold, meadowLand, forestView, groveRest };
 
@@ -16,8 +16,10 @@ class Program
     private static readonly Item bag = new("BAG", 0, 0, 0);
     private static readonly Item armor = new("ARMOR", 0, 2, 50);
     private static readonly Item shield = new("SHIELD", 0, 1, 25);
+    private static readonly Item toothBrush = new("TOOTHBRUSH", 0, 0, 5);
+    private static readonly Item lamp = new("LAMP", 0, 0, 10);
 
-    private static readonly List<Item> itemList = new() { sword, bag, armor, shield };
+    private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp };
 
     private static readonly string grabAction = "GRAB";
     private static readonly string inventoryAction = "INVENTORY";
@@ -43,35 +45,59 @@ class Program
         player.Inventory = new List<Item>();
         player.CurrentTown = steelSwamp;
 
-        // A Building[] is an ARRAY of FLOORS, and Floors are LISTS of Rooms.
+        // A Building is a LIST of <Floors>, and Floors are LISTS of <Rooms>.
 
-        //Building[] inn = new Building[3];
+        //Building inn = new("INN", 0);
+
+        //inn.Layout = new List<Floor>();
         //{
-        //    Floor innLoft = new(3);
+        //    Floor innLoft = new(2);
 
-        //    innLoft.Layout = new List<Room>
+        //    innLoft.Layout = new List<Room>();
         //    {
-        //        new Room("BEDROOM", 1),
-        //        new Room("BATHROOM", 2),
-        //        new Room("HALLWAY", 3)
-        //    };
+        //        Room bedRoom = new("BEDROOM", 0);
 
-        //    Floor innCommons = new(2);
-        //    innCommons.Layout = new List<Room>
-        //    {
-        //        new Room("BAR", 1),
-        //        new Room("REST AREA", 2)
-        //    };
+        //        bedRoom.Layout = new List<Item>();
+        //        {
+        //            bedRoom.Layout.Add(sword);
+        //            bedRoom.Layout.Add(bag);
+        //        }
 
-        //    Floor innStables = new(1);
-        //    innStables.Layout = new List<Room>
+        //        Room bathRoom = new("BATHROOM", 1);
+
+        //        bathRoom.Layout = new List<Item>();
+        //        {
+        //            bathRoom.Layout.Add(toothBrush);
+        //        }
+
+        //        Room hallWay = new("HALLWAY", 2);
+
+        //        hallWay.Layout = new List<Item>();
+        //        {
+        //            hallWay.Layout.Add(lamp);
+        //        }
+        //    }
+
+        //    Floor innCommons = new(1);
+
+        //    innCommons.Layout = new List<Room>();
         //    {
-        //        new Room("STABLES", 1)
-        //    };
+        //        Room bar = new("BAR", 0);
+        //        Room bathRoom = new("REST AREA", 1);
+        //    }
+
+        //    Floor innStables = new(0);
+
+        //    innStables.Layout = new List<Room>();
+        //    {
+        //        Room stables = new("STABLES", 0);
+        //    }
         //}
+        
+        // An ARRAY will give the character.LOCATION. This ARRAY will have [5] values = { WorldValue, TownValue, BuildingValue, FloorValue, RoomValue };. Current location SHOULD be { 0, 0, 0, 2, 0 };
 
         CollectCharacterInformation(player);
-
+;
         Console.Clear();
 
         // Adventure Start. (WIP)

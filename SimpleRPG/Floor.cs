@@ -5,7 +5,7 @@
         public Floor(int floorNumber)
         {
             this.Name = $"FLOOR {floorNumber}";
-            this.FloorNumber = floorNumber;
+            this.FloorValue = floorNumber;
         }
 
         private string name;
@@ -18,24 +18,24 @@
             }
         }
 
-        private int floorNumber;
-        public int FloorNumber
+        private int floorValue;
+        public int FloorValue
         {
-            get { return floorNumber; }
+            get { return floorValue; }
             set
             {
-                floorNumber = value;
+                floorValue = value;
             }
         }
 
-        //private List<Room> layout;
-        //public List<Room> Layout
-        //{
-        //    get { return layout; }
-        //    set
-        //    {
-        //        layout = value;
-        //    }
-        //}
+        private List<Room> layout;
+        public List<Room> Layout
+        {
+            get { return layout; }
+            set
+            {
+                layout = value;
+            }
+        }
     }
 }

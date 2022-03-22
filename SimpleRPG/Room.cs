@@ -5,7 +5,7 @@
         public Room(string name, int roomNumber)
         {
             this.Name = name;
-            this.RoomNumber = roomNumber;
+            this.RoomValue = roomNumber;
         }
 
         private string name;
@@ -18,24 +18,24 @@
             }
         }
 
-        private int roomNumber;
-        public int RoomNumber
+        private int roomValue;
+        public int RoomValue
         {
-            get { return roomNumber; }
+            get { return roomValue; }
             set
             {
-                roomNumber = value;
+                roomValue = value;
             }
         }
 
-        //private List<Item> layout;
-        //public List<Item> Layout
-        //{
-        //    get { return layout; }
-        //    set
-        //    {
-        //        layout = value;
-        //    }
-        //}
+        private List<Item> layout;
+        public List<Item> Layout
+        {
+            get { return layout; }
+            set
+            {
+                layout = value;
+            }
+        }
     }
 }

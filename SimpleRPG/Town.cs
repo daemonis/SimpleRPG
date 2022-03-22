@@ -24,7 +24,7 @@ public class Town
     {
         this.Name = name;
         this.Description = description;
-        this.TownNumber = townNumber;
+        this.TownValue = townNumber;
         this.Intro = intro;
     }
 
@@ -48,25 +48,25 @@ public class Town
         }
     }
 
-    private int townNumber;
-    public int TownNumber
+    private int townValue;
+    public int TownValue
     {
-        get { return townNumber; }
+        get { return townValue; }
         set
         {
-            townNumber = value;
+            townValue = value;
         }
     }
 
-    //private List<Building> layout;
-    //public List<Building> Layout
-    //{
-    //    get { return layout; }
-    //    set
-    //    {
-    //        layout = value;
-    //    }
-    //}
+    private List<Building> layout;
+    public List<Building> Layout
+    {
+        get { return layout; }
+        set
+        {
+            layout = value;
+        }
+    }
 
     private string? intro; // Flavor text for if the character chooses an in game town.
     public string? Intro

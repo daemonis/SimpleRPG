@@ -2,10 +2,10 @@
 {
     public class Building
     {
-        public Building(string name, int buildingNumber)
+        public Building(string name, int buildingValue)
         {
             this.Name = name;
-            this.BuildingNumber = buildingNumber;
+            this.BuildingValue = buildingValue;
         }
 
         private string name;
@@ -18,24 +18,24 @@
             }
         }
 
-        private int buildingNumber;
-        public int BuildingNumber
+        private int buildingValue;
+        public int BuildingValue
         {
-            get { return buildingNumber; }
+            get { return buildingValue; }
             set
             {
-                buildingNumber = value;
+                buildingValue = value;
             }
         }
 
-        //private List<Floor> layout;
-        //public List<Floor> Layout
-        //{
-        //    get { return layout; }
-        //    set
-        //    {
-        //        layout = value;
-        //    }
-        //}
+        private List<Floor> layout;
+        public List<Floor> Layout
+        {
+            get { return layout; }
+            set
+            {
+                layout = value;
+            }
+        }
     }
 }
