@@ -2,7 +2,7 @@
 
 public class Item
 {
-    public Item(string name, int attack, int defense, int moneyValue) // Create an item with a name and attack/defense values.
+    public Item(string name, int attack, int defense, int moneyValue) // Create an item with a name, attack/defense values, and a monetary value.
     {
         this.Name = name;
         this.Attack = attack;
@@ -38,7 +38,7 @@ public class Item
         }
     }
 
-    private int moneyValue;
+    private int moneyValue; // What can you sell it for?
     public int MoneyValue
     {
         get { return moneyValue; }

@@ -2,14 +2,14 @@
 {
     public class Floor
     {
-        public Floor(int floorNumber)
+        public Floor(int floorValue) // What floor are we on? Give the floor a value.
         {
-            this.Name = $"FLOOR {floorNumber}";
-            this.FloorValue = floorNumber;
+            this.Name = $"FLOOR {floorValue + 1}";
+            this.FloorValue = floorValue;
         }
 
         private string name;
-        public string Name
+        public string Name // Floor name.
         {
             get { return name; }
             set
@@ -19,7 +19,7 @@
         }
 
         private int floorValue;
-        public int FloorValue
+        public int FloorValue // Coordinate value.
         {
             get { return floorValue; }
             set
@@ -29,7 +29,7 @@
         }
 
         private List<Room> layout;
-        public List<Room> Layout
+        public List<Room> Layout // How many rooms are on this floor?
         {
             get { return layout; }
             set

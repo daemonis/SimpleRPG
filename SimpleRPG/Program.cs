@@ -2,7 +2,7 @@
 
 class Program
 {
-    private readonly static string worldName = "MERIDIA";
+    private readonly static World meridia = new();
 
     private static readonly Town steelSwamp = new("STEELSWAMP", null, 0, "Ah, rainy ol' STEELSWAMP. creepy place, that is. There be a strange inn there.");
     private static readonly Town ironHold = new("IRONHOLD", null, 1, "Ah, busy ol' IRONHOLD. Scary place, that is. They make weapons there.");
@@ -24,85 +24,53 @@ class Program
     private static readonly string grabAction = "GRAB";
     private static readonly string inventoryAction = "INVENTORY";
     private static readonly string lookAction = "LOOK";
-    private static readonly string moveAction = "MOVE";
+    private static readonly string moveAction = "MOVETO";
     private static readonly string helpAction = "HELP";
     private static readonly string clearAction = "CLEAR";
 
     private static readonly List<string> playerActions = new() { grabAction, inventoryAction, lookAction, moveAction, helpAction, clearAction };
 
+    private static readonly Building inn = new("INN", 0);
+
+    private static readonly Floor innLoft = new(2);
+    private static readonly Room bedRoom = new("BEDROOM", 0, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top.");
+    private static readonly Room bathRoom = new("BATHROOM", 1, "There is a small sink and a toilet in here. It isn't that spacious.");
+    private static readonly Room hallWay = new("HALLWAY", 2, "A narrow corridor with doors lining each side. You can see stairs at the end of the hallway.");
+
+    private static readonly Floor innCommons = new(1);
+    private static readonly Room bar = new("BAR", 0, "There were few patrons here. There are probably much better places to be. You see the barkeep behind the counter and nod to them.");
+    private static readonly Room restArea = new("REST AREA", 1, "There were two small loveseats in this area. On the ground was a hideous rug with mud pretty much woven into it.");
+
+    private static readonly Floor innStables = new(0);
+    private static readonly Room stables = new("STABLES", 0, "There were one, maybe two horses here. It didn't smell too nice.");
+
+    private static int worldNum, townNum, buildingNum, floorNum, roomNum;
+
     public static void Main()
     {
-        //Intro
+        // Intro
 
         IntroToMeridia();
+
+        BuildAMap(); // Makes an Inn. That's it at the moment.
 
         Console.Clear();
 
         // Collect character information.
 
         Character player = new(); // Create new player character.
+
         player.IsAlive = true;
         player.Inventory = new List<Item>();
-        player.CurrentTown = steelSwamp;
-
-        // A Building is a LIST of <Floors>, and Floors are LISTS of <Rooms>.
-
-        //Building inn = new("INN", 0);
-
-        //inn.Layout = new List<Floor>();
-        //{
-        //    Floor innLoft = new(2);
-
-        //    innLoft.Layout = new List<Room>();
-        //    {
-        //        Room bedRoom = new("BEDROOM", 0);
-
-        //        bedRoom.Layout = new List<Item>();
-        //        {
-        //            bedRoom.Layout.Add(sword);
-        //            bedRoom.Layout.Add(bag);
-        //        }
-
-        //        Room bathRoom = new("BATHROOM", 1);
-
-        //        bathRoom.Layout = new List<Item>();
-        //        {
-        //            bathRoom.Layout.Add(toothBrush);
-        //        }
-
-        //        Room hallWay = new("HALLWAY", 2);
-
-        //        hallWay.Layout = new List<Item>();
-        //        {
-        //            hallWay.Layout.Add(lamp);
-        //        }
-        //    }
-
-        //    Floor innCommons = new(1);
-
-        //    innCommons.Layout = new List<Room>();
-        //    {
-        //        Room bar = new("BAR", 0);
-        //        Room bathRoom = new("REST AREA", 1);
-        //    }
-
-        //    Floor innStables = new(0);
-
-        //    innStables.Layout = new List<Room>();
-        //    {
-        //        Room stables = new("STABLES", 0);
-        //    }
-        //}
-        
-        // An ARRAY will give the character.LOCATION. This ARRAY will have [5] values = { WorldValue, TownValue, BuildingValue, FloorValue, RoomValue };. Current location SHOULD be { 0, 0, 0, 2, 0 };
+        player.Location = new int[5] { worldNum = meridia.WorldValue, townNum = steelSwamp.TownValue, buildingNum = inn.BuildingValue, floorNum = innLoft.FloorValue, roomNum = bedRoom.RoomValue };
 
         CollectCharacterInformation(player);
-;
+
         Console.Clear();
 
         // Adventure Start. (WIP)
 
-        WriteText($"It is a dark and stormy night in the town of {steelSwamp.Name}. You can hear the sound of the rain tapping on the roof of the inn and the gentle flow of water coursing through the surrounding wetlands.\n\nThe inn you've decided to take refuge in is not the best, but it beats being out in the rain. The innkeep also gave you a great deal on the room you are staying in.\n\nYou are currently laying in bed. The blankets are made from a rough wool that isn't too comfortable, but is bound to keep any adventurer warm. You have a nightstand next to you, agaist which you've leaned your sword. Your bag rests atop the nightstand.\n\nWhat will you do?");
+        WriteText($"It is a dark and stormy night in the town of {steelSwamp.Name}. You can hear the sound of the rain tapping on the roof of the inn and the gentle flow of water coursing through the surrounding wetlands.\n\nThe inn you've decided to take refuge in is not the best, but it beats being out in the rain. The innkeep also gave you a great deal on the room you are staying in.\n\nYou are currently laying in bed. The blankets are made from a rough wool that isn't too comfortable, but is bound to keep any adventurer warm. You have a nightstand next to you, agaist which you've leaned your {sword.Name}. Your {bag.Name} rests atop the nightstand.\n\nWhat will you do?");
 
         // Game will prompt user for input. Based on input, do a specific action. If the character dies the game ends. (WIP)
 
@@ -124,9 +92,64 @@ class Program
 
     public static void IntroToMeridia() // Start of the game.
     {
-        WriteText($"Welcome, adventurer, to the world of {worldName}.\n\nPress any key to start your adventure...");
+        WriteText($"Welcome, adventurer, to the world of {meridia.Name}.\n\nPress any key to start your adventure...");
 
         Console.ReadKey(true);
+    }
+
+    public static void BuildAMap() // The layout of the worldmap.
+    {
+        meridia.Layout = towns;
+
+        steelSwamp.Layout = new List<Building>(); // The layout of the town STEELSWAMP.
+
+        steelSwamp.Layout.Add(inn);
+        {
+            inn.Layout = new List<Floor>(); // The layout of the building INN.
+
+            inn.Layout.Add(innLoft);
+            {
+                innLoft.Layout = new List<Room>(); // Third floor.
+                {
+                    innLoft.Layout.Add(bedRoom); // First room of the third flood of the inn. What items are there?
+
+                    bedRoom.Layout = new List<Item>();
+                    {
+                        bedRoom.Layout.Add(sword);
+                        bedRoom.Layout.Add(bag);
+                    }
+
+                    innLoft.Layout.Add(bathRoom); // Second room of the third floor of the inn. What items are there?
+
+                    bathRoom.Layout = new List<Item>();
+                    {
+                        bathRoom.Layout.Add(toothBrush);
+                    }
+
+                    innLoft.Layout.Add(hallWay);
+
+                    hallWay.Layout = new List<Item>(); // Third room of the third flood of the inn. What items are there?
+                    {
+                        hallWay.Layout.Add(lamp);
+                    }
+                }
+
+                inn.Layout.Add(innCommons); // Second floor.
+
+                innCommons.Layout = new List<Room>();
+                {
+                    innCommons.Layout.Add(bar); // First room of the second flood of the inn. What items are there?
+                    innCommons.Layout.Add(restArea); // Second room of the second flood of the inn. What items are there?
+                }
+
+                inn.Layout.Add(innStables); // First floor. Can go outside from here.
+
+                innStables.Layout = new List<Room>();
+                {
+                    innStables.Layout.Add(stables); // First room of the first flood of the inn. What items are there?
+                }
+            }
+        }
     }
 
     public static void CollectCharacterInformation(Character player) // Collects character information.
@@ -208,24 +231,59 @@ class Program
         {
             HandleGrab(player, target);
         }
-        else if (action.Equals(inventoryAction))
+        else if (action.Equals(inventoryAction)) // Character's current inventory.
         {
             HandleInventory(player);
         }
         else if (action.Equals(moveAction)) // Character moves.
         {
-            // HandleMove(player, target);
+            HandleMove(player, target);
         }
         else if (action.Equals(helpAction)) // Current commands with descriptions.
         {
             HandleHelp();
         }
-        else if (action.Equals(clearAction))
+        else if (action.Equals(clearAction)) // Clears the screen.
         {
             Console.Clear();
 
             WriteText("The screen has been cleared for ye.");
         }
+    }
+
+    private static void HandleMove(Character player, string target) // Logic for determining movement.
+    {
+        Room targetRoom = null;
+
+        foreach (Room room in innLoft.Layout) // If the room name is equal to entered target, move there.
+        {
+            if (target.Equals(room.Name)) // If room exists and character can move there, set current room.
+            {
+                targetRoom = room;
+                break;
+            }
+        }
+
+        if (targetRoom == null) // If room doesn't exist, you can't go there.
+        {
+            Console.Write("Ye cannot move there.\n");
+            return;
+        }
+        else if (targetRoom.RoomValue == player.Location[4]) // If you are already in the room, you are already there.
+        {
+            Console.Write("Ye are already there.\n");
+            return;
+        }
+
+        Console.Write($"You have moved to the {targetRoom.Name}.\n"); // You move, description of room shows.
+        WriteText(targetRoom.Description);
+
+        foreach (Item item in targetRoom.Layout) // What items are in the room?
+        {
+            Console.Write($"You can see a {item.Name}.\n");
+        }
+
+        player.Location[4] = targetRoom.RoomValue;
     }
 
     private static void HandleGrab(Character player, string targetItemName) // Logic for determining what was grabbed.

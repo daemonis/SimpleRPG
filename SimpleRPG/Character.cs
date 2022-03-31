@@ -22,13 +22,23 @@ public class Character
         }
     }
 
-    private Town? currentTown; // Character's current location.
-    public Town? CurrentTown
+    //private Town? currentTown; // Character's current location.
+    //public Town? CurrentTown
+    //{
+    //    get { return currentTown; }
+    //    set
+    //    {
+    //        currentTown = value;
+    //    }
+    //}
+
+    private int[] location; // Character's current location.
+    public int[] Location
     {
-        get { return currentTown; }
+        get { return location; }
         set
         {
-            currentTown = value;
+            location = value;
         }
     }
 

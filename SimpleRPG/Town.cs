@@ -20,11 +20,11 @@ public class Town
         this.Intro = intro;
     }
 
-    public Town(string? name, string? description, int townNumber, string? intro) // Overload, specific town name in the game with a description and intro flavor text.
+    public Town(string? name, string? description, int townValue, string? intro) // Overload, specific town name in the game with a description and intro flavor text.
     {
         this.Name = name;
         this.Description = description;
-        this.TownValue = townNumber;
+        this.TownValue = townValue;
         this.Intro = intro;
     }
 
@@ -48,7 +48,7 @@ public class Town
         }
     }
 
-    private int townValue;
+    private int townValue; // Coordinate value of current town.
     public int TownValue
     {
         get { return townValue; }
@@ -58,7 +58,7 @@ public class Town
         }
     }
 
-    private List<Building> layout;
+    private List<Building> layout; // What buildings are in this town?
     public List<Building> Layout
     {
         get { return layout; }
