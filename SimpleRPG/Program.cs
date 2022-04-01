@@ -30,7 +30,7 @@ class Program
 
     private static readonly List<string> playerActions = new() { grabAction, inventoryAction, lookAction, moveAction, helpAction, clearAction };
 
-    private static readonly Building inn = new("INN", 0);
+    private static readonly Building inn = new("INN", 1);
 
     private static readonly Floor innLoft = new(2);
     private static readonly Room bedRoom = new("BEDROOM", 0, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top.");
