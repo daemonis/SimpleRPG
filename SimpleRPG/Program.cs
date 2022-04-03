@@ -12,6 +12,27 @@ class Program
 
     private readonly static List<Town> towns = new() { steelSwamp, ironHold, meadowLand, forestView, groveRest };
 
+    private static readonly Building inn = new("INN", 1);
+
+    private static readonly List<Building> buildings = new() { inn };
+
+    private static readonly Floor innLoft = new(2);
+    private static readonly Floor innCommons = new(1);
+    private static readonly Floor innStables = new(0);
+
+    private static readonly List<Floor> floors = new() { innLoft, innCommons, innStables };
+
+    private static readonly Room bedRoom = new("BEDROOM", 3, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top.");
+    private static readonly Room bathRoom = new("BATHROOM", 2, "There is a small sink and a toilet in here. It isn't that spacious.");
+    private static readonly Room hallWay = new("HALLWAY", 1, "A narrow corridor with doors lining each side. You can see stairs at the end of the hallway.");
+    private static readonly Room bar = new("BAR", 2, "There are few patrons here. There are probably much better places to be. You see the barkeep behind the counter and nod to them.");
+    private static readonly Room den = new("DEN", 1, "There are two small loveseats in this area. On the ground is a hideous rug with mud pretty much woven into it. In the corner of the room are some stairs.");
+    private static readonly Room stables = new("STABLES", 1, "There are one, maybe two horses here. It doesn't smell too nice. Behind you are some stairs.");
+    private static readonly Room up = new("UP", 0, $"You move up 1 floor.");
+    private static readonly Room down = new("DOWN", 0, $"You move down 1 floor.");
+
+    private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables };
+
     private static readonly Item sword = new("SWORD", 1, 0, 25);
     private static readonly Item bag = new("BAG", 0, 0, 0);
     private static readonly Item armor = new("ARMOR", 0, 2, 50);
@@ -22,27 +43,14 @@ class Program
     private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp };
 
     private static readonly string grabAction = "GRAB";
+    private static readonly string dropAction = "DROP";
     private static readonly string inventoryAction = "INVENTORY";
     private static readonly string lookAction = "LOOK";
     private static readonly string moveAction = "MOVETO";
     private static readonly string helpAction = "HELP";
     private static readonly string clearAction = "CLEAR";
 
-    private static readonly List<string> playerActions = new() { grabAction, inventoryAction, lookAction, moveAction, helpAction, clearAction };
-
-    private static readonly Building inn = new("INN", 1);
-
-    private static readonly Floor innLoft = new(2);
-    private static readonly Room bedRoom = new("BEDROOM", 0, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top.");
-    private static readonly Room bathRoom = new("BATHROOM", 1, "There is a small sink and a toilet in here. It isn't that spacious.");
-    private static readonly Room hallWay = new("HALLWAY", 2, "A narrow corridor with doors lining each side. You can see stairs at the end of the hallway.");
-
-    private static readonly Floor innCommons = new(1);
-    private static readonly Room bar = new("BAR", 0, "There were few patrons here. There are probably much better places to be. You see the barkeep behind the counter and nod to them.");
-    private static readonly Room restArea = new("REST AREA", 1, "There were two small loveseats in this area. On the ground was a hideous rug with mud pretty much woven into it.");
-
-    private static readonly Floor innStables = new(0);
-    private static readonly Room stables = new("STABLES", 0, "There were one, maybe two horses here. It didn't smell too nice.");
+    private static readonly List<string> playerActions = new() { grabAction, dropAction, inventoryAction, lookAction, moveAction, helpAction, clearAction };
 
     private static int worldNum, townNum, buildingNum, floorNum, roomNum;
 
@@ -70,7 +78,7 @@ class Program
 
         // Adventure Start. (WIP)
 
-        WriteText($"It is a dark and stormy night in the town of {steelSwamp.Name}. You can hear the sound of the rain tapping on the roof of the inn and the gentle flow of water coursing through the surrounding wetlands.\n\nThe inn you've decided to take refuge in is not the best, but it beats being out in the rain. The innkeep also gave you a great deal on the room you are staying in.\n\nYou are currently laying in bed. The blankets are made from a rough wool that isn't too comfortable, but is bound to keep any adventurer warm. You have a nightstand next to you, agaist which you've leaned your {sword.Name}. Your {bag.Name} rests atop the nightstand.\n\nWhat will you do?");
+        WriteText($"It is a dark and stormy night in the town of {steelSwamp.Name}. You can hear the sound of the rain tapping on the roof of the inn and the gentle flow of water coursing through the surrounding wetlands.\n\nThe inn you've decided to take refuge in is not the best, but it beats being out in the rain. The innkeep also gave you a great deal on the room you are staying in.\n\nYou are currently laying in bed. The blankets are made from a rough wool that isn't too comfortable, but is bound to keep any adventurer warm. You have a nightstand next to you, agaist which you've leaned your {sword.Name}. Your {bag.Name} rests atop the nightstand. There is a {bathRoom.Name} and a {hallWay.Name} attached to the bedroom.\n\nWhat will you do?");
 
         // Game will prompt user for input. Based on input, do a specific action. If the character dies the game ends. (WIP)
 
@@ -132,6 +140,8 @@ class Program
                     {
                         hallWay.Layout.Add(lamp);
                     }
+
+                    innLoft.Layout.Add(down);
                 }
 
                 inn.Layout.Add(innCommons); // Second floor.
@@ -139,7 +149,15 @@ class Program
                 innCommons.Layout = new List<Room>();
                 {
                     innCommons.Layout.Add(bar); // First room of the second flood of the inn. What items are there?
-                    innCommons.Layout.Add(restArea); // Second room of the second flood of the inn. What items are there?
+
+                    bar.Layout = new List<Item>();
+
+                    innCommons.Layout.Add(den); // Second room of the second flood of the inn. What items are there?
+
+                    den.Layout = new List<Item>();
+
+                    innCommons.Layout.Add(up);
+                    innCommons.Layout.Add(down);
                 }
 
                 inn.Layout.Add(innStables); // First floor. Can go outside from here.
@@ -147,6 +165,10 @@ class Program
                 innStables.Layout = new List<Room>();
                 {
                     innStables.Layout.Add(stables); // First room of the first flood of the inn. What items are there?
+
+                    stables.Layout = new List<Item>();
+
+                    innStables.Layout.Add(up);
                 }
             }
         }
@@ -231,6 +253,10 @@ class Program
         {
             HandleGrab(player, target);
         }
+        else if (action.Equals(dropAction))
+        {
+            HandleDrop(player, target);
+        }
         else if (action.Equals(inventoryAction)) // Character's current inventory.
         {
             HandleInventory(player);
@@ -251,81 +277,277 @@ class Program
         }
     }
 
-    private static void HandleMove(Character player, string target) // Logic for determining movement.
+    private static void HandleDrop(Character player, string targetItemName) // Logic for determining what was grabbed.
     {
-        Room targetRoom = null;
+        Item? itemToRemove = null;
+        int stairLocation = 1;
 
-        foreach (Room room in innLoft.Layout) // If the room name is equal to entered target, move there.
+        foreach (Town town in meridia.Layout)
         {
-            if (target.Equals(room.Name)) // If room exists and character can move there, set current room.
+            if (player.Location[1].Equals(town.TownValue))
             {
-                targetRoom = room;
-                break;
+                foreach (Building building in town.Layout)
+                {
+                    if (player.Location[2].Equals(building.BuildingValue))
+                    {
+                        foreach (Floor floor in building.Layout)
+                        {
+                            if (player.Location[3].Equals(floor.FloorValue))
+                            {
+                                foreach (Room room in floor.Layout) // If the room name is equal to entered target, move there.
+                                {
+                                    if (player.Location[4].Equals(room.RoomValue) && player.Location[4] != 0)
+                                    {
+                                        foreach (Item item in player.Inventory) // If the item name is equal to entered target, add the item to inventory.
+                                        {
+                                            if (item.Name.Equals(targetItemName))
+                                            {
+                                                itemToRemove = item;
+                                                break;
+                                            }
+                                        }
+
+                                        if (itemToRemove == null) // If item does not exist, the game doesn't know what to grab.
+                                        {
+                                            Console.Write("Drop what, ye trousers?\n");
+
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            // Add item
+
+                                            if (player.Inventory.Contains(itemToRemove)) // What happens when the item is added to inventory?
+                                            {
+                                                Console.Write($"You drop the {itemToRemove.Name}.\n");
+
+                                                player.Inventory.Remove(itemToRemove);
+
+                                                room.Layout.Add(itemToRemove);
+
+                                                if (itemToRemove.Attack > 0) // Adds the picked up item's attack to current stats.
+                                                {
+                                                    Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
+                                                    Console.Write($"Current attack: {player.Attack}\n");
+                                                }
+                                                if (itemToRemove.Defense > 0) // Adds the picked up item's defense to current stats.
+                                                {
+                                                    Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
+                                                    Console.Write($"Current defense: {player.Defense}\n");
+                                                }
+
+                                                return;
+                                            }
+                                            else if (!player.Inventory.Contains(itemToRemove))
+                                            {
+                                                Console.Write("Ye don't have one o' those.\n"); // The item is already in the character's inventory.
+
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    else if (player.Location[4] < stairLocation)
+                                    {
+                                        Console.Write("Ye can't drop that here.\n");
+
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+    }
 
-        if (targetRoom == null) // If room doesn't exist, you can't go there.
+    private static void HandleMove(Character player, string target) // Logic for determining movement.
+    {
+        Room? targetRoom = null;
+        int stairLocation = 1;
+
+        foreach (Town town in meridia.Layout)
         {
-            Console.Write("Ye cannot move there.\n");
-            return;
-        }
-        else if (targetRoom.RoomValue == player.Location[4]) // If you are already in the room, you are already there.
-        {
-            Console.Write("Ye are already there.\n");
-            return;
-        }
+            if (player.Location[1].Equals(town.TownValue))
+            {
+                foreach (Building building in town.Layout)
+                {
+                    if (player.Location[2].Equals(building.BuildingValue))
+                    {
+                        foreach (Floor floor in building.Layout)
+                        {
+                            if (player.Location[3].Equals(floor.FloorValue))
+                            {
+                                foreach (Room room in floor.Layout) // If the room name is equal to entered target, move there.
+                                {
+                                    if (target.Equals(room.Name)) // If room exists and character can move there, set current room.
+                                    {
+                                        targetRoom = room;
 
-        Console.Write($"You have moved to the {targetRoom.Name}.\n"); // You move, description of room shows.
-        WriteText(targetRoom.Description);
+                                        if (room.Layout == null || room.Layout.Count < 0)
+                                        {
+                                            targetRoom.Layout = null;
+                                        }
+                                        else
+                                        {
+                                            targetRoom.Layout = room.Layout;
+                                        }
 
-        foreach (Item item in targetRoom.Layout) // What items are in the room?
-        {
-            Console.Write($"You can see a {item.Name}.\n");
+                                        break;
+                                    }
+                                }
+
+                                if (targetRoom == null) // If room doesn't exist, you can't go there.
+                                {
+                                    Console.Write("Where do ye want to go? Ye can currently move to:\n");
+
+                                    foreach (Room room in floor.Layout)
+                                    {
+                                        if (player.Location[4] < 2)
+                                        {
+                                            Console.Write($"{room.Name}\n");
+                                        }
+                                        else if (room.RoomValue != 0)
+                                        {
+                                            Console.Write($"{room.Name}\n");
+                                        }
+                                    }
+
+                                    return;
+                                }
+                                else if (targetRoom.Name.Equals(up.Name) && player.Location[4] <= stairLocation)
+                                {
+                                    player.Location[3] += 1;
+                                    player.Location[4] = targetRoom.RoomValue;
+
+                                    WriteText(targetRoom.Description);
+
+                                    return;
+                                }
+                                else if (targetRoom.Name.Equals(down.Name) && player.Location[4] <= stairLocation)
+                                {
+                                    player.Location[3] -= 1;
+                                    player.Location[4] = targetRoom.RoomValue;
+
+                                    WriteText(targetRoom.Description);
+
+                                    return;
+                                }
+                                else if (player.Location[4] > stairLocation && targetRoom.Name.Equals(up.Name) || player.Location[4] > stairLocation && targetRoom.Name.Equals(down.Name))
+                                {
+                                    Console.Write("There be no stairs here.\n");
+
+                                    return;
+                                }
+                                else if (player.Location[4] < stairLocation && targetRoom.RoomValue > stairLocation)
+                                {
+                                    Console.Write("Ye can't see that room from here.\n");
+
+                                    return;
+                                }
+                                else if (targetRoom.RoomValue == player.Location[4]) // If you are already in the room, you are already there.
+                                {
+                                    Console.Write("Ye are already there.\n");
+
+                                    return;
+                                }
+
+                                Console.Write($"You have moved to the {targetRoom.Name}.\n"); // You move, description of room shows.
+                                WriteText(targetRoom.Description);
+
+                                //if (targetRoom.Layout == null || targetRoom.Layout.Count < 0)
+                                //{
+                                //    Console.Write("Ye see nothing to pick up.\n");
+                                //}
+                                //else
+                                //{
+                                foreach (Item item in targetRoom.Layout) // What items are in the room?
+                                {
+                                    Console.Write($"You can see a {item.Name}.\n");
+                                }
+                                //}
+
+                                player.Location[4] = targetRoom.RoomValue;
+                            }
+                        }
+                    }
+                }
+            }
         }
-
-        player.Location[4] = targetRoom.RoomValue;
     }
 
     private static void HandleGrab(Character player, string targetItemName) // Logic for determining what was grabbed.
     {
         Item? itemToAdd = null;
 
-        foreach (Item item in itemList) // If the item name is equal to entered target, add the item to inventory.
+        foreach (Town town in meridia.Layout)
         {
-            if (item.Name.Equals(targetItemName))
+            if (player.Location[1].Equals(town.TownValue))
             {
-                itemToAdd = item;
-                break;
-            }
-        }
-
-        if (itemToAdd == null) // If item does not exist, the game doesn't know what to grab.
-        {
-            Console.Write("Grab what, the air?\n");
-        }
-        else
-        {
-            // Add item
-
-            if (!player.Inventory.Contains(itemToAdd)) // What happens when the item is added to inventory?
-            {
-                Console.Write($"You pick up the {itemToAdd.Name}.\n");
-                player.Inventory.Add(itemToAdd);
-
-                if (itemToAdd.Attack > 0) // Adds the picked up item's attack to current stats.
+                foreach (Building building in town.Layout)
                 {
-                    Console.Write($"It increases your attack by {itemToAdd.Attack}!\n");
-                    Console.Write($"Current attack: {player.Attack}\n");
+                    if (player.Location[2].Equals(building.BuildingValue))
+                    {
+                        foreach (Floor floor in building.Layout)
+                        {
+                            if (player.Location[3].Equals(floor.FloorValue))
+                            {
+                                foreach (Room room in floor.Layout) // If the room name is equal to entered target, move there.
+                                {
+                                    if (player.Location[4].Equals(room.RoomValue))
+                                    {
+                                        foreach (Item item in room.Layout) // If the item name is equal to entered target, add the item to inventory.
+                                        {
+                                            if (item.Name.Equals(targetItemName))
+                                            {
+                                                itemToAdd = item;
+                                                break;
+                                            }
+                                        }
+
+                                        if (itemToAdd == null) // If item does not exist, the game doesn't know what to grab.
+                                        {
+                                            Console.Write("Grab what, the air?\n");
+
+                                            return;
+                                        }
+                                        else
+                                        {
+                                            // Add item
+
+                                            if (!player.Inventory.Contains(itemToAdd)) // What happens when the item is added to inventory?
+                                            {
+                                                Console.Write($"You pick up the {itemToAdd.Name}.\n");
+                                                player.Inventory.Add(itemToAdd);
+
+                                                if (itemToAdd.Attack > 0) // Adds the picked up item's attack to current stats.
+                                                {
+                                                    Console.Write($"It increases your attack by {itemToAdd.Attack}!\n");
+                                                    Console.Write($"Current attack: {player.Attack}\n");
+                                                }
+                                                if (itemToAdd.Defense > 0) // Adds the picked up item's defense to current stats.
+                                                {
+                                                    Console.Write($"It increases your defense by {itemToAdd.Defense}!\n");
+                                                    Console.Write($"Current defense: {player.Defense}\n");
+                                                }
+
+                                                room.Layout.Remove(itemToAdd);
+
+                                                return;
+                                            }
+                                            else
+                                            {
+                                                Console.Write("Ye may have already picked that up.\n"); // The item is already in the character's inventory.
+
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                if (itemToAdd.Defense > 0) // Adds the picked up item's defense to current stats.
-                {
-                    Console.Write($"It increases your defense by {itemToAdd.Defense}!\n");
-                    Console.Write($"Current defense: {player.Defense}\n");
-                }
-            }
-            else
-            {
-                Console.Write("Ye may have already picked that up.\n"); // The item is already in the character's inventory.
             }
         }
     }
@@ -358,18 +580,17 @@ class Program
         }
     }
 
-    //public static void HandleMove(Character player, string targetDestinationName) // Where is the character moving to?
-    //{
-
-    //}
-
     public static void HandleHelp() // The current character needs help. What do the commands do?
     {
         foreach (string playerAction in playerActions)
         {
             if (playerAction == grabAction)
             {
-                Console.Write($"{grabAction} - Grab something in the same area as the player.\n");
+                Console.Write($"{grabAction} - Grab something in the room and put it into your inventory.\n");
+            }
+            else if (playerAction == dropAction)
+            {
+                Console.Write($"{dropAction} - Drop something from your inventory into the current room.\n");
             }
             else if (playerAction == inventoryAction)
             {
@@ -377,7 +598,7 @@ class Program
             }
             else if (playerAction == moveAction)
             {
-                Console.Write($"{moveAction} - Move to the specified area. !NOT YET WORKING!\n");
+                Console.Write($"{moveAction} - Move to the specified location.\n");
             }
             else if (playerAction == helpAction)
             {
@@ -454,7 +675,7 @@ class Program
     public static bool IsInputCorrectLength(string? input) // Checks if field is between 3-15. Takes nullable type string.
     {
         int minimumInputLength = 3;
-        int maximumInputLength = 15;
+        int maximumInputLength = 25;
 
         if (input.Length < minimumInputLength || input.Length > maximumInputLength)
         {
