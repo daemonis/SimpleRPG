@@ -13,14 +13,24 @@ class Program
     private readonly static List<Town> towns = new() { steelSwamp, ironHold, meadowLand, forestView, groveRest };
 
     private static readonly Building inn = new("INN", 1);
+    private static readonly Building outSideSwamp = new("OUT", 0);
+    private static readonly Building outSideIron = new("OUT", 0);
+    private static readonly Building outSideMeadow = new("OUT", 0);
+    private static readonly Building outSideForest = new("OUT", 0);
+    private static readonly Building outSideGrove = new("OUT", 0);
 
-    private static readonly List<Building> buildings = new() { inn };
+    private static readonly List<Building> buildings = new() { inn, outSideSwamp, outSideIron, outSideMeadow, outSideForest, outSideGrove };
 
-    private static readonly Floor innLoft = new(2);
-    private static readonly Floor innCommons = new(1);
-    private static readonly Floor innStables = new(0);
+    private static readonly Floor innLoft = new("LOFT", 2);
+    private static readonly Floor innCommons = new("COMMONS", 1);
+    private static readonly Floor innStables = new("STABLES", 0);
+    private static readonly Floor groundSwamp = new("GROUNDSWAMP", 0);
+    private static readonly Floor groundIron = new("GROUNDIRON", 0);
+    private static readonly Floor groundMeadow = new("GROUNDMEADOW", 0);
+    private static readonly Floor groundForest = new("GROUNDFOREST", 0);
+    private static readonly Floor groundGrove = new("GROUNDGROVE", 0);
 
-    private static readonly List<Floor> floors = new() { innLoft, innCommons, innStables };
+    private static readonly List<Floor> floors = new() { innLoft, innCommons, innStables, groundSwamp, groundIron, groundMeadow, groundForest, groundGrove };
 
     private static readonly Room bedRoom = new("BEDROOM", 3, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top.");
     private static readonly Room bathRoom = new("BATHROOM", 2, "There is a small sink and a toilet in here. It isn't that spacious.");
@@ -30,8 +40,13 @@ class Program
     private static readonly Room stables = new("STABLES", 1, "There are one, maybe two horses here. It doesn't smell too nice. Behind you are some stairs.");
     private static readonly Room up = new("UP", 0, $"You move up 1 floor.");
     private static readonly Room down = new("DOWN", 0, $"You move down 1 floor.");
+    private static readonly Room swamp = new("SWAMP", 1, $"It is cold and rainy out. You can hear the terrible sound of treebranches scratching against eachother in the wind. There is an inn here. You can see {ironHold.Name} off in the distance, whose lands are barren and dry.");
+    private static readonly Room barrens = new("BARRENS", 1, $"The landscape turns into a scorching dry heat. The patches of dirt littering the area around you contain vibrant reds from how much iron it contains. You can see {steelSwamp.Name} from where you came from, and {meadowLand.Name} off in the distance, whose lands are lush and green.");
+    private static readonly Room meadow = new("MEADOW", 1, $"The landscape turns into a lucious green meadow. All around you can see healthy trees and different types of flowers. You can see {ironHold.Name} from where you came, and {forestView.Name} off in the distance, whose lands are filled with dense trees.");
+    private static readonly Room forest = new("FOREST", 1, $"The landscape turns into a dense forest. You can barely see anywhere through all the trees. THe calls of various birds could be heard. You can see {meadowLand.Name} from where you came, and {groveRest.Name} off in the distance, where the first Holy Church resides.");
+    private static readonly Room grove = new("GROVE", 1, $"The landscape turns into an open field. You come up upon a town as you enter the quiet area. There didn't seem to be many people around. At the center a large Church stood. You could see {forestView.Name} from where you came.");
 
-    private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables };
+    private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables, swamp, barrens, meadow, forest, grove };
 
     private static readonly Item sword = new("SWORD", 1, 0, 25);
     private static readonly Item bag = new("BAG", 0, 0, 0);
@@ -110,13 +125,13 @@ class Program
         meridia.Layout = towns;
 
         steelSwamp.Layout = new List<Building>(); // The layout of the town STEELSWAMP.
-
-        steelSwamp.Layout.Add(inn);
         {
-            inn.Layout = new List<Floor>(); // The layout of the building INN.
+            steelSwamp.Layout.Add(inn);
 
-            inn.Layout.Add(innLoft);
+            inn.Layout = new List<Floor>(); // The layout of the building INN.
             {
+                inn.Layout.Add(innLoft);
+
                 innLoft.Layout = new List<Room>(); // Third floor.
                 {
                     innLoft.Layout.Add(bedRoom); // First room of the third flood of the inn. What items are there?
@@ -171,6 +186,93 @@ class Program
                     innStables.Layout.Add(up);
                 }
             }
+
+            steelSwamp.Layout.Add(outSideSwamp);
+            {
+                outSideSwamp.Layout = new List<Floor>();
+                {
+                    outSideSwamp.Layout.Add(groundSwamp);
+
+                    groundSwamp.Layout = new List<Room>();
+                    {
+                        groundSwamp.Layout.Add(swamp);
+
+                        swamp.Layout = new List<Item>();
+                    }
+                }
+            }
+        }
+
+        ironHold.Layout = new List<Building>();
+        {
+            ironHold.Layout.Add(outSideIron);
+            {
+                outSideIron.Layout = new List<Floor>();
+                {
+                    outSideIron.Layout.Add(groundIron);
+
+                    groundIron.Layout = new List<Room>();
+                    {
+                        groundIron.Layout.Add(barrens);
+
+                        barrens.Layout = new List<Item>();
+                    }
+                }
+            }
+        }
+
+        meadowLand.Layout = new List<Building>();
+        {
+            meadowLand.Layout.Add(outSideMeadow);
+            {
+                outSideMeadow.Layout = new List<Floor>();
+                {
+                    outSideMeadow.Layout.Add(groundMeadow);
+
+                    groundMeadow.Layout = new List<Room>();
+                    {
+                        groundMeadow.Layout.Add(meadow);
+
+                        meadow.Layout = new List<Item>();
+                    }
+                }
+            }
+        }
+
+        forestView.Layout = new List<Building>();
+        {
+            forestView.Layout.Add(outSideForest);
+            {
+                outSideForest.Layout = new List<Floor>();
+                {
+                    outSideForest.Layout.Add(groundForest);
+
+                    groundForest.Layout = new List<Room>();
+                    {
+                        groundForest.Layout.Add(forest);
+
+                        forest.Layout = new List<Item>();
+                    }
+                }
+            }
+        }
+
+        groveRest.Layout = new List<Building>();
+        {
+            groveRest.Layout.Add(outSideGrove);
+            {
+                outSideGrove.Layout = new List<Floor>();
+                {
+                    outSideGrove.Layout.Add(groundGrove);
+
+                    groundGrove.Layout = new List<Room>();
+                    {
+                        groundGrove.Layout.Add(grove);
+
+                        grove.Layout = new List<Item>();
+                    }
+                }
+            }
         }
     }
 
@@ -204,9 +306,7 @@ class Program
 
         WriteText($"\n{player.HomeTown.Intro}"); // Intro for entered town is displayed.
 
-        WriteText($"\n{player.Name} of {player.HomeTown.Name}. That has a nice ring to it, doesn't it? Now, are ye a lass or lad?");
-
-        player.Gender = ValidateAndGetInput().ToUpper(); // Checks if null. If null then prompts for another value.
+        WriteText($"\n{player.Name} of {player.HomeTown.Name}. That has a nice ring to it, doesn't it?");
 
         WriteText("\nAlright. Let's get this adventure started.\n\nPress any key to continue...");
 
@@ -261,6 +361,10 @@ class Program
         {
             HandleInventory(player);
         }
+        else if (action.Equals(lookAction))
+        {
+            HandleLook(player);
+        }
         else if (action.Equals(moveAction)) // Character moves.
         {
             HandleMove(player, target);
@@ -274,6 +378,50 @@ class Program
             Console.Clear();
 
             WriteText("The screen has been cleared for ye.");
+        }
+    }
+
+    private static void HandleLook(Character player)
+    {
+        foreach (Town town in meridia.Layout)
+        {
+            if (player.Location[1].Equals(town.TownValue))
+            {
+                foreach (Building building in town.Layout)
+                {
+                    if (player.Location[2].Equals(building.BuildingValue))
+                    {
+                        foreach (Floor floor in building.Layout)
+                        {
+                            if (player.Location[3].Equals(floor.FloorValue))
+                            {
+                                foreach (Room room in floor.Layout) // If the room name is equal to entered target, move there.
+                                {
+                                    if (player.Location[4].Equals(room.RoomValue))
+                                    {
+                                        if (room.RoomValue != 0)
+                                        {
+                                            Console.Write($"Ye are currently in the {room.Name}.\n"); // You move, description of room shows.
+                                            WriteText(room.Description);
+
+                                            foreach (Item item in room.Layout) // What items are in the room?
+                                            {
+                                                Console.Write($"You can see a(n) {item.Name}.\n");
+                                            }
+                                        }
+                                        else if (room.RoomValue == 0)
+                                        {
+                                            WriteText("Ye are currently on the stairs.");
+
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -363,6 +511,8 @@ class Program
 
     private static void HandleMove(Character player, string target) // Logic for determining movement.
     {
+        Town? targetTown = null;
+        Building? targetBuilding = null;
         Room? targetRoom = null;
         int stairLocation = 1;
 
@@ -384,32 +534,86 @@ class Program
                                     {
                                         targetRoom = room;
 
-                                        if (room.Layout == null || room.Layout.Count < 0)
+                                        if (targetRoom.RoomValue != 0 && player.Location[4] != targetRoom.RoomValue)
                                         {
-                                            targetRoom.Layout = null;
-                                        }
-                                        else
-                                        {
-                                            targetRoom.Layout = room.Layout;
+                                            Console.Write($"You have moved to the {targetRoom.Name}.\n"); // You move, description of room shows.
+                                            WriteText(targetRoom.Description);
                                         }
 
                                         break;
                                     }
                                 }
 
-                                if (targetRoom == null) // If room doesn't exist, you can't go there.
+                                foreach (Building toMoveTo in town.Layout) // If the room name is equal to entered target, move there.
+                                {
+                                    if (target.Equals(toMoveTo.Name) && player.Location[4] != 0)
+                                    {
+                                        player.Location[2] = toMoveTo.BuildingValue;
+                                        player.Location[3] = 0;
+                                        player.Location[4] = 1;
+
+                                        targetBuilding = toMoveTo;
+
+                                        WriteText($"Ye have moved. Take a {lookAction} around.");
+
+                                        return;
+                                    }
+                                }
+
+                                foreach (Town toTravelTo in meridia.Layout) // If the room name is equal to entered target, move there.
+                                {
+                                    if (target.Equals(toTravelTo.Name) && player.Location[4] != 0 && player.Location[2] == 0)
+                                    {
+                                        player.Location[1] = toTravelTo.TownValue;
+                                        player.Location[2] = 0;
+                                        player.Location[3] = 0;
+                                        player.Location[4] = 1;
+
+                                        targetTown = toTravelTo;
+
+                                        WriteText($"Ye have traveled to a different town. Take a {lookAction} around.");
+
+                                        return;
+                                    }
+                                }
+
+                                if (targetRoom == null && targetBuilding == null && targetTown == null) // If room doesn't exist, you can't go there.
                                 {
                                     Console.Write("Where do ye want to go? Ye can currently move to:\n");
 
                                     foreach (Room room in floor.Layout)
                                     {
-                                        if (player.Location[4] < 2)
+                                        if (player.Location[4] < stairLocation)
                                         {
                                             Console.Write($"{room.Name}\n");
                                         }
-                                        else if (room.RoomValue != 0)
+                                        else if (player.Location[4] == stairLocation && player.Location[4] != room.RoomValue)
                                         {
                                             Console.Write($"{room.Name}\n");
+                                        }
+                                        else if (room.RoomValue != 0 && player.Location[4] != room.RoomValue)
+                                        {
+                                            Console.Write($"{room.Name}\n");
+                                        }
+                                    }
+                                    if (player.Location[3] == 0)
+                                    {
+                                        foreach (Building toGoIn in town.Layout)
+                                        {
+                                            if (player.Location[2] != toGoIn.BuildingValue && player.Location[4] != 0)
+                                            {
+                                                Console.Write($"{toGoIn.Name}\n");
+                                            }
+                                        }
+                                    }
+                                    if (player.Location[2] == 0)
+                                    {
+                                        foreach (Town toGoTo in meridia.Layout)
+                                        {
+                                            if (toGoTo.TownValue == player.Location[1] + 1 || toGoTo.TownValue == player.Location[1] - 1)
+                                            {
+                                                Console.Write($"{toGoTo.Name}\n");
+                                            }
                                         }
                                     }
 
@@ -439,12 +643,6 @@ class Program
 
                                     return;
                                 }
-                                else if (player.Location[4] < stairLocation && targetRoom.RoomValue > stairLocation)
-                                {
-                                    Console.Write("Ye can't see that room from here.\n");
-
-                                    return;
-                                }
                                 else if (targetRoom.RoomValue == player.Location[4]) // If you are already in the room, you are already there.
                                 {
                                     Console.Write("Ye are already there.\n");
@@ -452,20 +650,10 @@ class Program
                                     return;
                                 }
 
-                                Console.Write($"You have moved to the {targetRoom.Name}.\n"); // You move, description of room shows.
-                                WriteText(targetRoom.Description);
-
-                                //if (targetRoom.Layout == null || targetRoom.Layout.Count < 0)
-                                //{
-                                //    Console.Write("Ye see nothing to pick up.\n");
-                                //}
-                                //else
-                                //{
                                 foreach (Item item in targetRoom.Layout) // What items are in the room?
                                 {
-                                    Console.Write($"You can see a {item.Name}.\n");
+                                    Console.Write($"You can see a(n) {item.Name}.\n");
                                 }
-                                //}
 
                                 player.Location[4] = targetRoom.RoomValue;
                             }
@@ -595,6 +783,10 @@ class Program
             else if (playerAction == inventoryAction)
             {
                 Console.Write($"{inventoryAction} - Gives a brief description of the player's inventory.\n");
+            }
+            else if (playerAction == lookAction)
+            {
+                Console.Write($"{lookAction} - Look around the current area.\n");
             }
             else if (playerAction == moveAction)
             {

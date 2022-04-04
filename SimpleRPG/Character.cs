@@ -22,16 +22,6 @@ public class Character
         }
     }
 
-    //private Town? currentTown; // Character's current location.
-    //public Town? CurrentTown
-    //{
-    //    get { return currentTown; }
-    //    set
-    //    {
-    //        currentTown = value;
-    //    }
-    //}
-
     private int[] location; // Character's current location.
     public int[] Location
     {
@@ -39,16 +29,6 @@ public class Character
         set
         {
             location = value;
-        }
-    }
-
-    private string? gender; // Character gender.
-    public string? Gender
-    {
-        get { return gender; }
-        set
-        {
-            gender = value;
         }
     }
 

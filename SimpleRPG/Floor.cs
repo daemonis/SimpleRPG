@@ -2,9 +2,9 @@
 {
     public class Floor
     {
-        public Floor(int floorValue) // What floor are we on? Give the floor a value.
+        public Floor(string floorName, int floorValue) // What floor are we on? Give the floor a value.
         {
-            this.Name = $"FLOOR {floorValue + 1}";
+            this.Name = floorName;
             this.FloorValue = floorValue;
         }
 
