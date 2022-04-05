@@ -32,7 +32,7 @@ class Program
 
     private static readonly List<Floor> floors = new() { innLoft, innCommons, innStables, groundSwamp, groundIron, groundMeadow, groundForest, groundGrove };
 
-    private static readonly Room bedRoom = new("BEDROOM", 3, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top.");
+    private static readonly Room bedRoom = new("BEDROOM", 3, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top. in the corner is an armor rack.");
     private static readonly Room bathRoom = new("BATHROOM", 2, "There is a small sink and a toilet in here. It isn't that spacious.");
     private static readonly Room hallWay = new("HALLWAY", 1, "A narrow corridor with doors lining each side. You can see stairs at the end of the hallway.");
     private static readonly Room bar = new("BAR", 2, "There are few patrons here. There are probably much better places to be. You see the barkeep behind the counter and nod to them.");
@@ -43,7 +43,7 @@ class Program
     private static readonly Room swamp = new("SWAMP", 1, $"It is cold and rainy out. You can hear the terrible sound of treebranches scratching against eachother in the wind. There is an inn here. You can see {ironHold.Name} off in the distance, whose lands are barren and dry.");
     private static readonly Room barrens = new("BARRENS", 1, $"The landscape turns into a scorching dry heat. The patches of dirt littering the area around you contain vibrant reds from how much iron it contains. You can see {steelSwamp.Name} from where you came from, and {meadowLand.Name} off in the distance, whose lands are lush and green.");
     private static readonly Room meadow = new("MEADOW", 1, $"The landscape turns into a lucious green meadow. All around you can see healthy trees and different types of flowers. You can see {ironHold.Name} from where you came, and {forestView.Name} off in the distance, whose lands are filled with dense trees.");
-    private static readonly Room forest = new("FOREST", 1, $"The landscape turns into a dense forest. You can barely see anywhere through all the trees. THe calls of various birds could be heard. You can see {meadowLand.Name} from where you came, and {groveRest.Name} off in the distance, where the first Holy Church resides.");
+    private static readonly Room forest = new("FOREST", 1, $"The landscape turns into a dense forest. You can barely see anywhere through all the trees. The calls of various birds could be heard. You can see {meadowLand.Name} from where you came, and {groveRest.Name} off in the distance, where the first Holy Church resides.");
     private static readonly Room grove = new("GROVE", 1, $"The landscape turns into an open field. You come up upon a town as you enter the quiet area. There didn't seem to be many people around. At the center a large Church stood. You could see {forestView.Name} from where you came.");
 
     private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables, swamp, barrens, meadow, forest, grove };
@@ -54,8 +54,9 @@ class Program
     private static readonly Item shield = new("SHIELD", 0, 1, 25);
     private static readonly Item toothBrush = new("TOOTHBRUSH", 0, 0, 5);
     private static readonly Item lamp = new("LAMP", 0, 0, 10);
+    private static readonly Item cup = new("CUP", 0, 0, 5);
 
-    private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp };
+    private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp, cup };
 
     private static readonly string grabAction = "GRAB";
     private static readonly string dropAction = "DROP";
@@ -66,8 +67,6 @@ class Program
     private static readonly string clearAction = "CLEAR";
 
     private static readonly List<string> playerActions = new() { grabAction, dropAction, inventoryAction, lookAction, moveAction, helpAction, clearAction };
-
-    private static int worldNum, townNum, buildingNum, floorNum, roomNum;
 
     public static void Main()
     {
@@ -85,7 +84,7 @@ class Program
 
         player.IsAlive = true;
         player.Inventory = new List<Item>();
-        player.Location = new int[5] { worldNum = meridia.WorldValue, townNum = steelSwamp.TownValue, buildingNum = inn.BuildingValue, floorNum = innLoft.FloorValue, roomNum = bedRoom.RoomValue };
+        player.Location = new int[5] { meridia.WorldValue, steelSwamp.TownValue, inn.BuildingValue, innLoft.FloorValue, bedRoom.RoomValue };
 
         CollectCharacterInformation(player);
 
@@ -93,7 +92,7 @@ class Program
 
         // Adventure Start. (WIP)
 
-        WriteText($"It is a dark and stormy night in the town of {steelSwamp.Name}. You can hear the sound of the rain tapping on the roof of the inn and the gentle flow of water coursing through the surrounding wetlands.\n\nThe inn you've decided to take refuge in is not the best, but it beats being out in the rain. The innkeep also gave you a great deal on the room you are staying in.\n\nYou are currently laying in bed. The blankets are made from a rough wool that isn't too comfortable, but is bound to keep any adventurer warm. You have a nightstand next to you, agaist which you've leaned your {sword.Name}. Your {bag.Name} rests atop the nightstand. There is a {bathRoom.Name} and a {hallWay.Name} attached to the bedroom.\n\nWhat will you do?");
+        WriteText($"It is a dark and stormy night in the town of {steelSwamp.Name}. You can hear the sound of the rain tapping on the roof of the inn and the gentle flow of water coursing through the surrounding wetlands.\n\nThe inn you've decided to take refuge in is not the best, but it beats being out in the rain. The innkeep also gave you a great deal on the room you are staying in.\n\nYou are currently laying in bed. The blankets are made from a rough wool that isn't too comfortable, but is bound to keep any adventurer warm. You have a nightstand next to you, agaist which you've leaned your {sword.Name}. In the corner of the room was an armor rack with some {armor.Name}. There is a {bathRoom.Name} and a {hallWay.Name} attached to the bedroom.\n\nWhat will you do?");
 
         // Game will prompt user for input. Based on input, do a specific action. If the character dies the game ends. (WIP)
 
@@ -139,7 +138,7 @@ class Program
                     bedRoom.Layout = new List<Item>();
                     {
                         bedRoom.Layout.Add(sword);
-                        bedRoom.Layout.Add(bag);
+                        bedRoom.Layout.Add(armor);
                     }
 
                     innLoft.Layout.Add(bathRoom); // Second room of the third floor of the inn. What items are there?
@@ -147,6 +146,7 @@ class Program
                     bathRoom.Layout = new List<Item>();
                     {
                         bathRoom.Layout.Add(toothBrush);
+                        bathRoom.Layout.Add(cup);
                     }
 
                     innLoft.Layout.Add(hallWay);
@@ -166,6 +166,11 @@ class Program
                     innCommons.Layout.Add(bar); // First room of the second flood of the inn. What items are there?
 
                     bar.Layout = new List<Item>();
+                    {
+                        bar.Layout.Add(cup);
+                        bar.Layout.Add(cup);
+                        bar.Layout.Add(cup);
+                    }
 
                     innCommons.Layout.Add(den); // Second room of the second flood of the inn. What items are there?
 
@@ -344,7 +349,7 @@ class Program
 
         if (!playerActions.Contains(action)) // If action is not found, the game doesn't understand what is being said.
         {
-            Console.Write("Ye make no sense.\n");
+            Console.Write($"Ye make no sense. Type {helpAction} for help.\n");
 
             return;
         }
@@ -429,6 +434,7 @@ class Program
     {
         Item? itemToRemove = null;
         int stairLocation = 1;
+        int maxRoomLayoutSize = 4;
 
         foreach (Town town in meridia.Layout)
         {
@@ -465,7 +471,7 @@ class Program
                                         {
                                             // Add item
 
-                                            if (player.Inventory.Contains(itemToRemove)) // What happens when the item is added to inventory?
+                                            if (player.Inventory.Contains(itemToRemove) && room.Layout.Count <= maxRoomLayoutSize) // What happens when the item is added to inventory?
                                             {
                                                 Console.Write($"You drop the {itemToRemove.Name}.\n");
 
@@ -491,6 +497,10 @@ class Program
                                                 Console.Write("Ye don't have one o' those.\n"); // The item is already in the character's inventory.
 
                                                 return;
+                                            }
+                                            else
+                                            {
+                                                Console.Write("There be no more space for that here!\n");
                                             }
                                         }
                                     }
@@ -548,15 +558,24 @@ class Program
                                 {
                                     if (target.Equals(toMoveTo.Name) && player.Location[4] != 0)
                                     {
-                                        player.Location[2] = toMoveTo.BuildingValue;
-                                        player.Location[3] = 0;
-                                        player.Location[4] = 1;
+                                        if (toMoveTo.BuildingValue == player.Location[2])
+                                        {
+                                            Console.Write("Ye are already there.\n");
 
-                                        targetBuilding = toMoveTo;
+                                            return;
+                                        }
+                                        else if (player.Location[3] == 0)
+                                        {
+                                            player.Location[2] = toMoveTo.BuildingValue;
+                                            player.Location[3] = 0;
+                                            player.Location[4] = 1;
 
-                                        WriteText($"Ye have moved. Take a {lookAction} around.");
+                                            targetBuilding = toMoveTo;
 
-                                        return;
+                                            WriteText($"Ye have moved. Take a {lookAction} around.");
+
+                                            return;
+                                        }
                                     }
                                 }
 
@@ -564,16 +583,25 @@ class Program
                                 {
                                     if (target.Equals(toTravelTo.Name) && player.Location[4] != 0 && player.Location[2] == 0)
                                     {
-                                        player.Location[1] = toTravelTo.TownValue;
-                                        player.Location[2] = 0;
-                                        player.Location[3] = 0;
-                                        player.Location[4] = 1;
+                                        if (toTravelTo.TownValue == player.Location[1])
+                                        {
+                                            Console.Write("Ye are already there.\n");
 
-                                        targetTown = toTravelTo;
+                                            return;
+                                        }
+                                        else if (toTravelTo.TownValue == player.Location[1] + 1 || toTravelTo.TownValue == player.Location[1] - 1 && player.Location[2] == 0)
+                                        {
+                                            player.Location[1] = toTravelTo.TownValue;
+                                            player.Location[2] = 0;
+                                            player.Location[3] = 0;
+                                            player.Location[4] = 1;
 
-                                        WriteText($"Ye have traveled to a different town. Take a {lookAction} around.");
+                                            targetTown = toTravelTo;
 
-                                        return;
+                                            WriteText($"Ye have traveled to a different town. Take a {lookAction} around.");
+
+                                            return;
+                                        }
                                     }
                                 }
 
@@ -667,6 +695,7 @@ class Program
     private static void HandleGrab(Character player, string targetItemName) // Logic for determining what was grabbed.
     {
         Item? itemToAdd = null;
+        int maxInventorySize = 4;
 
         foreach (Town town in meridia.Layout)
         {
@@ -703,7 +732,7 @@ class Program
                                         {
                                             // Add item
 
-                                            if (!player.Inventory.Contains(itemToAdd)) // What happens when the item is added to inventory?
+                                            if (player.Inventory.Count <= maxInventorySize || player.Inventory == null) // What happens when the item is added to inventory?
                                             {
                                                 Console.Write($"You pick up the {itemToAdd.Name}.\n");
                                                 player.Inventory.Add(itemToAdd);
@@ -725,7 +754,7 @@ class Program
                                             }
                                             else
                                             {
-                                                Console.Write("Ye may have already picked that up.\n"); // The item is already in the character's inventory.
+                                                Console.Write("Ye have no more room for that.\n"); // The item is already in the character's inventory.
 
                                                 return;
                                             }
@@ -790,7 +819,7 @@ class Program
             }
             else if (playerAction == moveAction)
             {
-                Console.Write($"{moveAction} - Move to the specified location.\n");
+                Console.Write($"{moveAction} - Move to the specified location. If nothing is entered it will list where you can move.\n");
             }
             else if (playerAction == helpAction)
             {
