@@ -48,5 +48,25 @@
                 layout = value;
             }
         }
+
+        private List<NPC> persons;
+        public List<NPC> Persons // What items are in this room?
+        {
+            get { return persons; }
+            set
+            {
+                persons = value;
+            }
+        }
+
+        private List<Monster> monsters;
+        public List<Monster> Monsters // What items are in this room?
+        {
+            get { return monsters; }
+            set
+            {
+                monsters = value;
+            }
+        }
     }
 }

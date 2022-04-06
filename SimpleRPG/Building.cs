@@ -2,10 +2,11 @@
 {
     public class Building
     {
-        public Building(string name, int buildingValue) // The building has a name and a coordinate value.
+        public Building(string name, int buildingValue, string description) // The building has a name and a coordinate value.
         {
             this.Name = name;
             this.BuildingValue = buildingValue;
+            this.Description = description;
         }
 
         private string name;
@@ -15,6 +16,16 @@
             set
             {
                 name = value;
+            }
+        }
+
+        private string? description; // Description of specified town.
+        public string? Description
+        {
+            get { return description; }
+            set
+            {
+                description = value;
             }
         }
 

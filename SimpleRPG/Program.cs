@@ -4,20 +4,20 @@ class Program
 {
     private readonly static World meridia = new();
 
-    private static readonly Town steelSwamp = new("STEELSWAMP", null, 0, "Ah, rainy ol' STEELSWAMP. creepy place, that is. There be a strange inn there.");
-    private static readonly Town ironHold = new("IRONHOLD", null, 1, "Ah, busy ol' IRONHOLD. Scary place, that is. They make weapons there.");
-    private static readonly Town meadowLand = new("MEADOWLAND", null, 2, "Ah, peaceful ol' MEADOWLAND. Relaxing place, that is. They sell medicinal herbs there.");
-    private static readonly Town forestView = new("FORESTVIEW", null, 3, "Ah, quiet ol' FORESTVIEW. Interesting place, that is. They make nice bows there.");
-    private static readonly Town groveRest = new("GROVEREST", null, 4, "Ah, good ol' GROVEREST. Historical place, that is. The first Holy Church was built there.");
+    private static readonly Town steelSwamp = new("STEELSWAMP", "It seems like it will never stop raining...", 0, "Ah, rainy ol' STEELSWAMP. creepy place, that is. There be a strange inn there.");
+    private static readonly Town ironHold = new("IRONHOLD", "There isn't a cloud in the sky. The sun is intense.", 1, "Ah, busy ol' IRONHOLD. Scary place, that is. They make weapons there.");
+    private static readonly Town meadowLand = new("MEADOWLAND", "The weather is rather comfortable. The air smells of flowers.", 2, "Ah, peaceful ol' MEADOWLAND. Relaxing place, that is. They sell medicinal herbs there.");
+    private static readonly Town forestView = new("FORESTVIEW", "It seems impossible to see the sky through the trees.", 3, "Ah, quiet ol' FORESTVIEW. Interesting place, that is. They make nice bows there.");
+    private static readonly Town groveRest = new("GROVEREST", "Clouds blocked the sun from the sky...", 4, "Ah, good ol' GROVEREST. Historical place, that is. The first Holy Church was built there.");
 
     private readonly static List<Town> towns = new() { steelSwamp, ironHold, meadowLand, forestView, groveRest };
 
-    private static readonly Building inn = new("INN", 1);
-    private static readonly Building outSideSwamp = new("OUT", 0);
-    private static readonly Building outSideIron = new("OUT", 0);
-    private static readonly Building outSideMeadow = new("OUT", 0);
-    private static readonly Building outSideForest = new("OUT", 0);
-    private static readonly Building outSideGrove = new("OUT", 0);
+    private static readonly Building inn = new("INN", 1, "The first floor is the STABLES. The main part of the building rested up off the ground.");
+    private static readonly Building outSideSwamp = new("OUT", 0, "Immediately it feels as if you are wading through water. You wish your boots were taller.");
+    private static readonly Building outSideIron = new("OUT", 0, "You look around. Everything was hiding under the limited brush. The air burned your nostrils.");
+    private static readonly Building outSideMeadow = new("OUT", 0, "The scent of flowers eventually fades the longer you endure it.");
+    private static readonly Building outSideForest = new("OUT", 0, "The scent of sap was pleasant, and the shade was nice and cool. You wouldn't mind living here.");
+    private static readonly Building outSideGrove = new("OUT", 0, "If you did see anyone, they quickly looked the other way. This town didn't seem very friendly.");
 
     private static readonly List<Building> buildings = new() { inn, outSideSwamp, outSideIron, outSideMeadow, outSideForest, outSideGrove };
 
@@ -41,10 +41,10 @@ class Program
     private static readonly Room up = new("UP", 0, $"You move up 1 floor.");
     private static readonly Room down = new("DOWN", 0, $"You move down 1 floor.");
     private static readonly Room swamp = new("SWAMP", 1, $"It is cold and rainy out. You can hear the terrible sound of treebranches scratching against eachother in the wind. There is an inn here. You can see {ironHold.Name} off in the distance, whose lands are barren and dry.");
-    private static readonly Room barrens = new("BARRENS", 1, $"The landscape turns into a scorching dry heat. The patches of dirt littering the area around you contain vibrant reds from how much iron it contains. You can see {steelSwamp.Name} from where you came from, and {meadowLand.Name} off in the distance, whose lands are lush and green.");
-    private static readonly Room meadow = new("MEADOW", 1, $"The landscape turns into a lucious green meadow. All around you can see healthy trees and different types of flowers. You can see {ironHold.Name} from where you came, and {forestView.Name} off in the distance, whose lands are filled with dense trees.");
-    private static readonly Room forest = new("FOREST", 1, $"The landscape turns into a dense forest. You can barely see anywhere through all the trees. The calls of various birds could be heard. You can see {meadowLand.Name} from where you came, and {groveRest.Name} off in the distance, where the first Holy Church resides.");
-    private static readonly Room grove = new("GROVE", 1, $"The landscape turns into an open field. You come up upon a town as you enter the quiet area. There didn't seem to be many people around. At the center a large Church stood. You could see {forestView.Name} from where you came.");
+    private static readonly Room barrens = new("BARRENS", 1, $"The landscape is a scorching dry heat. The patches of dirt littering the area around you contain vibrant reds from how much iron it contains. You can see {steelSwamp.Name} from where you came from, and {meadowLand.Name} off in the distance, whose lands are lush and green.");
+    private static readonly Room meadow = new("MEADOW", 1, $"The landscape is a lucious green meadow. All around you can see healthy trees and different types of flowers. You can see {ironHold.Name} from where you came, and {forestView.Name} off in the distance, whose lands are filled with dense trees.");
+    private static readonly Room forest = new("FOREST", 1, $"The landscape is a dense forest. You can barely see anywhere through all the trees. The calls of various birds could be heard. You can see {meadowLand.Name} from where you came, and {groveRest.Name} off in the distance, where the first Holy Church resides.");
+    private static readonly Room grove = new("GROVE", 1, $"The landscape is an open field. You come up upon a town as you enter the quiet area. There didn't seem to be many people around. At the center a large Church stood. You could see {forestView.Name} from where you came.");
 
     private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables, swamp, barrens, meadow, forest, grove };
 
@@ -311,7 +311,7 @@ class Program
 
         WriteText($"\n{player.HomeTown.Intro}"); // Intro for entered town is displayed.
 
-        WriteText($"\n{player.Name} of {player.HomeTown.Name}. That has a nice ring to it, doesn't it?");
+        WriteText($"\n{player.Name} of {player.HomeTown.Name}... That has a nice ring to it, doesn't it?");
 
         WriteText("\nAlright. Let's get this adventure started.\n\nPress any key to continue...");
 
@@ -434,7 +434,7 @@ class Program
     {
         Item? itemToRemove = null;
         int stairLocation = 1;
-        int maxRoomLayoutSize = 4;
+        int maxRoomLayoutSize = 7;
 
         foreach (Town town in meridia.Layout)
         {
@@ -572,7 +572,14 @@ class Program
 
                                             targetBuilding = toMoveTo;
 
-                                            WriteText($"Ye have moved. Take a {lookAction} around.");
+                                            if (targetBuilding.Name.Equals("OUT"))
+                                            {
+                                                WriteText($"Ye have moved OUTSIDE. {targetBuilding.Description}");
+                                            }
+                                            else
+                                            {
+                                                WriteText($"Ye have moved to the {targetBuilding.Name}. {targetBuilding.Description}");
+                                            }
 
                                             return;
                                         }
@@ -598,7 +605,7 @@ class Program
 
                                             targetTown = toTravelTo;
 
-                                            WriteText($"Ye have traveled to a different town. Take a {lookAction} around.");
+                                            WriteText($"Ye have traveled to {targetTown.Name}. {targetTown.Description}");
 
                                             return;
                                         }
@@ -695,7 +702,7 @@ class Program
     private static void HandleGrab(Character player, string targetItemName) // Logic for determining what was grabbed.
     {
         Item? itemToAdd = null;
-        int maxInventorySize = 4;
+        int maxInventorySize = 7;
 
         foreach (Town town in meridia.Layout)
         {
