@@ -2,22 +2,24 @@
 
 public class NPC
 {
-    public NPC(string name) // Generic level 1 NPC with custom name.
+    public NPC(string name, string description) // Generic level 1 NPC with custom name.
     {
-        Name = name;
-        Level = level;
-        HitPoints = hitPoints;
-        //Inventory = inventory;
-        IsAlive = isAlive;
+        this.Name = name;
+        this.Level = level;
+        this.HitPoints = hitPoints;
+        this.Inventory = inventory;
+        this.Description = description;
+        this.IsAlive = isAlive;
     }
 
-    public NPC(string name, int level, int hitPoints) // Custom NPC.
+    public NPC(string name, int level, int hitPoints, string description) // Custom NPC.
     {
-        Name = name;
-        Level = level;
-        HitPoints = hitPoints;
-        //Inventory = inventory;
-        IsAlive = isAlive;
+        this.Name = name;
+        this.Level = level;
+        this.HitPoints = hitPoints;
+        this.Inventory = inventory;
+        this.Description = description;
+        this.IsAlive = isAlive;
     }
 
     private string name = "Adventurer"; // Default name.
@@ -27,6 +29,16 @@ public class NPC
         set
         {
             name = value;
+        }
+    }
+
+    private string? description; // Description of specified town.
+    public string? Description
+    {
+        get { return description; }
+        set
+        {
+            description = value;
         }
     }
 
@@ -40,15 +52,15 @@ public class NPC
         }
     }
 
-    //private string[] inventory = { "Sword", "Shield", "Armor" }; // Default inventory array.
-    //public string[] Inventory
-    //{
-    //    get { return inventory; }
-    //    set
-    //    {
-    //        inventory = value;
-    //    }
-    //}
+    private List<Item>? inventory; // Inventory list.
+    public List<Item>? Inventory
+    {
+        get { return inventory; }
+        set
+        {
+            inventory = value;
+        }
+    }
 
     private int attack = 5; // Attack power.
     public int Attack

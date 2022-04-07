@@ -7,14 +7,16 @@ public class Monster
         this.Name = name;
         this.Level = level;
         this.HitPoints = hitPoints;
+        this.Description = "It doesn't look so tough...";
         this.IsAlive = isAlive;
     }
 
-    public Monster(string name, int level, int hitPoints) // Custom monster.
+    public Monster(string name, int level, int hitPoints, string description) // Custom monster.
     {
         this.Name = name;
         this.Level = level;
         this.HitPoints = hitPoints;
+        this.Description = description;
         this.IsAlive = isAlive;
     }
 
@@ -25,6 +27,16 @@ public class Monster
         set
         {
             name = value;
+        }
+    }
+
+    private string? description; // Description of specified town.
+    public string? Description
+    {
+        get { return description; }
+        set
+        {
+            description = value;
         }
     }
 

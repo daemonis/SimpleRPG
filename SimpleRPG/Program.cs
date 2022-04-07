@@ -52,21 +52,29 @@ class Program
     private static readonly Item bag = new("BAG", 0, 0, 0);
     private static readonly Item armor = new("ARMOR", 0, 2, 50);
     private static readonly Item shield = new("SHIELD", 0, 1, 25);
-    private static readonly Item toothBrush = new("TOOTHBRUSH", 0, 0, 5);
+    private static readonly Item toothBrush = new("TOOTHBRUSH", 0, 0, 0);
     private static readonly Item lamp = new("LAMP", 0, 0, 10);
-    private static readonly Item cup = new("CUP", 0, 0, 5);
+    private static readonly Item cup = new("CUP", 0, 0, 0);
+    private static readonly Item wine = new("WINE", 0, 0, 25);
+    private static readonly Item beer = new("BEER", 0, 0, 10);
+    private static readonly Item mead = new("MEAD", 0, 0, 15);
 
-    private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp, cup };
+    private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp, cup, wine, beer, mead };
+
+    private static readonly NPC barKeep = new("SHOPKEEP", "They are wiping down the counter and tending to the person sitting at the bar.");
+
+    private static readonly Monster ghost = new("GHOST");
 
     private static readonly string grabAction = "GRAB";
     private static readonly string dropAction = "DROP";
     private static readonly string inventoryAction = "INVENTORY";
     private static readonly string lookAction = "LOOK";
+    private static readonly string talkAction = "TALKTO";
     private static readonly string moveAction = "MOVETO";
     private static readonly string helpAction = "HELP";
     private static readonly string clearAction = "CLEAR";
 
-    private static readonly List<string> playerActions = new() { grabAction, dropAction, inventoryAction, lookAction, moveAction, helpAction, clearAction };
+    private static readonly List<string> playerActions = new() { grabAction, dropAction, inventoryAction, lookAction, talkAction, moveAction, helpAction, clearAction };
 
     public static void Main()
     {
@@ -141,6 +149,8 @@ class Program
                         bedRoom.Layout.Add(armor);
                     }
 
+                    bedRoom.Persons = new List<NPC>();
+
                     innLoft.Layout.Add(bathRoom); // Second room of the third floor of the inn. What items are there?
 
                     bathRoom.Layout = new List<Item>();
@@ -149,12 +159,16 @@ class Program
                         bathRoom.Layout.Add(cup);
                     }
 
+                    bathRoom.Persons = new List<NPC>();
+
                     innLoft.Layout.Add(hallWay);
 
                     hallWay.Layout = new List<Item>(); // Third room of the third flood of the inn. What items are there?
                     {
                         hallWay.Layout.Add(lamp);
                     }
+
+                    hallWay.Persons = new List<NPC>();
 
                     innLoft.Layout.Add(down);
                 }
@@ -169,12 +183,25 @@ class Program
                     {
                         bar.Layout.Add(cup);
                         bar.Layout.Add(cup);
-                        bar.Layout.Add(cup);
+                    }
+
+                    bar.Persons = new List<NPC>();
+                    {
+                        bar.Persons.Add(barKeep);
+
+                        barKeep.Inventory = new List<Item>();
+                        {
+                            barKeep.Inventory.Add(wine);
+                            barKeep.Inventory.Add(beer);
+                            barKeep.Inventory.Add(mead);
+                        }
                     }
 
                     innCommons.Layout.Add(den); // Second room of the second flood of the inn. What items are there?
 
                     den.Layout = new List<Item>();
+
+                    den.Persons = new List<NPC>();
 
                     innCommons.Layout.Add(up);
                     innCommons.Layout.Add(down);
@@ -187,6 +214,8 @@ class Program
                     innStables.Layout.Add(stables); // First room of the first flood of the inn. What items are there?
 
                     stables.Layout = new List<Item>();
+
+                    stables.Persons = new List<NPC>();
 
                     innStables.Layout.Add(up);
                 }
@@ -203,6 +232,8 @@ class Program
                         groundSwamp.Layout.Add(swamp);
 
                         swamp.Layout = new List<Item>();
+
+                        swamp.Persons = new List<NPC>();
                     }
                 }
             }
@@ -221,6 +252,8 @@ class Program
                         groundIron.Layout.Add(barrens);
 
                         barrens.Layout = new List<Item>();
+
+                        barrens.Persons = new List<NPC>();
                     }
                 }
             }
@@ -239,6 +272,8 @@ class Program
                         groundMeadow.Layout.Add(meadow);
 
                         meadow.Layout = new List<Item>();
+
+                        meadow.Persons = new List<NPC>();
                     }
                 }
             }
@@ -257,6 +292,8 @@ class Program
                         groundForest.Layout.Add(forest);
 
                         forest.Layout = new List<Item>();
+
+                        forest.Persons = new List<NPC>();
                     }
                 }
             }
@@ -275,6 +312,8 @@ class Program
                         groundGrove.Layout.Add(grove);
 
                         grove.Layout = new List<Item>();
+
+                        grove.Persons = new List<NPC>();
                     }
                 }
             }
@@ -370,6 +409,10 @@ class Program
         {
             HandleLook(player);
         }
+        else if (action.Equals(talkAction))
+        {
+            HandleTalk(player, target);
+        }
         else if (action.Equals(moveAction)) // Character moves.
         {
             HandleMove(player, target);
@@ -383,6 +426,174 @@ class Program
             Console.Clear();
 
             WriteText("The screen has been cleared for ye.");
+        }
+    }
+
+    private static void HandleTalk(Character player, string targetPersonName)
+    {
+        NPC targetPerson = null;
+        Item targetItem = null;
+        Item targetItemToSell = null;
+        string userInput = null;
+
+
+        foreach (Town town in meridia.Layout)
+        {
+            if (player.Location[1].Equals(town.TownValue))
+            {
+                foreach (Building building in town.Layout)
+                {
+                    if (player.Location[2].Equals(building.BuildingValue))
+                    {
+                        foreach (Floor floor in building.Layout)
+                        {
+                            if (player.Location[3].Equals(floor.FloorValue))
+                            {
+                                foreach (Room room in floor.Layout) // If the room name is equal to entered target, move there.
+                                {
+                                    if (player.Location[4].Equals(room.RoomValue))
+                                    {
+                                        foreach (NPC person in room.Persons)
+                                        {
+                                            if (person.Name.Equals(targetPersonName))
+                                            {
+                                                targetPerson = person;
+
+                                                break;
+                                            }
+                                        }
+
+                                        if (targetPerson == null)
+                                        {
+                                            Console.Write("Ye see a ghost?\n");
+
+                                            return;
+                                        }
+                                        else if (targetPerson.Name.Equals("SHOPKEEP"))
+                                        {
+                                            if (targetPerson.Inventory.Count > 0)
+                                            {
+                                                WriteText("What would ye like to buy? Here's what I have:");
+
+                                                foreach (Item item in targetPerson.Inventory)
+                                                {
+                                                    Console.Write($"{item.Name} - {item.MoneyValue} coppers\n");
+                                                }
+
+                                                Console.Write($"Current coins: {player.WalletValue} coppers\n");
+
+                                                WriteText("Or would ye rather SELL something?");
+
+                                                userInput = ValidateAndGetInput().ToUpper();
+
+                                                foreach (Item item in targetPerson.Inventory)
+                                                {
+                                                    if (item.Name.Equals(userInput))
+                                                    {
+                                                        targetItem = item;
+
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            if (targetPerson.Inventory.Count < 1 || userInput.Equals("SELL"))
+                                            {
+                                                if (userInput == null)
+                                                {
+                                                    WriteText("I got nothing to sell ye... Are ye here to SELL something?");
+
+                                                    userInput = ValidateAndGetInput().ToUpper();
+                                                }
+
+                                                if (player.Inventory.Count < 1)
+                                                {
+                                                    WriteText("...Ye good at jokes. Ye ain't even got anything to sell. Good day.");
+
+                                                    return;
+                                                }
+
+                                                WriteText("If ye have something interesting, I'll buy. Sell what?");
+
+                                                foreach (Item item in player.Inventory)
+                                                {
+                                                    if (item.MoneyValue != 0)
+                                                    {
+                                                        Console.Write($"{item.Name} - {item.MoneyValue} coppers\n");
+                                                    }
+                                                }
+
+                                                Console.Write($"Current coins: {player.WalletValue} coppers\n");
+
+                                                string itemChoiceToSell = ValidateAndGetInput().ToUpper();
+
+                                                foreach (Item item in player.Inventory)
+                                                {
+                                                    if (item.Name.Equals(itemChoiceToSell))
+                                                    {
+                                                        targetItemToSell = item;
+
+                                                        break;
+                                                    }
+                                                }
+
+                                                if (targetItemToSell == null)
+                                                {
+                                                    WriteText("Ye are taking too long... Good day.");
+
+                                                    return;
+                                                }
+                                                else
+                                                {
+                                                    WriteText($"Here is ye {targetItemToSell.MoneyValue} coppers. Now let me just...");
+
+                                                    Console.Write($"You give the {targetPerson.Name} the {targetItemToSell.Name}.\nThe {targetPerson.Name} gives you {targetItemToSell.MoneyValue} coppers.\nGood day.\n");
+
+                                                    player.WalletValue = player.WalletValue + targetItemToSell.MoneyValue;
+
+                                                    player.Inventory.Remove(targetItemToSell);
+
+                                                    targetPerson.Inventory.Add(targetItemToSell);
+                                                }
+                                            }
+                                            else if (targetItem == null)
+                                            {
+                                                WriteText("I don't got any o that. Good day.");
+
+                                                return;
+                                            }
+                                            else if (player.WalletValue < targetItem.MoneyValue)
+                                            {
+                                                WriteText("Ye good at jokes. Ye have no money for that. Good day.");
+
+                                                return;
+                                            }
+                                            else if (player.Inventory.Count > 7)
+                                            {
+                                                WriteText("Ye need to make some room in ye bag. I can't sell ye this.");
+
+                                                return;
+                                            }
+                                            else
+                                            {
+                                                WriteText($"Here is ye {targetItem.Name}. Now let me just...");
+
+                                                Console.Write($"You give the {targetPerson.Name} {targetItem.MoneyValue} coppers.\nThe {targetPerson.Name} gives you the {targetItem.Name}.\nGood day.\n");
+
+                                                player.WalletValue = player.WalletValue - targetItem.MoneyValue;
+
+                                                targetPerson.Inventory.Remove(targetItem);
+
+                                                player.Inventory.Add(targetItem);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -408,6 +619,11 @@ class Program
                                         {
                                             Console.Write($"Ye are currently in the {room.Name}.\n"); // You move, description of room shows.
                                             WriteText(room.Description);
+
+                                            foreach (NPC person in room.Persons)
+                                            {
+                                                Console.Write($"Ye are in the same area as {person.Name}. {person.Description}\n");
+                                            }
 
                                             foreach (Item item in room.Layout) // What items are in the room?
                                             {
@@ -457,6 +673,7 @@ class Program
                                             if (item.Name.Equals(targetItemName))
                                             {
                                                 itemToRemove = item;
+
                                                 break;
                                             }
                                         }
@@ -685,6 +902,11 @@ class Program
                                     return;
                                 }
 
+                                foreach (NPC person in targetRoom.Persons)
+                                {
+                                    Console.Write($"Ye are in the same area as {person.Name}. {person.Description}\n");
+                                }
+
                                 foreach (Item item in targetRoom.Layout) // What items are in the room?
                                 {
                                     Console.Write($"You can see a(n) {item.Name}.\n");
@@ -824,6 +1046,10 @@ class Program
             {
                 Console.Write($"{lookAction} - Look around the current area.\n");
             }
+            else if (playerAction == talkAction)
+            {
+                Console.Write($"{talkAction} - Talk to an NPC in the area.\n");
+            }
             else if (playerAction == moveAction)
             {
                 Console.Write($"{moveAction} - Move to the specified location. If nothing is entered it will list where you can move.\n");
@@ -839,7 +1065,7 @@ class Program
         }
     }
 
-    public static string? ValidateAndGetInput() // Prompts if field is null, numeric, or not between 3-15.
+    public static string? ValidateAndGetInput() // Prompts if field is null, numeric, or not between 3-25.
     {
         bool inputIsNull, inputIsNumeric = false, inputIsCorrectLength = true;
         string? input;

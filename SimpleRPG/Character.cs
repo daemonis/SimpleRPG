@@ -52,6 +52,16 @@ public class Character
         }
     }
 
+    private int walletValue = 50;
+    public int WalletValue
+    {
+        get { return walletValue; }
+        set
+        {
+            walletValue = value;
+        }
+    }
+
     private int experience; // Amount of experience points.
     public int Experience // Level up mechanic.
     {
