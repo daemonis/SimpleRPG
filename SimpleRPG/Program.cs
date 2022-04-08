@@ -4,20 +4,20 @@ class Program
 {
     private readonly static World meridia = new();
 
-    private static readonly Town steelSwamp = new("STEELSWAMP", "It seems like it will never stop raining...", 0, "Ah, rainy ol' STEELSWAMP. creepy place, that is. There be a strange inn there.");
+    private static readonly Town steelSwamp = new("STEELSWAMP", "It seems like it will never stop raining... There is an INN here.", 0, "Ah, rainy ol' STEELSWAMP. creepy place, that is. There be a strange inn there.");
     private static readonly Town ironHold = new("IRONHOLD", "There isn't a cloud in the sky. The sun is intense.", 1, "Ah, busy ol' IRONHOLD. Scary place, that is. They make weapons there.");
     private static readonly Town meadowLand = new("MEADOWLAND", "The weather is rather comfortable. The air smells of flowers.", 2, "Ah, peaceful ol' MEADOWLAND. Relaxing place, that is. They sell medicinal herbs there.");
     private static readonly Town forestView = new("FORESTVIEW", "It seems impossible to see the sky through the trees.", 3, "Ah, quiet ol' FORESTVIEW. Interesting place, that is. They make nice bows there.");
-    private static readonly Town groveRest = new("GROVEREST", "Clouds blocked the sun from the sky...", 4, "Ah, good ol' GROVEREST. Historical place, that is. The first Holy Church was built there.");
+    private static readonly Town groveRest = new("GROVEREST", "Clouds block the sun from the sky...", 4, "Ah, good ol' GROVEREST. Historical place, that is. The first Holy CHURCH is built there.");
 
     private readonly static List<Town> towns = new() { steelSwamp, ironHold, meadowLand, forestView, groveRest };
 
-    private static readonly Building inn = new("INN", 1, "The first floor is the STABLES. The main part of the building rested up off the ground.");
+    private static readonly Building inn = new("INN", 1, "You enter the STABLES. The main part of the building rests UP off the ground. There is a way UP here.");
     private static readonly Building outSideSwamp = new("OUT", 0, "Immediately it feels as if you are wading through water. You wish your boots were taller.");
-    private static readonly Building outSideIron = new("OUT", 0, "You look around. Everything was hiding under the limited brush. The air burned your nostrils.");
+    private static readonly Building outSideIron = new("OUT", 0, "You look around. Everything living was hiding under the limited brush. The air burned your nostrils.");
     private static readonly Building outSideMeadow = new("OUT", 0, "The scent of flowers eventually fades the longer you endure it.");
     private static readonly Building outSideForest = new("OUT", 0, "The scent of sap was pleasant, and the shade was nice and cool. You wouldn't mind living here.");
-    private static readonly Building outSideGrove = new("OUT", 0, "If you did see anyone, they quickly looked the other way. This town didn't seem very friendly.");
+    private static readonly Building outSideGrove = new("OUT", 0, "If you did see anyone, they would quickly look the other way. This town didn't seem very friendly.");
 
     private static readonly List<Building> buildings = new() { inn, outSideSwamp, outSideIron, outSideMeadow, outSideForest, outSideGrove };
 
@@ -32,19 +32,19 @@ class Program
 
     private static readonly List<Floor> floors = new() { innLoft, innCommons, innStables, groundSwamp, groundIron, groundMeadow, groundForest, groundGrove };
 
-    private static readonly Room bedRoom = new("BEDROOM", 3, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top. in the corner is an armor rack.");
-    private static readonly Room bathRoom = new("BATHROOM", 2, "There is a small sink and a toilet in here. It isn't that spacious.");
-    private static readonly Room hallWay = new("HALLWAY", 1, "A narrow corridor with doors lining each side. You can see stairs at the end of the hallway.");
-    private static readonly Room bar = new("BAR", 2, "There are few patrons here. There are probably much better places to be. You see the barkeep behind the counter and nod to them.");
-    private static readonly Room den = new("DEN", 1, "There are two small loveseats in this area. On the ground is a hideous rug with mud pretty much woven into it. In the corner of the room are some stairs.");
-    private static readonly Room stables = new("STABLES", 1, "There are one, maybe two horses here. It doesn't smell too nice. Behind you are some stairs.");
+    private static readonly Room bedRoom = new("BEDROOM", 3, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top. In the corner is an armor rack. You can see your BATHROOM, and you know the HALLWAY is outside your BEDROOM.");
+    private static readonly Room bathRoom = new("BATHROOM", 2, "There is a small sink and a toilet in here. It isn't that spacious. You can see your BEDROOM through the door.");
+    private static readonly Room hallWay = new("HALLWAY", 1, "There is a narrow corridor with doors lining each side. You can see a way DOWN at the end of the hallway. Your BEDROOM was the furthest door from the way DOWN.");
+    private static readonly Room bar = new("BAR", 2, "There are few patrons here. There are probably much better places to be. You think to yourself a drink might be nice before you go. You can see the DEN from here.");
+    private static readonly Room den = new("DEN", 1, "There are two small loveseats in this area. On the ground is a hideous rug with mud pretty much woven into it. In the corner of the room are a way UP and a way DOWN. You can see the BAR from here.");
+    private static readonly Room stables = new("STABLES", 1, "There are one, maybe two horses here. It doesn't smell too nice. There is a way UP and there is a way OUT here.");
     private static readonly Room up = new("UP", 0, $"You move up 1 floor.");
     private static readonly Room down = new("DOWN", 0, $"You move down 1 floor.");
-    private static readonly Room swamp = new("SWAMP", 1, $"It is cold and rainy out. You can hear the terrible sound of treebranches scratching against eachother in the wind. There is an inn here. You can see {ironHold.Name} off in the distance, whose lands are barren and dry.");
+    private static readonly Room swamp = new("WETLANDS", 1, $"It is cold and rainy out. You can hear the terrible sound of treebranches scratching against eachother in the wind. There is an {inn.Name} here. You can see {ironHold.Name} off in the distance, whose lands are barren and dry.");
     private static readonly Room barrens = new("BARRENS", 1, $"The landscape is a scorching dry heat. The patches of dirt littering the area around you contain vibrant reds from how much iron it contains. You can see {steelSwamp.Name} from where you came from, and {meadowLand.Name} off in the distance, whose lands are lush and green.");
-    private static readonly Room meadow = new("MEADOW", 1, $"The landscape is a lucious green meadow. All around you can see healthy trees and different types of flowers. You can see {ironHold.Name} from where you came, and {forestView.Name} off in the distance, whose lands are filled with dense trees.");
-    private static readonly Room forest = new("FOREST", 1, $"The landscape is a dense forest. You can barely see anywhere through all the trees. The calls of various birds could be heard. You can see {meadowLand.Name} from where you came, and {groveRest.Name} off in the distance, where the first Holy Church resides.");
-    private static readonly Room grove = new("GROVE", 1, $"The landscape is an open field. You come up upon a town as you enter the quiet area. There didn't seem to be many people around. At the center a large Church stood. You could see {forestView.Name} from where you came.");
+    private static readonly Room meadow = new("GRASSLANDS", 1, $"The landscape is a lucious green meadow. All around you can see healthy trees and different types of flowers. You can see {ironHold.Name} from where you came, and {forestView.Name} off in the distance, whose lands are filled with dense trees.");
+    private static readonly Room forest = new("WOODLANDS", 1, $"The landscape is a dense forest. You can barely see anywhere through all the trees. The calls of various birds could be heard. You can see {meadowLand.Name} from where you came, and {groveRest.Name} off in the distance, where the first Holy CHURCH resides.");
+    private static readonly Room grove = new("SCRUBLANDS", 1, $"The landscape is an open field. You come up upon a town as you enter the quiet area. There didn't seem to be many people around. At the center a large CHURCH stands. You can see {forestView.Name} from where you came.");
 
     private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables, swamp, barrens, meadow, forest, grove };
 
@@ -326,7 +326,7 @@ class Program
 
         player.Name = ValidateAndGetInput().ToUpper(); // Checks if null. If null then prompts to enter another value.
 
-        WriteText($"\nGreetings, {player.Name}. From where do you hail?");
+        WriteText($"\nGreetings, {player.Name}. From where do ye hail?");
 
         string homeTownName = ValidateAndGetInput().ToUpper(); // Checks if null. If null then prompts for another value.
 
@@ -432,10 +432,10 @@ class Program
     private static void HandleTalk(Character player, string targetPersonName)
     {
         NPC targetPerson = null;
-        Item targetItem = null;
+        Item targetItemToBuy = null;
         Item targetItemToSell = null;
-        string userInput = null;
-
+        string itemChoiceToBuy = null;
+        string itemChoiceToSell = null;
 
         foreach (Town town in meridia.Layout)
         {
@@ -471,9 +471,15 @@ class Program
                                         }
                                         else if (targetPerson.Name.Equals("SHOPKEEP"))
                                         {
-                                            if (targetPerson.Inventory.Count > 0)
+                                            if (player.Inventory.Count < 1 && targetPerson.Inventory.Count < 1)
                                             {
-                                                WriteText("What would ye like to buy? Here's what I have:");
+                                                WriteText($"Hope ye are having a good day, {player.Name}.");
+
+                                                return;
+                                            }
+                                            else if (targetPerson.Inventory.Count > 0)
+                                            {
+                                                WriteText("What would ye like to buy? Or are you here to SELL? Here's what I have:");
 
                                                 foreach (Item item in targetPerson.Inventory)
                                                 {
@@ -482,87 +488,99 @@ class Program
 
                                                 Console.Write($"Current coins: {player.WalletValue} coppers\n");
 
-                                                WriteText("Or would ye rather SELL something?");
+                                                itemChoiceToBuy = ValidateAndGetInput().ToUpper();
 
-                                                userInput = ValidateAndGetInput().ToUpper();
+                                                if (itemChoiceToBuy.Equals("YES"))
+                                                {
+                                                    itemChoiceToBuy = "SELL";
+                                                }
 
                                                 foreach (Item item in targetPerson.Inventory)
                                                 {
-                                                    if (item.Name.Equals(userInput))
+                                                    if (item.Name.Equals(itemChoiceToBuy))
                                                     {
-                                                        targetItem = item;
+                                                        targetItemToBuy = item;
 
                                                         break;
                                                     }
                                                 }
                                             }
 
-                                            if (targetPerson.Inventory.Count < 1 || userInput.Equals("SELL"))
+                                            if (targetPerson.Inventory.Count < 1 || itemChoiceToBuy.Equals("SELL"))
                                             {
-                                                if (userInput == null)
+                                                if (itemChoiceToBuy == null)
                                                 {
-                                                    WriteText("I got nothing to sell ye... Are ye here to SELL something?");
+                                                    WriteText("I got nothing left to buy... Are ye here to SELL something?");
 
-                                                    userInput = ValidateAndGetInput().ToUpper();
+                                                    itemChoiceToBuy = ValidateAndGetInput().ToUpper();
                                                 }
 
-                                                if (player.Inventory.Count < 1)
+                                                if (itemChoiceToBuy != "SELL" && itemChoiceToBuy != "YES" || itemChoiceToBuy.Equals("NO"))
                                                 {
-                                                    WriteText("...Ye good at jokes. Ye ain't even got anything to sell. Good day.");
+                                                    WriteText("I have to get back to work, then. Have a good day.");
 
                                                     return;
                                                 }
-
-                                                WriteText("If ye have something interesting, I'll buy. Sell what?");
-
-                                                foreach (Item item in player.Inventory)
+                                                else if (itemChoiceToBuy.Equals("SELL") || itemChoiceToBuy.Equals("YES"))
                                                 {
-                                                    if (item.MoneyValue != 0)
+                                                    if (player.Inventory.Count < 1)
                                                     {
-                                                        Console.Write($"{item.Name} - {item.MoneyValue} coppers\n");
+                                                        WriteText("...Ye good at jokes. Ye ain't even got anything to sell. Good day.");
+
+                                                        return;
                                                     }
-                                                }
 
-                                                Console.Write($"Current coins: {player.WalletValue} coppers\n");
+                                                    WriteText("If ye have something interesting, I'll buy. Sell what?");
 
-                                                string itemChoiceToSell = ValidateAndGetInput().ToUpper();
-
-                                                foreach (Item item in player.Inventory)
-                                                {
-                                                    if (item.Name.Equals(itemChoiceToSell))
+                                                    foreach (Item item in player.Inventory)
                                                     {
-                                                        targetItemToSell = item;
-
-                                                        break;
+                                                        if (item.MoneyValue != 0)
+                                                        {
+                                                            Console.Write($"{item.Name} - {item.MoneyValue} coppers\n");
+                                                        }
                                                     }
-                                                }
 
-                                                if (targetItemToSell == null)
-                                                {
-                                                    WriteText("Ye are taking too long... Good day.");
+                                                    Console.Write($"Current coins: {player.WalletValue} coppers\n");
 
-                                                    return;
-                                                }
-                                                else
-                                                {
-                                                    WriteText($"Here is ye {targetItemToSell.MoneyValue} coppers. Now let me just...");
+                                                    itemChoiceToSell = ValidateAndGetInput().ToUpper();
 
-                                                    Console.Write($"You give the {targetPerson.Name} the {targetItemToSell.Name}.\nThe {targetPerson.Name} gives you {targetItemToSell.MoneyValue} coppers.\nGood day.\n");
+                                                    foreach (Item item in player.Inventory)
+                                                    {
+                                                        if (item.Name.Equals(itemChoiceToSell))
+                                                        {
+                                                            targetItemToSell = item;
 
-                                                    player.WalletValue = player.WalletValue + targetItemToSell.MoneyValue;
+                                                            break;
+                                                        }
+                                                    }
 
-                                                    player.Inventory.Remove(targetItemToSell);
+                                                    if (targetItemToSell == null)
+                                                    {
+                                                        WriteText("I have to get back to work, then. Have a good day.");
 
-                                                    targetPerson.Inventory.Add(targetItemToSell);
+                                                        return;
+                                                    }
+                                                    else
+                                                    {
+                                                        WriteText($"Here is ye {targetItemToSell.MoneyValue} coppers. Now let me just...");
+
+                                                        Console.Write($"You give the {targetPerson.Name} the {targetItemToSell.Name}.\nThe {targetPerson.Name} gives you {targetItemToSell.MoneyValue} coppers.\nGood day.\n");
+
+                                                        player.WalletValue = player.WalletValue + targetItemToSell.MoneyValue;
+
+                                                        player.Inventory.Remove(targetItemToSell);
+
+                                                        targetPerson.Inventory.Add(targetItemToSell);
+                                                    }
                                                 }
                                             }
-                                            else if (targetItem == null)
+                                            else if (targetItemToBuy == null)
                                             {
-                                                WriteText("I don't got any o that. Good day.");
+                                                WriteText("I have to get back to work, then. Have a good day.");
 
                                                 return;
                                             }
-                                            else if (player.WalletValue < targetItem.MoneyValue)
+                                            else if (player.WalletValue < targetItemToBuy.MoneyValue)
                                             {
                                                 WriteText("Ye good at jokes. Ye have no money for that. Good day.");
 
@@ -576,15 +594,15 @@ class Program
                                             }
                                             else
                                             {
-                                                WriteText($"Here is ye {targetItem.Name}. Now let me just...");
+                                                WriteText($"Here is ye {targetItemToBuy.Name}. Now let me just...");
 
-                                                Console.Write($"You give the {targetPerson.Name} {targetItem.MoneyValue} coppers.\nThe {targetPerson.Name} gives you the {targetItem.Name}.\nGood day.\n");
+                                                Console.Write($"You give the {targetPerson.Name} {targetItemToBuy.MoneyValue} coppers.\nThe {targetPerson.Name} gives you the {targetItemToBuy.Name}.\nGood day.\n");
 
-                                                player.WalletValue = player.WalletValue - targetItem.MoneyValue;
+                                                player.WalletValue = player.WalletValue - targetItemToBuy.MoneyValue;
 
-                                                targetPerson.Inventory.Remove(targetItem);
+                                                targetPerson.Inventory.Remove(targetItemToBuy);
 
-                                                player.Inventory.Add(targetItem);
+                                                player.Inventory.Add(targetItemToBuy);
                                             }
                                         }
                                     }
@@ -615,26 +633,16 @@ class Program
                                 {
                                     if (player.Location[4].Equals(room.RoomValue))
                                     {
-                                        if (room.RoomValue != 0)
+                                        WriteText($"You are currently in the {room.Name}. {room.Description}"); // You move, description of room shows.
+
+                                        foreach (NPC person in room.Persons)
                                         {
-                                            Console.Write($"Ye are currently in the {room.Name}.\n"); // You move, description of room shows.
-                                            WriteText(room.Description);
-
-                                            foreach (NPC person in room.Persons)
-                                            {
-                                                Console.Write($"Ye are in the same area as {person.Name}. {person.Description}\n");
-                                            }
-
-                                            foreach (Item item in room.Layout) // What items are in the room?
-                                            {
-                                                Console.Write($"You can see a(n) {item.Name}.\n");
-                                            }
+                                            Console.Write($"You are in the same area as {person.Name}. {person.Description}\n");
                                         }
-                                        else if (room.RoomValue == 0)
-                                        {
-                                            WriteText("Ye are currently on the stairs.");
 
-                                            break;
+                                        foreach (Item item in room.Layout) // What items are in the room?
+                                        {
+                                            Console.Write($"You can see a(n) {item.Name}.\n");
                                         }
                                     }
                                 }
@@ -721,12 +729,6 @@ class Program
                                             }
                                         }
                                     }
-                                    else if (player.Location[4] < stairLocation)
-                                    {
-                                        Console.Write("Ye can't drop that here.\n");
-
-                                        return;
-                                    }
                                 }
                             }
                         }
@@ -763,8 +765,7 @@ class Program
 
                                         if (targetRoom.RoomValue != 0 && player.Location[4] != targetRoom.RoomValue)
                                         {
-                                            Console.Write($"You have moved to the {targetRoom.Name}.\n"); // You move, description of room shows.
-                                            WriteText(targetRoom.Description);
+                                            WriteText($"You have moved to the {targetRoom.Name}. {targetRoom.Description}"); // You move, description of room shows.
                                         }
 
                                         break;
@@ -874,7 +875,7 @@ class Program
                                 else if (targetRoom.Name.Equals(up.Name) && player.Location[4] <= stairLocation)
                                 {
                                     player.Location[3] += 1;
-                                    player.Location[4] = targetRoom.RoomValue;
+                                    player.Location[4] = 1;
 
                                     WriteText(targetRoom.Description);
 
@@ -883,7 +884,7 @@ class Program
                                 else if (targetRoom.Name.Equals(down.Name) && player.Location[4] <= stairLocation)
                                 {
                                     player.Location[3] -= 1;
-                                    player.Location[4] = targetRoom.RoomValue;
+                                    player.Location[4] = 1;
 
                                     WriteText(targetRoom.Description);
 
@@ -904,7 +905,7 @@ class Program
 
                                 foreach (NPC person in targetRoom.Persons)
                                 {
-                                    Console.Write($"Ye are in the same area as {person.Name}. {person.Description}\n");
+                                    Console.Write($"You are in the same area as {person.Name}. {person.Description}\n");
                                 }
 
                                 foreach (Item item in targetRoom.Layout) // What items are in the room?
@@ -1126,9 +1127,9 @@ class Program
         return false;
     }
 
-    public static bool IsInputCorrectLength(string? input) // Checks if field is between 3-15. Takes nullable type string.
+    public static bool IsInputCorrectLength(string? input) // Checks if field is between 2-25. Takes nullable type string.
     {
-        int minimumInputLength = 3;
+        int minimumInputLength = 2;
         int maximumInputLength = 25;
 
         if (input.Length < minimumInputLength || input.Length > maximumInputLength)
