@@ -13,6 +13,9 @@ class Program
     private readonly static List<Town> towns = new() { steelSwamp, ironHold, meadowLand, forestView, groveRest };
 
     private static readonly Building inn = new("INN", 1, "You enter the STABLES. The main part of the building rests UP off the ground. There is a way UP here.");
+
+    private static readonly Building armory = new("ARMORY", 1, "You enter the SHOWROOM. Inside the modest building are all types of swords and armor. There is a way OUT here.");
+
     private static readonly Building outSideSwamp = new("OUT", 0, "Immediately it feels as if you are wading through water. You wish your boots were taller.");
     private static readonly Building outSideIron = new("OUT", 0, "You look around. Everything living was hiding under the limited brush. The air burned your nostrils.");
     private static readonly Building outSideMeadow = new("OUT", 0, "The scent of flowers eventually fades the longer you endure it.");
@@ -24,6 +27,9 @@ class Program
     private static readonly Floor innLoft = new("LOFT", 2);
     private static readonly Floor innCommons = new("COMMONS", 1);
     private static readonly Floor innStables = new("STABLES", 0);
+
+    private static readonly Floor armoryFloor = new("ARMORYFLOOR", 0);
+
     private static readonly Floor groundSwamp = new("GROUNDSWAMP", 0);
     private static readonly Floor groundIron = new("GROUNDIRON", 0);
     private static readonly Floor groundMeadow = new("GROUNDMEADOW", 0);
@@ -35,11 +41,17 @@ class Program
     private static readonly Room bedRoom = new("BEDROOM", 3, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top. In the corner is an armor rack. You can see your BATHROOM, and you know the HALLWAY is outside your BEDROOM.");
     private static readonly Room bathRoom = new("BATHROOM", 2, "There is a small sink and a toilet in here. It isn't that spacious. You can see your BEDROOM through the door.");
     private static readonly Room hallWay = new("HALLWAY", 1, "There is a narrow corridor with doors lining each side. You can see a way DOWN at the end of the hallway. Your BEDROOM was the furthest door from the way DOWN.");
+
     private static readonly Room bar = new("BAR", 2, "There are few patrons here. There are probably much better places to be. You think to yourself a drink might be nice before you go. You can see the DEN from here.");
     private static readonly Room den = new("DEN", 1, "There are two small loveseats in this area. On the ground is a hideous rug with mud pretty much woven into it. In the corner of the room are a way UP and a way DOWN. You can see the BAR from here.");
+
     private static readonly Room stables = new("STABLES", 1, "There are one, maybe two horses here. It doesn't smell too nice. There is a way UP and there is a way OUT here.");
-    private static readonly Room up = new("UP", 0, $"You move up 1 floor.");
-    private static readonly Room down = new("DOWN", 0, $"You move down 1 floor.");
+
+    private static readonly Room showRoom = new("SHOWROOM", 1, "Around the room you can see various flails and swords that are for sale by the owners of the business. Maybe you can find some nice equipment here. There is a way OUT here.");
+
+    private static readonly Room up = new("UP", 0, "You move up 1 floor.");
+    private static readonly Room down = new("DOWN", 0, "You move down 1 floor.");
+
     private static readonly Room swamp = new("WETLANDS", 1, $"It is cold and rainy out. You can hear the terrible sound of treebranches scratching against eachother in the wind. There is an {inn.Name} here. You can see {ironHold.Name} off in the distance, whose lands are barren and dry.");
     private static readonly Room barrens = new("BARRENS", 1, $"The landscape is a scorching dry heat. The patches of dirt littering the area around you contain vibrant reds from how much iron it contains. You can see {steelSwamp.Name} from where you came from, and {meadowLand.Name} off in the distance, whose lands are lush and green.");
     private static readonly Room meadow = new("GRASSLANDS", 1, $"The landscape is a lucious green meadow. All around you can see healthy trees and different types of flowers. You can see {ironHold.Name} from where you came, and {forestView.Name} off in the distance, whose lands are filled with dense trees.");
@@ -49,8 +61,13 @@ class Program
     private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables, swamp, barrens, meadow, forest, grove };
 
     private static readonly Item sword = new("SWORD", 1, 0, 25);
+    private static readonly Item greatSword = new("GREATSWORD", 2, 0, 45);
+    private static readonly Item flail = new("FLAIL", 1, 0, 25);
+    private static readonly Item hammer = new("HAMMER", 2, 0, 45);
     private static readonly Item bag = new("BAG", 0, 0, 0);
     private static readonly Item armor = new("ARMOR", 0, 2, 50);
+    private static readonly Item helmet = new("HELMET", 0, 1, 15);
+    private static readonly Item boots = new("BOOTS", 0, 1, 15);
     private static readonly Item shield = new("SHIELD", 0, 1, 25);
     private static readonly Item toothBrush = new("TOOTHBRUSH", 0, 0, 0);
     private static readonly Item lamp = new("LAMP", 0, 0, 10);
@@ -59,9 +76,12 @@ class Program
     private static readonly Item beer = new("BEER", 0, 0, 10);
     private static readonly Item mead = new("MEAD", 0, 0, 15);
 
-    private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp, cup, wine, beer, mead };
+    private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp, cup, wine, beer, mead, greatSword, flail, hammer, helmet, boots };
 
-    private static readonly NPC barKeep = new("SHOPKEEP", "They are wiping down the counter and tending to the person sitting at the bar.");
+    private static readonly NPC shopKeep = new("SHOPKEEP", "They are wiping down the counter and tending to the person sitting at the bar.");
+    private static readonly NPC apothecary = new("APOTHECARY", "They are measuring various powders and salves to be mixed.");
+    private static readonly NPC weaponSmith = new("WEAPONSMITH", "They are inspecting the various blades they have on sale.");
+    private static readonly NPC armorSmith = new("ARMORSMITH", "They are polishing what appears to be a pauldron.");
 
     private static readonly Monster ghost = new("GHOST");
 
@@ -187,13 +207,13 @@ class Program
 
                     bar.Persons = new List<NPC>();
                     {
-                        bar.Persons.Add(barKeep);
+                        bar.Persons.Add(shopKeep);
 
-                        barKeep.Inventory = new List<Item>();
+                        shopKeep.Inventory = new List<Item>();
                         {
-                            barKeep.Inventory.Add(wine);
-                            barKeep.Inventory.Add(beer);
-                            barKeep.Inventory.Add(mead);
+                            shopKeep.Inventory.Add(wine);
+                            shopKeep.Inventory.Add(beer);
+                            shopKeep.Inventory.Add(mead);
                         }
                     }
 
@@ -222,39 +242,72 @@ class Program
             }
 
             steelSwamp.Layout.Add(outSideSwamp);
+
+            outSideSwamp.Layout = new List<Floor>();
             {
-                outSideSwamp.Layout = new List<Floor>();
+                outSideSwamp.Layout.Add(groundSwamp);
+
+                groundSwamp.Layout = new List<Room>();
                 {
-                    outSideSwamp.Layout.Add(groundSwamp);
+                    groundSwamp.Layout.Add(swamp);
 
-                    groundSwamp.Layout = new List<Room>();
-                    {
-                        groundSwamp.Layout.Add(swamp);
+                    swamp.Layout = new List<Item>();
 
-                        swamp.Layout = new List<Item>();
-
-                        swamp.Persons = new List<NPC>();
-                    }
+                    swamp.Persons = new List<NPC>();
                 }
             }
         }
 
         ironHold.Layout = new List<Building>();
         {
-            ironHold.Layout.Add(outSideIron);
+            ironHold.Layout.Add(armory);
+
+            armory.Layout = new List<Floor>();
             {
-                outSideIron.Layout = new List<Floor>();
+                armory.Layout.Add(armoryFloor);
+
+                armoryFloor.Layout = new List<Room>();
                 {
-                    outSideIron.Layout.Add(groundIron);
+                    armoryFloor.Layout.Add(showRoom);
 
-                    groundIron.Layout = new List<Room>();
+                    showRoom.Layout = new List<Item>();
+
+                    showRoom.Persons = new List<NPC>();
                     {
-                        groundIron.Layout.Add(barrens);
+                        showRoom.Persons.Add(armorSmith);
 
-                        barrens.Layout = new List<Item>();
+                        armorSmith.Inventory = new List<Item>();
+                        {
+                            armorSmith.Inventory.Add(helmet);
+                            armorSmith.Inventory.Add(boots);
+                            armorSmith.Inventory.Add(shield);
+                        }
 
-                        barrens.Persons = new List<NPC>();
+                        showRoom.Persons.Add(weaponSmith);
+
+                        weaponSmith.Inventory = new List<Item>();
+                        {
+                            weaponSmith.Inventory.Add(greatSword);
+                            weaponSmith.Inventory.Add(flail);
+                            weaponSmith.Inventory.Add(hammer);
+                        }
                     }
+                }
+            }
+
+            ironHold.Layout.Add(outSideIron);
+
+            outSideIron.Layout = new List<Floor>();
+            {
+                outSideIron.Layout.Add(groundIron);
+
+                groundIron.Layout = new List<Room>();
+                {
+                    groundIron.Layout.Add(barrens);
+
+                    barrens.Layout = new List<Item>();
+
+                    barrens.Persons = new List<NPC>();
                 }
             }
         }
@@ -262,19 +315,18 @@ class Program
         meadowLand.Layout = new List<Building>();
         {
             meadowLand.Layout.Add(outSideMeadow);
+
+            outSideMeadow.Layout = new List<Floor>();
             {
-                outSideMeadow.Layout = new List<Floor>();
+                outSideMeadow.Layout.Add(groundMeadow);
+
+                groundMeadow.Layout = new List<Room>();
                 {
-                    outSideMeadow.Layout.Add(groundMeadow);
+                    groundMeadow.Layout.Add(meadow);
 
-                    groundMeadow.Layout = new List<Room>();
-                    {
-                        groundMeadow.Layout.Add(meadow);
+                    meadow.Layout = new List<Item>();
 
-                        meadow.Layout = new List<Item>();
-
-                        meadow.Persons = new List<NPC>();
-                    }
+                    meadow.Persons = new List<NPC>();
                 }
             }
         }
@@ -282,19 +334,18 @@ class Program
         forestView.Layout = new List<Building>();
         {
             forestView.Layout.Add(outSideForest);
+
+            outSideForest.Layout = new List<Floor>();
             {
-                outSideForest.Layout = new List<Floor>();
+                outSideForest.Layout.Add(groundForest);
+
+                groundForest.Layout = new List<Room>();
                 {
-                    outSideForest.Layout.Add(groundForest);
+                    groundForest.Layout.Add(forest);
 
-                    groundForest.Layout = new List<Room>();
-                    {
-                        groundForest.Layout.Add(forest);
+                    forest.Layout = new List<Item>();
 
-                        forest.Layout = new List<Item>();
-
-                        forest.Persons = new List<NPC>();
-                    }
+                    forest.Persons = new List<NPC>();
                 }
             }
         }
@@ -302,19 +353,18 @@ class Program
         groveRest.Layout = new List<Building>();
         {
             groveRest.Layout.Add(outSideGrove);
+
+            outSideGrove.Layout = new List<Floor>();
             {
-                outSideGrove.Layout = new List<Floor>();
+                outSideGrove.Layout.Add(groundGrove);
+
+                groundGrove.Layout = new List<Room>();
                 {
-                    outSideGrove.Layout.Add(groundGrove);
+                    groundGrove.Layout.Add(grove);
 
-                    groundGrove.Layout = new List<Room>();
-                    {
-                        groundGrove.Layout.Add(grove);
+                    grove.Layout = new List<Item>();
 
-                        grove.Layout = new List<Item>();
-
-                        grove.Persons = new List<NPC>();
-                    }
+                    grove.Persons = new List<NPC>();
                 }
             }
         }
@@ -469,7 +519,7 @@ class Program
 
                                             return;
                                         }
-                                        else if (targetPerson.Name.Equals("SHOPKEEP"))
+                                        else if (targetPerson.Name.Equals("SHOPKEEP") || targetPerson.Name.Equals("APOTHECARY") || targetPerson.Name.Equals("WEAPONSMITH") || targetPerson.Name.Equals("ARMORSMITH"))
                                         {
                                             if (player.Inventory.Count < 1 && targetPerson.Inventory.Count < 1)
                                             {
