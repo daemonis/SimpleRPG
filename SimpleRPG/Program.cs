@@ -22,7 +22,7 @@ class Program
     private static readonly Building outSideForest = new("OUT", 0, "The scent of sap was pleasant, and the shade was nice and cool. You wouldn't mind living here.");
     private static readonly Building outSideGrove = new("OUT", 0, "If you did see anyone, they would quickly look the other way. This town didn't seem very friendly.");
 
-    private static readonly List<Building> buildings = new() { inn, outSideSwamp, outSideIron, outSideMeadow, outSideForest, outSideGrove };
+    //private static readonly List<Building> buildings = new() { inn, outSideSwamp, outSideIron, outSideMeadow, outSideForest, outSideGrove };
 
     private static readonly Floor innLoft = new("LOFT", 2);
     private static readonly Floor innCommons = new("COMMONS", 1);
@@ -36,7 +36,7 @@ class Program
     private static readonly Floor groundForest = new("GROUNDFOREST", 0);
     private static readonly Floor groundGrove = new("GROUNDGROVE", 0);
 
-    private static readonly List<Floor> floors = new() { innLoft, innCommons, innStables, groundSwamp, groundIron, groundMeadow, groundForest, groundGrove };
+    //private static readonly List<Floor> floors = new() { innLoft, innCommons, innStables, groundSwamp, groundIron, groundMeadow, groundForest, groundGrove };
 
     private static readonly Room bedRoom = new("BEDROOM", 3, "You can see your bed and a nightstand in here. The bed has an uncomfortable blanket on top. In the corner is an armor rack. You can see your BATHROOM, and you know the HALLWAY is outside your BEDROOM.");
     private static readonly Room bathRoom = new("BATHROOM", 2, "There is a small sink and a toilet in here. It isn't that spacious. You can see your BEDROOM through the door.");
@@ -49,34 +49,34 @@ class Program
 
     private static readonly Room showRoom = new("SHOWROOM", 1, "Around the room you can see various flails and swords that are for sale by the owners of the business. Maybe you can find some nice equipment here. There is a way OUT here.");
 
-    private static readonly Room up = new("UP", 0, "You move up 1 floor.");
-    private static readonly Room down = new("DOWN", 0, "You move down 1 floor.");
+    private static readonly Room up = new("UP", 0, "You move up 1 floor. Take a LOOK around.");
+    private static readonly Room down = new("DOWN", 0, "You move down 1 floor. Take a LOOK around.");
 
     private static readonly Room swamp = new("WETLANDS", 1, $"It is cold and rainy out. You can hear the terrible sound of treebranches scratching against eachother in the wind. There is an {inn.Name} here. You can see {ironHold.Name} off in the distance, whose lands are barren and dry.");
-    private static readonly Room barrens = new("BARRENS", 1, $"The landscape is a scorching dry heat. The patches of dirt littering the area around you contain vibrant reds from how much iron it contains. You can see {steelSwamp.Name} from where you came from, and {meadowLand.Name} off in the distance, whose lands are lush and green.");
+    private static readonly Room barrens = new("BARRENS", 1, $"The landscape is a scorching dry heat. The patches of dirt littering the area around you contain vibrant reds from how much iron it contains. There is an {armory.Name} here. You can see {steelSwamp.Name} from where you came from, and {meadowLand.Name} off in the distance, whose lands are lush and green.");
     private static readonly Room meadow = new("GRASSLANDS", 1, $"The landscape is a lucious green meadow. All around you can see healthy trees and different types of flowers. You can see {ironHold.Name} from where you came, and {forestView.Name} off in the distance, whose lands are filled with dense trees.");
     private static readonly Room forest = new("WOODLANDS", 1, $"The landscape is a dense forest. You can barely see anywhere through all the trees. The calls of various birds could be heard. You can see {meadowLand.Name} from where you came, and {groveRest.Name} off in the distance, where the first Holy CHURCH resides.");
     private static readonly Room grove = new("SCRUBLANDS", 1, $"The landscape is an open field. You come up upon a town as you enter the quiet area. There didn't seem to be many people around. At the center a large CHURCH stands. You can see {forestView.Name} from where you came.");
 
-    private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables, swamp, barrens, meadow, forest, grove };
+    //private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables, swamp, barrens, meadow, forest, grove };
 
-    private static readonly Item sword = new("SWORD", 1, 0, 25);
-    private static readonly Item greatSword = new("GREATSWORD", 2, 0, 45);
-    private static readonly Item flail = new("FLAIL", 1, 0, 25);
-    private static readonly Item hammer = new("HAMMER", 2, 0, 45);
-    private static readonly Item bag = new("BAG", 0, 0, 0);
-    private static readonly Item armor = new("ARMOR", 0, 2, 50);
-    private static readonly Item helmet = new("HELMET", 0, 1, 15);
-    private static readonly Item boots = new("BOOTS", 0, 1, 15);
-    private static readonly Item shield = new("SHIELD", 0, 1, 25);
-    private static readonly Item toothBrush = new("TOOTHBRUSH", 0, 0, 0);
-    private static readonly Item lamp = new("LAMP", 0, 0, 10);
-    private static readonly Item cup = new("CUP", 0, 0, 0);
-    private static readonly Item wine = new("WINE", 0, 0, 25);
-    private static readonly Item beer = new("BEER", 0, 0, 10);
-    private static readonly Item mead = new("MEAD", 0, 0, 15);
+    private static readonly Item sword = new("SWORD", 1, 0, 5, 25);
+    private static readonly Item greatSword = new("GREATSWORD", 2, 0, 6, 45);
+    private static readonly Item flail = new("FLAIL", 1, 0, 5, 25);
+    private static readonly Item hammer = new("HAMMER", 2, 0, 6, 45);
+    private static readonly Item bag = new("BAG", 0, 0, 9, 0);
+    private static readonly Item armor = new("ARMOR", 0, 2, 1, 50);
+    private static readonly Item helmet = new("HELMET", 0, 1, 0, 15);
+    private static readonly Item boots = new("BOOTS", 0, 1, 4, 15);
+    private static readonly Item shield = new("SHIELD", 0, 1, 5, 25);
+    private static readonly Item toothBrush = new("TOOTHBRUSH", 0, 0, 7, 0);
+    private static readonly Item lamp = new("LAMP", 0, 0, 7, 10);
+    private static readonly Item cup = new("CUP", 0, 0, 0, 0);
+    private static readonly Item wine = new("WINE", 0, 0, 8, 25);
+    private static readonly Item beer = new("BEER", 0, 0, 8, 10);
+    private static readonly Item mead = new("MEAD", 0, 0, 8, 15);
 
-    private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp, cup, wine, beer, mead, greatSword, flail, hammer, helmet, boots };
+    //private static readonly List<Item> itemList = new() { sword, bag, armor, shield, toothBrush, lamp, cup, wine, beer, mead, greatSword, flail, hammer, helmet, boots };
 
     private static readonly NPC shopKeep = new("SHOPKEEP", "They are wiping down the counter and tending to the person sitting at the bar.");
     private static readonly NPC apothecary = new("APOTHECARY", "They are measuring various powders and salves to be mixed.");
@@ -87,14 +87,17 @@ class Program
 
     private static readonly string grabAction = "GRAB";
     private static readonly string dropAction = "DROP";
+    private static readonly string equipAction = "EQUIP";
+    private static readonly string unequipAction = "UNEQUIP";
     private static readonly string inventoryAction = "INVENTORY";
+    private static readonly string equipmentAction = "EQUIPMENT";
     private static readonly string lookAction = "LOOK";
     private static readonly string talkAction = "TALKTO";
     private static readonly string moveAction = "MOVETO";
     private static readonly string helpAction = "HELP";
     private static readonly string clearAction = "CLEAR";
 
-    private static readonly List<string> playerActions = new() { grabAction, dropAction, inventoryAction, lookAction, talkAction, moveAction, helpAction, clearAction };
+    private static readonly List<string> playerActions = new() { grabAction, dropAction, equipAction, unequipAction, inventoryAction, equipmentAction, lookAction, talkAction, moveAction, helpAction, clearAction };
 
     public static void Main()
     {
@@ -112,6 +115,7 @@ class Program
 
         player.IsAlive = true;
         player.Inventory = new List<Item>();
+        player.Equipment = new List<Item>();
         player.Location = new int[5] { meridia.WorldValue, steelSwamp.TownValue, inn.BuildingValue, innLoft.FloorValue, bedRoom.RoomValue };
 
         CollectCharacterInformation(player);
@@ -231,7 +235,7 @@ class Program
 
                 innStables.Layout = new List<Room>();
                 {
-                    innStables.Layout.Add(stables); // First room of the first flood of the inn. What items are there?
+                    innStables.Layout.Add(stables); // First room of the first floor of the inn. What items are there?
 
                     stables.Layout = new List<Item>();
 
@@ -451,9 +455,21 @@ class Program
         {
             HandleDrop(player, target);
         }
+        else if (action.Equals(equipAction))
+        {
+            HandleEquip(player, target);
+        }
+        else if (action.Equals(unequipAction))
+        {
+            //HandleUnequip(player, target);
+        }
         else if (action.Equals(inventoryAction)) // Character's current inventory.
         {
             HandleInventory(player);
+        }
+        else if (action.Equals(equipmentAction)) // Character's current inventory.
+        {
+            HandleEquipment(player);
         }
         else if (action.Equals(lookAction))
         {
@@ -477,6 +493,62 @@ class Program
 
             WriteText("The screen has been cleared for ye.");
         }
+    }
+
+    private static void HandleEquip(Character player, string target)
+    {
+        Item targetItem = null;
+
+        foreach (Item item in player.Inventory)
+        {
+            if (item.Name == target)
+            {
+                targetItem = item;
+
+                break;
+            }
+        }
+
+        switch (targetItem)
+        {
+            case null:
+                Console.Write("Ye don't have one o' those.\n");
+                return;
+            default:
+                if (targetItem.Attack <= 0 && targetItem.Defense <= 0)
+                {
+                    Console.Write("That does nothing for ye.\n");
+
+                    return;
+                }
+                else
+                {
+                    if (targetItem.Attack > 0 || targetItem.Defense > 0)
+                    {
+                        player.Inventory.Remove(targetItem);
+
+                        player.Equipment.Add(targetItem);
+
+                        Console.Write($"Your attack increases by {targetItem.Attack}!\n");
+                        Console.Write($"Your defense increases by {targetItem.Defense}!\n");
+
+                        Console.Write($"Current attack: {player.Attack}\n");
+                        Console.Write($"Current defense: {player.Defense}\n");
+                    }
+
+                    return;
+                }
+        }
+        //if (targetItem == null)
+        //{
+        //    Console.Write("Ye don't have one o' those.\n");
+
+        //    return;
+        //}
+        //else if (targetItem.Attack == 0 && targetItem.Defense == 0)
+        //{
+        //    Console.Write("That does nothing for ye.\n");
+        //}
     }
 
     private static void HandleTalk(Character player, string targetPersonName)
@@ -515,7 +587,7 @@ class Program
 
                                         if (targetPerson == null)
                                         {
-                                            Console.Write("Ye see a ghost?\n");
+                                            Console.Write($"Ye see a ghost? Maybe ye should {lookAction} around.\n");
 
                                             return;
                                         }
@@ -687,7 +759,7 @@ class Program
 
                                         foreach (NPC person in room.Persons)
                                         {
-                                            Console.Write($"You are in the same area as {person.Name}. {person.Description}\n");
+                                            Console.Write($"You are in the same area as (the) {person.Name}. {person.Description}\n");
                                         }
 
                                         foreach (Item item in room.Layout) // What items are in the room?
@@ -738,7 +810,7 @@ class Program
 
                                         if (itemToRemove == null) // If item does not exist, the game doesn't know what to grab.
                                         {
-                                            Console.Write("Drop what, ye trousers?\n");
+                                            Console.Write($"Drop what, ye trousers? Maybe ye should check your {inventoryAction}.\n");
 
                                             return;
                                         }
@@ -754,16 +826,16 @@ class Program
 
                                                 room.Layout.Add(itemToRemove);
 
-                                                if (itemToRemove.Attack > 0) // Adds the picked up item's attack to current stats.
-                                                {
-                                                    Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
-                                                    Console.Write($"Current attack: {player.Attack}\n");
-                                                }
-                                                if (itemToRemove.Defense > 0) // Adds the picked up item's defense to current stats.
-                                                {
-                                                    Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
-                                                    Console.Write($"Current defense: {player.Defense}\n");
-                                                }
+                                                //if (itemToRemove.Attack > 0) // Subtracts the picked up item's attack to current stats.
+                                                //{
+                                                //    Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
+                                                //    Console.Write($"Current attack: {player.Attack}\n");
+                                                //}
+                                                //if (itemToRemove.Defense > 0) // Subtracts the picked up item's defense to current stats.
+                                                //{
+                                                //    Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
+                                                //    Console.Write($"Current defense: {player.Defense}\n");
+                                                //}
 
                                                 return;
                                             }
@@ -882,7 +954,7 @@ class Program
 
                                 if (targetRoom == null && targetBuilding == null && targetTown == null) // If room doesn't exist, you can't go there.
                                 {
-                                    Console.Write("Where do ye want to go? Ye can currently move to:\n");
+                                    Console.Write("Ye can currently move to:\n");
 
                                     foreach (Room room in floor.Layout)
                                     {
@@ -1004,7 +1076,7 @@ class Program
 
                                         if (itemToAdd == null) // If item does not exist, the game doesn't know what to grab.
                                         {
-                                            Console.Write("Grab what, the air?\n");
+                                            Console.Write($"Grab what, the air? Maybe ye should {lookAction} around.\n");
 
                                             return;
                                         }
@@ -1015,20 +1087,21 @@ class Program
                                             if (player.Inventory.Count <= maxInventorySize || player.Inventory == null) // What happens when the item is added to inventory?
                                             {
                                                 Console.Write($"You pick up the {itemToAdd.Name}.\n");
+
                                                 player.Inventory.Add(itemToAdd);
 
-                                                if (itemToAdd.Attack > 0) // Adds the picked up item's attack to current stats.
-                                                {
-                                                    Console.Write($"It increases your attack by {itemToAdd.Attack}!\n");
-                                                    Console.Write($"Current attack: {player.Attack}\n");
-                                                }
-                                                if (itemToAdd.Defense > 0) // Adds the picked up item's defense to current stats.
-                                                {
-                                                    Console.Write($"It increases your defense by {itemToAdd.Defense}!\n");
-                                                    Console.Write($"Current defense: {player.Defense}\n");
-                                                }
-
                                                 room.Layout.Remove(itemToAdd);
+
+                                                //if (itemToAdd.Attack > 0) // Adds the picked up item's attack to current stats.
+                                                //{
+                                                //    Console.Write($"It increases your attack by {itemToAdd.Attack}!\n");
+                                                //    Console.Write($"Current attack: {player.Attack}\n");
+                                                //}
+                                                //if (itemToAdd.Defense > 0) // Adds the picked up item's defense to current stats.
+                                                //{
+                                                //    Console.Write($"It increases your defense by {itemToAdd.Defense}!\n");
+                                                //    Console.Write($"Current defense: {player.Defense}\n");
+                                                //}
 
                                                 return;
                                             }
@@ -1057,6 +1130,34 @@ class Program
         }
 
         foreach (Item? item in player.Inventory)
+        {
+            if (item.Attack > 0 && item.Defense == 0)
+            {
+                Console.Write($"{item.Name} - This has an attack of {item.Attack}.\n");
+            }
+            else if (item.Defense > 0 && item.Attack == 0)
+            {
+                Console.Write($"{item.Name} - This has a defense of {item.Defense}.\n");
+            }
+            else if (item.Attack > 0 && item.Defense > 0)
+            {
+                Console.Write($"{item.Name} - This has an attack of {item.Attack} and a defense of {item.Defense}.");
+            }
+            else if (item.Attack == 0 && item.Defense == 0)
+            {
+                Console.Write($"{item.Name} - This is just a {item.Name}. It's nothing special.\n");
+            }
+        }
+    }
+
+    public static void HandleEquipment(Character player)
+    {
+        if (player.Equipment == null || player.Equipment.Count < 1)
+        {
+            Console.Write("You have nothing equipped.\n");
+        }
+
+        foreach (Item? item in player.Equipment)
         {
             if (item.Attack > 0 && item.Defense == 0)
             {

@@ -2,11 +2,12 @@
 
 public class Item
 {
-    public Item(string name, int attack, int defense, int moneyValue) // Create an item with a name, attack/defense values, and a monetary value.
+    public Item(string name, int attack, int defense, int identifier, int moneyValue) // Create an item with a name, attack/defense values, and a monetary value.
     {
         this.Name = name;
         this.Attack = attack;
         this.Defense = defense;
+        this.Identifier = identifier;
         this.MoneyValue = moneyValue;
     }
 
@@ -35,6 +36,16 @@ public class Item
         set
         {
             defense = value;
+        }
+    }
+
+    private int identifier; // Item identity.
+    public int Identifier
+    {
+        get { return identifier; }
+        set
+        {
+            identifier = value;
         }
     }
 

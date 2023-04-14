@@ -52,6 +52,16 @@ public class Character
         }
     }
 
+    private List<Item>? equipment; // Equipment list.
+    public List<Item>? Equipment
+    {
+        get { return equipment; }
+        set
+        {
+            equipment = value;
+        }
+    }
+
     private int walletValue = 50;
     public int WalletValue
     {
@@ -95,19 +105,27 @@ public class Character
         }
     }
 
+    //public int attack;
     public int Attack // Current attack.
     {
         get
         {
             int itemAttack = 0;
 
-            foreach (Item item in inventory)
+            foreach (Item item in equipment)
             {
                 itemAttack += item.Attack;
             }
             return baseAttack + itemAttack;
         }
     }
+    //{
+    //    get { return attack; }
+    //    set
+    //    {
+    //        attack = value;
+    //    }
+    //}
 
     private int baseDefense = 1; // Base defense.
     public int BaseDefense
@@ -124,7 +142,8 @@ public class Character
         get
         {
             int itemDefense = 0;
-            foreach (Item item in inventory)
+
+            foreach (Item item in equipment)
             {
                 itemDefense += item.Defense;
             }
