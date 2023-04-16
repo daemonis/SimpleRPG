@@ -495,7 +495,7 @@ class Program
         }
     }
 
-    private static void HandleUnequip(Character player, string target)
+    private static void HandleUnequip(Character player, string target) // Have the player unequip a currently equipped item.
     {
         Item targetItem = null;
 
@@ -542,7 +542,7 @@ class Program
         }
     }
 
-    private static void HandleEquip(Character player, string target)
+    private static void HandleEquip(Character player, string target) // Have the player equip an item currently in their inventory.
     {
         Item targetItem = null;
 
@@ -611,7 +611,7 @@ class Program
         //}
     }
 
-    private static void HandleTalk(Character player, string targetPersonName)
+    private static void HandleTalk(Character player, string targetPersonName) // Have the player talk to someone in the area.
     {
         NPC targetPerson = null;
         Item targetItemToBuy = null;
@@ -797,7 +797,7 @@ class Program
         }
     }
 
-    private static void HandleLook(Character player)
+    private static void HandleLook(Character player) // Have the player look around the area.
     {
         foreach (Town town in meridia.Layout)
         {
@@ -885,17 +885,6 @@ class Program
                                                 player.Inventory.Remove(itemToRemove);
 
                                                 room.Layout.Add(itemToRemove);
-
-                                                //if (itemToRemove.Attack > 0) // Subtracts the picked up item's attack to current stats.
-                                                //{
-                                                //    Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
-                                                //    Console.Write($"Current attack: {player.Attack}\n");
-                                                //}
-                                                //if (itemToRemove.Defense > 0) // Subtracts the picked up item's defense to current stats.
-                                                //{
-                                                //    Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
-                                                //    Console.Write($"Current defense: {player.Defense}\n");
-                                                //}
 
                                                 return;
                                             }
@@ -1172,7 +1161,7 @@ class Program
         }
     }
 
-    public static void HandleInventory(Character player)
+    public static void HandleInventory(Character player) // Shows the current inventory of the player.
     {
         if (player.Inventory == null || player.Inventory.Count < 1)
         {
@@ -1200,7 +1189,7 @@ class Program
         }
     }
 
-    public static void HandleEquipment(Character player)
+    public static void HandleEquipment(Character player) // Shows the current equipped items.
     {
         if (player.Equipment == null || player.Equipment.Count < 1)
         {
@@ -1228,7 +1217,7 @@ class Program
         }
     }
 
-    public static void HandleHelp() // The current character needs help. What do the commands do?
+    public static void HandleHelp() // The current player needs help. What do the commands do?
     {
         foreach (string playerAction in playerActions)
         {
