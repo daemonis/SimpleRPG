@@ -461,7 +461,7 @@ class Program
         }
         else if (action.Equals(unequipAction))
         {
-            //HandleUnequip(player, target);
+            HandleUnequip(player, target);
         }
         else if (action.Equals(inventoryAction)) // Character's current inventory.
         {
@@ -492,6 +492,53 @@ class Program
             Console.Clear();
 
             WriteText("The screen has been cleared for ye.");
+        }
+    }
+
+    private static void HandleUnequip(Character player, string target)
+    {
+        Item targetItem = null;
+
+        foreach (Item item in player.Equipment)
+        {
+            if (item.Name == target)
+            {
+                targetItem = item;
+
+                break;
+            }
+        }
+
+        switch (targetItem)
+        {
+            case null:
+                Console.Write("Ye not wearin' one o' those.\n");
+                return;
+            default:
+                player.Equipment.Remove(targetItem);
+
+                player.Inventory.Add(targetItem);
+
+                Console.Write($"\nYou unequip the {targetItem}!\n");
+
+                if (targetItem.Defense <= 0)
+                {
+                    Console.Write($"Your attack decreases by {targetItem.Attack}!\n");
+                }
+                else if (targetItem.Attack <= 0)
+                {
+                    Console.Write($"Your defense decreases by {targetItem.Defense}!\n");
+                }
+                else
+                {
+                    Console.Write($"Your attack decreases by {targetItem.Attack}!\n");
+                    Console.Write($"Your defense decreases by {targetItem.Defense}!\n");
+                }
+
+                Console.Write($"Current attack: {player.Attack}\n");
+                Console.Write($"Current defense: {player.Defense}\n");
+
+                return;
         }
     }
 
@@ -529,8 +576,21 @@ class Program
 
                         player.Equipment.Add(targetItem);
 
-                        Console.Write($"Your attack increases by {targetItem.Attack}!\n");
-                        Console.Write($"Your defense increases by {targetItem.Defense}!\n");
+                        Console.Write($"\nYou equip the {targetItem}!\n");
+
+                        if (targetItem.Defense <= 0)
+                        {
+                            Console.Write($"Your attack increases by {targetItem.Attack}!\n");
+                        }
+                        else if (targetItem.Attack <= 0)
+                        {
+                            Console.Write($"Your defense increases by {targetItem.Defense}!\n");
+                        }
+                        else
+                        {
+                            Console.Write($"Your attack increases by {targetItem.Attack}!\n");
+                            Console.Write($"Your defense increases by {targetItem.Defense}!\n");
+                        }
 
                         Console.Write($"Current attack: {player.Attack}\n");
                         Console.Write($"Current defense: {player.Defense}\n");
@@ -755,7 +815,7 @@ class Program
                                 {
                                     if (player.Location[4].Equals(room.RoomValue))
                                     {
-                                        WriteText($"You are currently in the {room.Name}. {room.Description}"); // You move, description of room shows.
+                                        WriteText($"\nYou are currently in the {room.Name}. {room.Description}"); // You move, description of room shows.
 
                                         foreach (NPC person in room.Persons)
                                         {
@@ -1070,6 +1130,7 @@ class Program
                                             if (item.Name.Equals(targetItemName))
                                             {
                                                 itemToAdd = item;
+
                                                 break;
                                             }
                                         }
@@ -1091,17 +1152,6 @@ class Program
                                                 player.Inventory.Add(itemToAdd);
 
                                                 room.Layout.Remove(itemToAdd);
-
-                                                //if (itemToAdd.Attack > 0) // Adds the picked up item's attack to current stats.
-                                                //{
-                                                //    Console.Write($"It increases your attack by {itemToAdd.Attack}!\n");
-                                                //    Console.Write($"Current attack: {player.Attack}\n");
-                                                //}
-                                                //if (itemToAdd.Defense > 0) // Adds the picked up item's defense to current stats.
-                                                //{
-                                                //    Console.Write($"It increases your defense by {itemToAdd.Defense}!\n");
-                                                //    Console.Write($"Current defense: {player.Defense}\n");
-                                                //}
 
                                                 return;
                                             }
@@ -1184,7 +1234,7 @@ class Program
         {
             if (playerAction == grabAction)
             {
-                Console.Write($"{grabAction} - Grab something in the room and put it into your inventory.\n");
+                Console.Write($"\n{grabAction} - Grab something in the room and put it into your inventory.\n");
             }
             else if (playerAction == dropAction)
             {
@@ -1193,6 +1243,14 @@ class Program
             else if (playerAction == inventoryAction)
             {
                 Console.Write($"{inventoryAction} - Gives a brief description of the player's inventory.\n");
+            }
+            else if (playerAction == equipAction)
+            {
+                Console.Write($"{equipAction} - Equip a piece of equipment.\n");
+            }
+            else if (playerAction == unequipAction)
+            {
+                Console.Write($"{unequipAction} - Unequip a piece of equipment.\n");
             }
             else if (playerAction == lookAction)
             {
