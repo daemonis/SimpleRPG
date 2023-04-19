@@ -17,9 +17,9 @@ class Program
     private static readonly Building armory = new("ARMORY", 1, "You enter the SHOWROOM. Inside the modest building are all types of swords and armor. There is a way OUT here.");
 
     private static readonly Building outSideSwamp = new("OUT", 0, "Immediately it feels as if you are wading through water. You wish your boots were taller.");
-    private static readonly Building outSideIron = new("OUT", 0, "You look around. Everything living was hiding under the limited brush. The air burned your nostrils.");
+    private static readonly Building outSideIron = new("OUT", 0, "You look around. Everything living is hiding under the limited brush. The air burns your nostrils.");
     private static readonly Building outSideMeadow = new("OUT", 0, "The scent of flowers eventually fades the longer you endure it.");
-    private static readonly Building outSideForest = new("OUT", 0, "The scent of sap was pleasant, and the shade was nice and cool. You wouldn't mind living here.");
+    private static readonly Building outSideForest = new("OUT", 0, "The scent of sap is pleasant, and the shade is nice and cool. You wouldn't mind living here.");
     private static readonly Building outSideGrove = new("OUT", 0, "If you did see anyone, they would quickly look the other way. This town didn't seem very friendly.");
 
     //private static readonly List<Building> buildings = new() { inn, outSideSwamp, outSideIron, outSideMeadow, outSideForest, outSideGrove };
@@ -99,24 +99,25 @@ class Program
 
     private static readonly List<string> playerActions = new() { grabAction, dropAction, equipAction, unequipAction, inventoryAction, equipmentAction, lookAction, talkAction, moveAction, helpAction, clearAction };
 
-    public static void Main()
+    public static void Main()  // The game. (You lost...)
     {
         // Intro
 
         IntroToMeridia();
 
-        BuildAMap(); // Makes an Inn. That's it at the moment.
+        BuildAMap(); // Builds the world as it is currently.
 
         Console.Clear();
 
         // Collect character information.
 
-        Character player = new(); // Create new player character.
-
-        player.IsAlive = true;
-        player.Inventory = new List<Item>();
-        player.Equipment = new List<Item>();
-        player.Location = new int[5] { meridia.WorldValue, steelSwamp.TownValue, inn.BuildingValue, innLoft.FloorValue, bedRoom.RoomValue };
+        Character player = new() // Create new player character. Set player's location. Set inventory and equipment to empty.
+        {
+            IsAlive = true,
+            Inventory = new List<Item>(),
+            Equipment = new List<Item>(),
+            Location = new int[5] { meridia.WorldValue, steelSwamp.TownValue, inn.BuildingValue, innLoft.FloorValue, bedRoom.RoomValue }
+        };
 
         CollectCharacterInformation(player);
 
@@ -285,6 +286,7 @@ class Program
                             armorSmith.Inventory.Add(helmet);
                             armorSmith.Inventory.Add(boots);
                             armorSmith.Inventory.Add(shield);
+                            armorSmith.Inventory.Add(armor);
                         }
 
                         showRoom.Persons.Add(weaponSmith);
@@ -545,6 +547,7 @@ class Program
     private static void HandleEquip(Character player, string target) // Have the player equip an item currently in their inventory.
     {
         Item targetItem = null;
+        int oneHandedWeaponCount = 0;
 
         foreach (Item item in player.Inventory)
         {
@@ -570,6 +573,36 @@ class Program
                 }
                 else
                 {
+                    foreach (Item equippedItem in player.Equipment)
+                    {
+                        if (targetItem.Identifier.Equals(equippedItem.Identifier))
+                        {
+                            if (targetItem.Identifier.Equals(5))
+                            {
+                                oneHandedWeaponCount++;
+
+                                if (oneHandedWeaponCount >= 2)
+                                {
+                                    Console.Write($"\nYe do not have enough hands.\n");
+
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                Console.Write($"\nYe cannot put on another o' those.\n");
+
+                                return;
+                            }
+                        }
+                        else if (targetItem.Identifier.Equals(6) && equippedItem.Identifier.Equals(5))
+                        {
+                            Console.Write($"\nYe do not have enough hands.\n");
+
+                            return;
+                        }
+                    }
+
                     if (targetItem.Attack > 0 || targetItem.Defense > 0)
                     {
                         player.Inventory.Remove(targetItem);
@@ -599,16 +632,6 @@ class Program
                     return;
                 }
         }
-        //if (targetItem == null)
-        //{
-        //    Console.Write("Ye don't have one o' those.\n");
-
-        //    return;
-        //}
-        //else if (targetItem.Attack == 0 && targetItem.Defense == 0)
-        //{
-        //    Console.Write("That does nothing for ye.\n");
-        //}
     }
 
     private static void HandleTalk(Character player, string targetPersonName) // Have the player talk to someone in the area.
@@ -655,13 +678,13 @@ class Program
                                         {
                                             if (player.Inventory.Count < 1 && targetPerson.Inventory.Count < 1)
                                             {
-                                                WriteText($"Hope ye are having a good day, {player.Name}.");
+                                                WriteText($"\nHope ye are having a good day, {player.Name}.");
 
                                                 return;
                                             }
                                             else if (targetPerson.Inventory.Count > 0)
                                             {
-                                                WriteText("What would ye like to buy? Or are you here to SELL? Here's what I have:");
+                                                WriteText("\nWhat would ye like to buy? Or are you here to SELL? Here's what I have:");
 
                                                 foreach (Item item in targetPerson.Inventory)
                                                 {
@@ -692,14 +715,14 @@ class Program
                                             {
                                                 if (itemChoiceToBuy == null)
                                                 {
-                                                    WriteText("I got nothing left to buy... Are ye here to SELL something?");
+                                                    WriteText("\nI got nothing left to buy... Are ye here to SELL something?");
 
                                                     itemChoiceToBuy = ValidateAndGetInput().ToUpper();
                                                 }
 
                                                 if (itemChoiceToBuy != "SELL" && itemChoiceToBuy != "YES" || itemChoiceToBuy.Equals("NO"))
                                                 {
-                                                    WriteText("I have to get back to work, then. Have a good day.");
+                                                    WriteText("\nI have to get back to work, then. Have a good day.");
 
                                                     return;
                                                 }
@@ -707,12 +730,12 @@ class Program
                                                 {
                                                     if (player.Inventory.Count < 1)
                                                     {
-                                                        WriteText("...Ye good at jokes. Ye ain't even got anything to sell. Good day.");
+                                                        WriteText("\n...Ye good at jokes. Ye ain't even got anything to sell. Good day.");
 
                                                         return;
                                                     }
 
-                                                    WriteText("If ye have something interesting, I'll buy. Sell what?");
+                                                    WriteText("\nIf ye have something interesting, I'll buy. Sell what?");
 
                                                     foreach (Item item in player.Inventory)
                                                     {
@@ -738,15 +761,15 @@ class Program
 
                                                     if (targetItemToSell == null)
                                                     {
-                                                        WriteText("I have to get back to work, then. Have a good day.");
+                                                        WriteText("\nI have to get back to work, then. Have a good day.");
 
                                                         return;
                                                     }
                                                     else
                                                     {
-                                                        WriteText($"Here is ye {targetItemToSell.MoneyValue} coppers. Now let me just...");
+                                                        WriteText($"\nHere is ye {targetItemToSell.MoneyValue} coppers. Now let me just...");
 
-                                                        Console.Write($"You give the {targetPerson.Name} the {targetItemToSell.Name}.\nThe {targetPerson.Name} gives you {targetItemToSell.MoneyValue} coppers.\nGood day.\n");
+                                                        Console.Write($"\nYou give the {targetPerson.Name} the {targetItemToSell.Name}.\nThe {targetPerson.Name} gives you {targetItemToSell.MoneyValue} coppers.\n\nGood day.\n");
 
                                                         player.WalletValue = player.WalletValue + targetItemToSell.MoneyValue;
 
@@ -758,27 +781,27 @@ class Program
                                             }
                                             else if (targetItemToBuy == null)
                                             {
-                                                WriteText("I have to get back to work, then. Have a good day.");
+                                                WriteText("\nI have to get back to work, then. Have a good day.");
 
                                                 return;
                                             }
                                             else if (player.WalletValue < targetItemToBuy.MoneyValue)
                                             {
-                                                WriteText("Ye good at jokes. Ye have no money for that. Good day.");
+                                                WriteText("\nYe good at jokes. Ye have no money for that. Good day.");
 
                                                 return;
                                             }
                                             else if (player.Inventory.Count > 7)
                                             {
-                                                WriteText("Ye need to make some room in ye bag. I can't sell ye this.");
+                                                WriteText("\nYe need to make some room in ye bag. I can't sell ye this.");
 
                                                 return;
                                             }
                                             else
                                             {
-                                                WriteText($"Here is ye {targetItemToBuy.Name}. Now let me just...");
+                                                WriteText($"\nHere is ye {targetItemToBuy.Name}. Now let me just...");
 
-                                                Console.Write($"You give the {targetPerson.Name} {targetItemToBuy.MoneyValue} coppers.\nThe {targetPerson.Name} gives you the {targetItemToBuy.Name}.\nGood day.\n");
+                                                Console.Write($"\nYou give the {targetPerson.Name} {targetItemToBuy.MoneyValue} coppers.\nThe {targetPerson.Name} gives you the {targetItemToBuy.Name}.\n\nGood day.\n");
 
                                                 player.WalletValue = player.WalletValue - targetItemToBuy.MoneyValue;
 
@@ -936,7 +959,7 @@ class Program
 
                                         if (targetRoom.RoomValue != 0 && player.Location[4] != targetRoom.RoomValue)
                                         {
-                                            WriteText($"You have moved to the {targetRoom.Name}. {targetRoom.Description}"); // You move, description of room shows.
+                                            WriteText($"\nYou have moved to the {targetRoom.Name}. {targetRoom.Description}"); // You move, description of room shows.
                                         }
 
                                         break;
@@ -963,11 +986,11 @@ class Program
 
                                             if (targetBuilding.Name.Equals("OUT"))
                                             {
-                                                WriteText($"Ye have moved OUTSIDE. {targetBuilding.Description}");
+                                                WriteText($"\nYe have moved OUTSIDE. {targetBuilding.Description}");
                                             }
                                             else
                                             {
-                                                WriteText($"Ye have moved to the {targetBuilding.Name}. {targetBuilding.Description}");
+                                                WriteText($"\nYe have moved to the {targetBuilding.Name}. {targetBuilding.Description}");
                                             }
 
                                             return;
@@ -994,7 +1017,7 @@ class Program
 
                                             targetTown = toTravelTo;
 
-                                            WriteText($"Ye have traveled to {targetTown.Name}. {targetTown.Description}");
+                                            WriteText($"\nYe have traveled to {targetTown.Name}. {targetTown.Description}");
 
                                             return;
                                         }
