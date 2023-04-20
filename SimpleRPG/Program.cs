@@ -514,7 +514,7 @@ class Program
         switch (targetItem)
         {
             case null:
-                Console.Write("Ye not wearin' one o' those.\n");
+                Console.Write($"Ye not wearin' one o' those. Maybe ye should check your {equipmentAction}.\n");
                 return;
             default:
                 player.Equipment.Remove(targetItem);
@@ -595,7 +595,7 @@ class Program
                                 return;
                             }
                         }
-                        else if (targetItem.Identifier.Equals(6) && equippedItem.Identifier.Equals(5))
+                        else if ((targetItem.Identifier.Equals(6) && equippedItem.Identifier.Equals(5)) || (targetItem.Identifier.Equals(5) && equippedItem.Identifier.Equals(6)))
                         {
                             Console.Write($"\nYe do not have enough hands.\n");
 
@@ -862,7 +862,6 @@ class Program
     private static void HandleDrop(Character player, string targetItemName) // Logic for determining what was grabbed.
     {
         Item? itemToRemove = null;
-        int stairLocation = 1;
         int maxRoomLayoutSize = 7;
 
         foreach (Town town in meridia.Layout)
@@ -891,6 +890,16 @@ class Program
                                             }
                                         }
 
+                                        foreach (Item item in player.Equipment) // If the item name is equal to entered target, add the item to inventory.
+                                        {
+                                            if (item.Name.Equals(targetItemName))
+                                            {
+                                                itemToRemove = item;
+
+                                                break;
+                                            }
+                                        }
+
                                         if (itemToRemove == null) // If item does not exist, the game doesn't know what to grab.
                                         {
                                             Console.Write($"Drop what, ye trousers? Maybe ye should check your {inventoryAction}.\n");
@@ -901,7 +910,7 @@ class Program
                                         {
                                             // Add item
 
-                                            if (player.Inventory.Contains(itemToRemove) && room.Layout.Count <= maxRoomLayoutSize) // What happens when the item is added to inventory?
+                                            if (player.Inventory.Contains(itemToRemove) && room.Layout.Count <= maxRoomLayoutSize) // What happens when the item is removed from inventory?
                                             {
                                                 Console.Write($"You drop the {itemToRemove.Name}.\n");
 
@@ -911,9 +920,36 @@ class Program
 
                                                 return;
                                             }
-                                            else if (!player.Inventory.Contains(itemToRemove))
+                                            else if (player.Equipment.Contains(itemToRemove) && room.Layout.Count <= maxRoomLayoutSize)
                                             {
-                                                Console.Write("Ye don't have one o' those.\n"); // The item is already in the character's inventory.
+                                                Console.Write($"\nYou drop the {itemToRemove.Name}.\n");
+
+                                                player.Equipment.Remove(itemToRemove);
+
+                                                room.Layout.Add(itemToRemove);
+
+                                                if (itemToRemove.Defense <= 0)
+                                                {
+                                                    Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
+                                                }
+                                                else if (itemToRemove.Attack <= 0)
+                                                {
+                                                    Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
+                                                }
+                                                else
+                                                {
+                                                    Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
+                                                    Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
+                                                }
+
+                                                Console.Write($"Current attack: {player.Attack}\n");
+                                                Console.Write($"Current defense: {player.Defense}\n");
+
+                                                return;
+                                            }
+                                            else if (!player.Inventory.Contains(itemToRemove) || !player.Equipment.Contains(itemToRemove))
+                                            {
+                                                Console.Write("Ye don't have one o' those.\n"); // The item is not in the character's inventory.
 
                                                 return;
                                             }
