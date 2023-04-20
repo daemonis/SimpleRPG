@@ -1292,6 +1292,10 @@ class Program
             {
                 Console.Write($"{inventoryAction} - Gives a brief description of the player's inventory.\n");
             }
+            else if (playerAction == equipmentAction)
+            {
+                Console.Write($"{equipmentAction} - Gives a brief description of the player's equipped items.\n");
+            }
             else if (playerAction == equipAction)
             {
                 Console.Write($"{equipAction} - Equip a piece of equipment.\n");
