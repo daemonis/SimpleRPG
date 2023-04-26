@@ -60,18 +60,25 @@ class Program
 
     //private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables, swamp, barrens, meadow, forest, grove };
 
-    private static readonly Ability slash = new("SLASH", 2, 0);
-    private static readonly Ability parry = new("PARRY", 1, 2);
+    private static readonly Ability slash = new("SLASH", 2, 0, "This slashes your foe.");
+    private static readonly Ability stab = new("STAB", 2, 0, "This stabs your foe.");
+    private static readonly Ability parry = new("PARRY", 1, 2, "This gives you a chance to deflect an attack.");
+    private static readonly Ability block = new("BLOCK", 0, 2, "This blocks an attack.");
+    private static readonly Ability bash = new("BASH", 1, 0, "This gives you a chance to stun your foe.");
+    private static readonly Ability swing = new("SWING", 1, 0, "This swings your weapon at your foe.");
+    private static readonly Ability smash = new("SMASH", 1, 2, "This damages a shield your opponent is holding.");
+    private static readonly Ability punch = new("PUNCH", 1, 0, "This uses your fist to attack.");
+    private static readonly Ability kick = new("KICK", 1, 0, "This uses your foot to attack.");
 
-    private static readonly Item sword = new("SWORD", 1, 0, 5, 25, slash, parry);
-    private static readonly Item greatSword = new("GREATSWORD", 2, 0, 6, 45);
-    private static readonly Item flail = new("FLAIL", 1, 0, 5, 25);
-    private static readonly Item hammer = new("HAMMER", 2, 0, 6, 45);
+    private static readonly Item sword = new("SWORD", 1, 0, 5, 25, stab, parry); // atk, def, ID, cost
+    private static readonly Item greatSword = new("GREATSWORD", 2, 0, 6, 45, slash, parry, block, bash);
+    private static readonly Item flail = new("FLAIL", 1, 0, 5, 25, swing, smash);
+    private static readonly Item hammer = new("HAMMER", 2, 0, 6, 45, swing, smash, block, bash);
     private static readonly Item bag = new("BAG", 0, 0, 9, 0);
     private static readonly Item armor = new("ARMOR", 0, 2, 1, 50);
     private static readonly Item helmet = new("HELMET", 0, 1, 0, 15);
     private static readonly Item boots = new("BOOTS", 0, 1, 4, 15);
-    private static readonly Item shield = new("SHIELD", 0, 1, 5, 25);
+    private static readonly Item shield = new("SHIELD", 0, 1, 5, 25, block, bash);
     private static readonly Item toothBrush = new("TOOTHBRUSH", 0, 0, 7, 0);
     private static readonly Item lamp = new("LAMP", 0, 0, 7, 10);
     private static readonly Item cup = new("CUP", 0, 0, 0, 0);
@@ -94,13 +101,14 @@ class Program
     private static readonly string unequipAction = "UNEQUIP";
     private static readonly string inventoryAction = "INVENTORY";
     private static readonly string equipmentAction = "EQUIPMENT";
+    private static readonly string equipmentInfoAction = "INFO";
     private static readonly string lookAction = "LOOK";
     private static readonly string talkAction = "TALKTO";
     private static readonly string moveAction = "MOVETO";
     private static readonly string helpAction = "HELP";
     private static readonly string clearAction = "CLEAR";
 
-    private static readonly List<string> playerActions = new() { grabAction, dropAction, equipAction, unequipAction, inventoryAction, equipmentAction, lookAction, talkAction, moveAction, helpAction, clearAction };
+    private static readonly List<string> playerActions = new() { grabAction, dropAction, equipAction, unequipAction, inventoryAction, equipmentAction, equipmentInfoAction, lookAction, talkAction, moveAction, helpAction, clearAction };
 
     public static void Main()  // The game. (You lost...)
     {
@@ -476,6 +484,10 @@ class Program
         {
             HandleEquipment(player);
         }
+        else if (action.Equals(equipmentInfoAction))
+        {
+            HandleEquipmentInfoAction(player, target);
+        }
         else if (action.Equals(lookAction))
         {
             HandleLook(player);
@@ -500,13 +512,13 @@ class Program
         }
     }
 
-    private static void HandleUnequip(Character player, string target) // Have the player unequip a currently equipped item.
+    private static void HandleUnequip(Character player, string targetEquipmentName) // Have the player unequip a currently equipped item.
     {
         Item targetItem = null;
 
         foreach (Item item in player.Equipment)
         {
-            if (item.Name == target)
+            if (item.Name == targetEquipmentName)
             {
                 targetItem = item;
 
@@ -547,14 +559,14 @@ class Program
         }
     }
 
-    private static void HandleEquip(Character player, string target) // Have the player equip an item currently in their inventory.
+    private static void HandleEquip(Character player, string targetEquipmentName) // Have the player equip an item currently in their inventory.
     {
         Item targetItem = null;
         int oneHandedWeaponCount = 0;
 
         foreach (Item item in player.Inventory)
         {
-            if (item.Name == target)
+            if (item.Name == targetEquipmentName)
             {
                 targetItem = item;
 
@@ -971,7 +983,7 @@ class Program
         }
     }
 
-    private static void HandleMove(Character player, string target) // Logic for determining movement.
+    private static void HandleMove(Character player, string targetLocationName) // Logic for determining movement.
     {
         Town? targetTown = null;
         Building? targetBuilding = null;
@@ -992,7 +1004,7 @@ class Program
                             {
                                 foreach (Room room in floor.Layout) // If the room name is equal to entered target, move there.
                                 {
-                                    if (target.Equals(room.Name)) // If room exists and character can move there, set current room.
+                                    if (targetLocationName.Equals(room.Name)) // If room exists and character can move there, set current room.
                                     {
                                         targetRoom = room;
 
@@ -1007,7 +1019,7 @@ class Program
 
                                 foreach (Building toMoveTo in town.Layout) // If the room name is equal to entered target, move there.
                                 {
-                                    if (target.Equals(toMoveTo.Name) && player.Location[4] != 0)
+                                    if (targetLocationName.Equals(toMoveTo.Name) && player.Location[4] != 0)
                                     {
                                         if (toMoveTo.BuildingValue == player.Location[2])
                                         {
@@ -1039,7 +1051,7 @@ class Program
 
                                 foreach (Town toTravelTo in meridia.Layout) // If the room name is equal to entered target, move there.
                                 {
-                                    if (target.Equals(toTravelTo.Name) && player.Location[4] != 0 && player.Location[2] == 0)
+                                    if (targetLocationName.Equals(toTravelTo.Name) && player.Location[4] != 0 && player.Location[2] == 0)
                                     {
                                         if (toTravelTo.TownValue == player.Location[1])
                                         {
@@ -1276,6 +1288,52 @@ class Program
             {
                 Console.Write($"{item.Name} - This is just a {item.Name}. It's nothing special.\n");
             }
+        }
+    }
+
+    private static void HandleEquipmentInfoAction(Character player, string targetItemName)
+    {
+        Item targetItem = null;
+
+        foreach (Item item in player.Inventory)
+        {
+            if (item.Name == targetItemName)
+            {
+                targetItem = item;
+
+                break;
+            }
+        }
+
+        foreach (Item equipment in player.Equipment)
+        {
+            if (equipment.Name == targetItemName)
+            {
+                targetItem = equipment;
+
+                break;
+            }
+        }
+
+        switch (targetItem)
+        {
+            case (null):
+                Console.Write($"Ye don't have one o' those. Maybe ye should check your {inventoryAction} o' {equipmentAction}.\n");
+                return;
+            default:
+                if (targetItem.AbilityList == null)
+                {
+                    Console.WriteLine($"It's just a(n) {targetItem.Name}.");
+                }
+                else if (targetItem.AbilityList.Count >= 1)
+                {
+                    foreach (Ability ability in targetItem.AbilityList)
+                    {
+                        Console.WriteLine($"This item can {ability.Name}. {ability.Description}");
+                    }
+                }
+
+                return;
         }
     }
 

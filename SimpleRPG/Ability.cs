@@ -2,14 +2,15 @@
 {
     public class Ability
     {
-        public Ability(string name, int attack, int defense) // Create an item with a name, attack/defense values, and a monetary value.
+        public Ability(string name, int attack, int defense, string description) // Create an item with a name, attack/defense values, and a monetary value.
         {
             this.Name = name;
             this.Attack = attack;
             this.Defense = defense;
+            this.Description = description;
         }
 
-        private string name; // Item name.
+        private string name; // Ability name.
         public string Name
         {
             get { return name; }
@@ -19,7 +20,7 @@
             }
         }
 
-        private int attack; // Item attack.
+        private int attack; // Ability attack.
         public int Attack
         {
             get { return attack; }
@@ -29,13 +30,23 @@
             }
         }
 
-        private int defense; // Item defense.
+        private int defense; // Ability defense.
         public int Defense
         {
             get { return defense; }
             set
             {
                 defense = value;
+            }
+        }
+
+        private string description; // Ability name.
+        public string Description
+        {
+            get { return description; }
+            set
+            {
+                description = value;
             }
         }
     }
