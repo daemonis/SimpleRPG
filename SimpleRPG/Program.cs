@@ -949,7 +949,7 @@ class Program
                                             }
                                             else if (!player.Inventory.Contains(itemToRemove) || !player.Equipment.Contains(itemToRemove))
                                             {
-                                                Console.Write("Ye don't have one o' those.\n"); // The item is not in the character's inventory.
+                                                Console.Write($"Ye don't have one o' those. Maybe ye should check your {inventoryAction} or {equipmentAction}.\n"); // The item is not in the character's inventory.
 
                                                 return;
                                             }
@@ -1205,7 +1205,7 @@ class Program
                                             }
                                             else
                                             {
-                                                Console.Write("Ye have no more room for that.\n"); // The item is already in the character's inventory.
+                                                Console.Write($"Ye have no more room for that. Maybe ye should {dropAction} somethin'.\n"); // The item is already in the character's inventory.
 
                                                 return;
                                             }
