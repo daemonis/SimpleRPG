@@ -60,7 +60,10 @@ class Program
 
     //private static readonly List<Room> rooms = new() { bedRoom, bathRoom, hallWay, bar, den, stables, swamp, barrens, meadow, forest, grove };
 
-    private static readonly Item sword = new("SWORD", 1, 0, 5, 25);
+    private static readonly Ability slash = new("SLASH", 2, 0);
+    private static readonly Ability parry = new("PARRY", 1, 2);
+
+    private static readonly Item sword = new("SWORD", 1, 0, 5, 25, slash, parry);
     private static readonly Item greatSword = new("GREATSWORD", 2, 0, 6, 45);
     private static readonly Item flail = new("FLAIL", 1, 0, 5, 25);
     private static readonly Item hammer = new("HAMMER", 2, 0, 6, 45);

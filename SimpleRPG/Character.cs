@@ -119,13 +119,6 @@ public class Character
             return baseAttack + itemAttack;
         }
     }
-    //{
-    //    get { return attack; }
-    //    set
-    //    {
-    //        attack = value;
-    //    }
-    //}
 
     private int baseDefense = 1; // Base defense.
     public int BaseDefense

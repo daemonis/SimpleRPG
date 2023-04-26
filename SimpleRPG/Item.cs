@@ -11,6 +11,36 @@ public class Item
         this.MoneyValue = moneyValue;
     }
 
+    public Item(string name, int attack, int defense, int identifier, int moneyValue, Ability abilityOne, Ability abilityTwo) // Create an item with a name, attack/defense values, and a monetary value.
+    {
+        this.Name = name;
+        this.Attack = attack;
+        this.Defense = defense;
+        this.Identifier = identifier;
+        this.MoneyValue = moneyValue;
+
+        this.AbilityList = new List<Ability>();
+
+        this.AbilityList.Add(abilityOne);
+        this.AbilityList.Add(abilityTwo);
+    }
+
+    public Item(string name, int attack, int defense, int identifier, int moneyValue, Ability abilityOne, Ability abilityTwo, Ability abilityThree, Ability abilityFour) // Create an item with a name, attack/defense values, and a monetary value.
+    {
+        this.Name = name;
+        this.Attack = attack;
+        this.Defense = defense;
+        this.Identifier = identifier;
+        this.MoneyValue = moneyValue;
+
+        this.AbilityList = new List<Ability>();
+
+        this.AbilityList.Add(abilityOne);
+        this.AbilityList.Add(abilityTwo);
+        this.AbilityList.Add(abilityThree);
+        this.AbilityList.Add(abilityFour);
+    }
+
     private string name; // Item name.
     public string Name
     {
@@ -20,6 +50,7 @@ public class Item
             name = value;
         }
     }
+
     private int attack; // Item attack.
     public int Attack
     {
@@ -29,6 +60,7 @@ public class Item
             attack = value;
         }
     }
+
     private int defense; // Item defense.
     public int Defense
     {
@@ -38,15 +70,17 @@ public class Item
             defense = value;
         }
     }
-    private List<Ability> ability;
-    public List<Ability> Ability // What items are in this room?
+
+    private List<Ability> abilityList;
+    public List<Ability> AbilityList // What items are in this room?
     {
-        get { return ability; }
+        get { return abilityList; }
         set
         {
-            ability = value;
+            abilityList = value;
         }
     }
+
     private int identifier; // Item identity.
     public int Identifier
     {
