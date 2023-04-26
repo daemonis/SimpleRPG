@@ -38,7 +38,15 @@ public class Item
             defense = value;
         }
     }
-
+    private List<Ability> ability;
+    public List<Ability> Ability // What items are in this room?
+    {
+        get { return ability; }
+        set
+        {
+            ability = value;
+        }
+    }
     private int identifier; // Item identity.
     public int Identifier
     {

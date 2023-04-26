@@ -423,22 +423,22 @@ class Program
         Console.Write('\n');
     }
 
-    public static void PlayerAction(string? actionAndItem, Character player) // Character actions.
+    public static void PlayerAction(string? actionAndTarget, Character player) // Character actions.
     {
         string action;
         string target;
 
-        actionAndItem = actionAndItem.ToUpper();
+        actionAndTarget = actionAndTarget.ToUpper();
 
-        if (actionAndItem.Contains(' ')) // If there is a space in the entry, splits into two strings.
+        if (actionAndTarget.Contains(' ')) // If there is a space in the entry, splits into two strings.
         {
-            string[] command = actionAndItem.Split(' ');
+            string[] command = actionAndTarget.Split(' ');
             action = command[0];
             target = command[1];
         }
         else // If there is no space, make action the entry.
         {
-            action = actionAndItem;
+            action = actionAndTarget;
             target = "";
         }
 
@@ -562,7 +562,7 @@ class Program
         switch (targetItem)
         {
             case null:
-                Console.Write("Ye don't have one o' those.\n");
+                Console.Write($"Ye don't have one o' those. Maybe ye should check your {inventoryAction}.\n");
                 return;
             default:
                 if (targetItem.Attack <= 0 && targetItem.Defense <= 0)
