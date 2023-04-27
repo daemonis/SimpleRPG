@@ -1291,7 +1291,7 @@ class Program
         }
     }
 
-    private static void HandleEquipmentInfoAction(Character player, string targetItemName)
+    private static void HandleEquipmentInfoAction(Character player, string targetItemName) // What can an item the player picked up do?
     {
         Item targetItem = null;
 
@@ -1329,7 +1329,10 @@ class Program
                 {
                     foreach (Ability ability in targetItem.AbilityList)
                     {
-                        Console.WriteLine($"This item can {ability.Name}. {ability.Description}");
+                        // int attackValue = (targetItem.Attack * player.BaseAttack) + ability.Attack;
+                        // int defenseValue = (targetItem.Defense * player.BaseDefense) + ability.Defense;
+
+                        Console.WriteLine($"This item can {ability.Name}. {ability.Description}."); // This does an attack of {attackValue} and has a defense of {defenseValue}.");
                     }
                 }
 
@@ -1356,6 +1359,10 @@ class Program
             else if (playerAction == equipmentAction)
             {
                 Console.Write($"{equipmentAction} - Gives a brief description of the player's equipped items.\n");
+            }
+            else if (playerAction == equipmentInfoAction)
+            {
+                Console.Write($"{equipmentInfoAction} - Gives a brief description of an item's abilities.\n");
             }
             else if (playerAction == equipAction)
             {
