@@ -93,6 +93,8 @@ class Program
     private static readonly NPC weaponSmith = new("WEAPONSMITH", "They are inspecting the various blades they have on sale.");
     private static readonly NPC armorSmith = new("ARMORSMITH", "They are polishing what appears to be a pauldron.");
 
+    private static readonly List<NPC> merchantList = new() { shopKeep, apothecary, weaponSmith, armorSmith };
+
     private static readonly Monster ghost = new("GHOST");
 
     private static readonly string grabAction = "GRAB";
@@ -682,148 +684,149 @@ class Program
                                                 break;
                                             }
                                         }
-
-                                        if (targetPerson == null)
+                                        switch (targetPerson)
                                         {
-                                            Console.Write($"Ye see a ghost? Maybe ye should {lookAction} around.\n");
-
-                                            return;
-                                        }
-                                        else if (targetPerson.Name.Equals("SHOPKEEP") || targetPerson.Name.Equals("APOTHECARY") || targetPerson.Name.Equals("WEAPONSMITH") || targetPerson.Name.Equals("ARMORSMITH"))
-                                        {
-                                            if (player.Inventory.Count < 1 && targetPerson.Inventory.Count < 1)
-                                            {
-                                                WriteText($"\nHope ye are having a good day, {player.Name}.");
-
+                                            case (null):
+                                                Console.Write($"Ye see a ghost? Maybe ye should {lookAction} around.\n");
                                                 return;
-                                            }
-                                            else if (targetPerson.Inventory.Count > 0)
-                                            {
-                                                WriteText("\nWhat would ye like to buy? Or are you here to SELL? Here's what I have:");
-
-                                                foreach (Item item in targetPerson.Inventory)
+                                            default:
+                                                if (merchantList.Contains(targetPerson))
                                                 {
-                                                    Console.Write($"{item.Name} - {item.MoneyValue} coppers\n");
-                                                }
-
-                                                Console.Write($"Current coins: {player.WalletValue} coppers\n");
-
-                                                itemChoiceToBuy = ValidateAndGetInput().ToUpper();
-
-                                                if (itemChoiceToBuy.Equals("YES"))
-                                                {
-                                                    itemChoiceToBuy = "SELL";
-                                                }
-
-                                                foreach (Item item in targetPerson.Inventory)
-                                                {
-                                                    if (item.Name.Equals(itemChoiceToBuy))
+                                                    if (player.Inventory.Count < 1 && targetPerson.Inventory.Count < 1)
                                                     {
-                                                        targetItemToBuy = item;
-
-                                                        break;
-                                                    }
-                                                }
-                                            }
-
-                                            if (targetPerson.Inventory.Count < 1 || itemChoiceToBuy.Equals("SELL"))
-                                            {
-                                                if (itemChoiceToBuy == null)
-                                                {
-                                                    WriteText("\nI got nothing left to buy... Are ye here to SELL something?");
-
-                                                    itemChoiceToBuy = ValidateAndGetInput().ToUpper();
-                                                }
-
-                                                if (itemChoiceToBuy != "SELL" && itemChoiceToBuy != "YES" || itemChoiceToBuy.Equals("NO"))
-                                                {
-                                                    WriteText("\nI have to get back to work, then. Have a good day.");
-
-                                                    return;
-                                                }
-                                                else if (itemChoiceToBuy.Equals("SELL") || itemChoiceToBuy.Equals("YES"))
-                                                {
-                                                    if (player.Inventory.Count < 1)
-                                                    {
-                                                        WriteText("\n...Ye good at jokes. Ye ain't even got anything to sell. Good day.");
+                                                        WriteText($"\nHope ye are having a good day, {player.Name}.");
 
                                                         return;
                                                     }
-
-                                                    WriteText("\nIf ye have something interesting, I'll buy. Sell what?");
-
-                                                    foreach (Item item in player.Inventory)
+                                                    else if (targetPerson.Inventory.Count > 0)
                                                     {
-                                                        if (item.MoneyValue != 0)
+                                                        WriteText("\nWhat would ye like to buy? Or are you here to SELL? Here's what I have:");
+
+                                                        foreach (Item item in targetPerson.Inventory)
                                                         {
                                                             Console.Write($"{item.Name} - {item.MoneyValue} coppers\n");
                                                         }
-                                                    }
 
-                                                    Console.Write($"Current coins: {player.WalletValue} coppers\n");
+                                                        Console.Write($"Current coins: {player.WalletValue} coppers\n");
 
-                                                    itemChoiceToSell = ValidateAndGetInput().ToUpper();
+                                                        itemChoiceToBuy = ValidateAndGetInput().ToUpper();
 
-                                                    foreach (Item item in player.Inventory)
-                                                    {
-                                                        if (item.Name.Equals(itemChoiceToSell))
+                                                        if (itemChoiceToBuy.Equals("YES"))
                                                         {
-                                                            targetItemToSell = item;
+                                                            itemChoiceToBuy = "SELL";
+                                                        }
 
-                                                            break;
+                                                        foreach (Item item in targetPerson.Inventory)
+                                                        {
+                                                            if (item.Name.Equals(itemChoiceToBuy))
+                                                            {
+                                                                targetItemToBuy = item;
+
+                                                                break;
+                                                            }
                                                         }
                                                     }
 
-                                                    if (targetItemToSell == null)
+                                                    if (targetPerson.Inventory.Count < 1 || itemChoiceToBuy.Equals("SELL"))
+                                                    {
+                                                        if (itemChoiceToBuy == null)
+                                                        {
+                                                            WriteText("\nI got nothing left to buy... Are ye here to SELL something?");
+
+                                                            itemChoiceToBuy = ValidateAndGetInput().ToUpper();
+                                                        }
+
+                                                        if (itemChoiceToBuy != "SELL" && itemChoiceToBuy != "YES" || itemChoiceToBuy.Equals("NO"))
+                                                        {
+                                                            WriteText("\nI have to get back to work, then. Have a good day.");
+
+                                                            return;
+                                                        }
+                                                        else if (itemChoiceToBuy.Equals("SELL") || itemChoiceToBuy.Equals("YES"))
+                                                        {
+                                                            if (player.Inventory.Count < 1)
+                                                            {
+                                                                WriteText("\n...Ye good at jokes. Ye ain't even got anything to sell. Good day.");
+
+                                                                return;
+                                                            }
+
+                                                            WriteText("\nIf ye have something interesting, I'll buy. Sell what?");
+
+                                                            foreach (Item item in player.Inventory)
+                                                            {
+                                                                if (item.MoneyValue != 0)
+                                                                {
+                                                                    Console.Write($"{item.Name} - {item.MoneyValue} coppers\n");
+                                                                }
+                                                            }
+
+                                                            Console.Write($"Current coins: {player.WalletValue} coppers\n");
+
+                                                            itemChoiceToSell = ValidateAndGetInput().ToUpper();
+
+                                                            foreach (Item item in player.Inventory)
+                                                            {
+                                                                if (item.Name.Equals(itemChoiceToSell))
+                                                                {
+                                                                    targetItemToSell = item;
+
+                                                                    break;
+                                                                }
+                                                            }
+
+                                                            switch (targetItemToSell)
+                                                            {
+                                                                case (null):
+                                                                    WriteText("\nI have to get back to work, then. Have a good day.");
+                                                                    return;
+                                                                default:
+                                                                    WriteText($"\nHere is ye {targetItemToSell.MoneyValue} coppers. Now let me just...");
+
+                                                                    Console.Write($"\nYou give the {targetPerson.Name} the {targetItemToSell.Name}.\nThe {targetPerson.Name} gives you {targetItemToSell.MoneyValue} coppers.\n\nGood day.\n");
+
+                                                                    player.WalletValue += targetItemToSell.MoneyValue;
+
+                                                                    player.Inventory.Remove(targetItemToSell);
+
+                                                                    targetPerson.Inventory.Add(targetItemToSell);
+
+                                                                    return;
+                                                            }
+                                                        }
+                                                    }
+                                                    else if (targetItemToBuy == null)
                                                     {
                                                         WriteText("\nI have to get back to work, then. Have a good day.");
 
                                                         return;
                                                     }
+                                                    else if (player.WalletValue < targetItemToBuy.MoneyValue)
+                                                    {
+                                                        WriteText("\nYe good at jokes. Ye have no money for that. Good day.");
+
+                                                        return;
+                                                    }
+                                                    else if (player.Inventory.Count > 7)
+                                                    {
+                                                        WriteText("\nYe need to make some room in ye bag. I can't sell ye this.");
+
+                                                        return;
+                                                    }
                                                     else
                                                     {
-                                                        WriteText($"\nHere is ye {targetItemToSell.MoneyValue} coppers. Now let me just...");
+                                                        WriteText($"\nHere is ye {targetItemToBuy.Name}. Now let me just...");
 
-                                                        Console.Write($"\nYou give the {targetPerson.Name} the {targetItemToSell.Name}.\nThe {targetPerson.Name} gives you {targetItemToSell.MoneyValue} coppers.\n\nGood day.\n");
+                                                        Console.Write($"\nYou give the {targetPerson.Name} {targetItemToBuy.MoneyValue} coppers.\nThe {targetPerson.Name} gives you the {targetItemToBuy.Name}.\n\nGood day.\n");
 
-                                                        player.WalletValue = player.WalletValue + targetItemToSell.MoneyValue;
+                                                        player.WalletValue = player.WalletValue - targetItemToBuy.MoneyValue;
 
-                                                        player.Inventory.Remove(targetItemToSell);
+                                                        targetPerson.Inventory.Remove(targetItemToBuy);
 
-                                                        targetPerson.Inventory.Add(targetItemToSell);
+                                                        player.Inventory.Add(targetItemToBuy);
                                                     }
                                                 }
-                                            }
-                                            else if (targetItemToBuy == null)
-                                            {
-                                                WriteText("\nI have to get back to work, then. Have a good day.");
-
                                                 return;
-                                            }
-                                            else if (player.WalletValue < targetItemToBuy.MoneyValue)
-                                            {
-                                                WriteText("\nYe good at jokes. Ye have no money for that. Good day.");
-
-                                                return;
-                                            }
-                                            else if (player.Inventory.Count > 7)
-                                            {
-                                                WriteText("\nYe need to make some room in ye bag. I can't sell ye this.");
-
-                                                return;
-                                            }
-                                            else
-                                            {
-                                                WriteText($"\nHere is ye {targetItemToBuy.Name}. Now let me just...");
-
-                                                Console.Write($"\nYou give the {targetPerson.Name} {targetItemToBuy.MoneyValue} coppers.\nThe {targetPerson.Name} gives you the {targetItemToBuy.Name}.\n\nGood day.\n");
-
-                                                player.WalletValue = player.WalletValue - targetItemToBuy.MoneyValue;
-
-                                                targetPerson.Inventory.Remove(targetItemToBuy);
-
-                                                player.Inventory.Add(targetItemToBuy);
-                                            }
                                         }
                                     }
                                 }
@@ -915,63 +918,54 @@ class Program
                                             }
                                         }
 
-                                        if (itemToRemove == null) // If item does not exist, the game doesn't know what to grab.
+                                        switch (itemToRemove) // If item does not exist, the game doesn't know what to drop.
                                         {
-                                            Console.Write($"Drop what, ye trousers? Maybe ye should check your {inventoryAction}.\n");
-
-                                            return;
-                                        }
-                                        else
-                                        {
-                                            // Add item
-
-                                            if (player.Inventory.Contains(itemToRemove) && room.Layout.Count <= maxRoomLayoutSize) // What happens when the item is removed from inventory?
-                                            {
-                                                Console.Write($"You drop the {itemToRemove.Name}.\n");
-
-                                                player.Inventory.Remove(itemToRemove);
-
-                                                room.Layout.Add(itemToRemove);
-
+                                            case (null):
+                                                Console.Write($"Drop what, ye trousers? Maybe ye should check your {inventoryAction} or {equipmentAction}.\n");
                                                 return;
-                                            }
-                                            else if (player.Equipment.Contains(itemToRemove) && room.Layout.Count <= maxRoomLayoutSize)
-                                            {
-                                                Console.Write($"\nYou drop the {itemToRemove.Name}.\n");
-
-                                                player.Equipment.Remove(itemToRemove);
-
-                                                room.Layout.Add(itemToRemove);
-
-                                                if (itemToRemove.Defense <= 0)
+                                            default: // Add item
+                                                if (room.Layout.Count <= maxRoomLayoutSize) // What happens when the item is removed from inventory?
                                                 {
-                                                    Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
+                                                    Console.Write($"You drop the {itemToRemove.Name}.\n");
+
+                                                    player.Inventory.Remove(itemToRemove);
+
+                                                    room.Layout.Add(itemToRemove);
+
+                                                    return;
                                                 }
-                                                else if (itemToRemove.Attack <= 0)
+                                                else if (room.Layout.Count <= maxRoomLayoutSize)
                                                 {
-                                                    Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
+                                                    Console.Write($"\nYou drop the {itemToRemove.Name}.\n");
+
+                                                    player.Equipment.Remove(itemToRemove);
+
+                                                    room.Layout.Add(itemToRemove);
+
+                                                    if (itemToRemove.Defense <= 0)
+                                                    {
+                                                        Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
+                                                    }
+                                                    else if (itemToRemove.Attack <= 0)
+                                                    {
+                                                        Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
+                                                        Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
+                                                    }
+
+                                                    Console.Write($"Current attack: {player.Attack}\n");
+                                                    Console.Write($"Current defense: {player.Defense}\n");
+
+                                                    return;
                                                 }
                                                 else
                                                 {
-                                                    Console.Write($"Your attack decreases by {itemToRemove.Attack}!\n");
-                                                    Console.Write($"Your defense decreases by {itemToRemove.Defense}!\n");
+                                                    Console.Write("There be no more space for that here!\n");
                                                 }
-
-                                                Console.Write($"Current attack: {player.Attack}\n");
-                                                Console.Write($"Current defense: {player.Defense}\n");
-
                                                 return;
-                                            }
-                                            else if (!player.Inventory.Contains(itemToRemove) || !player.Equipment.Contains(itemToRemove))
-                                            {
-                                                Console.Write($"Ye don't have one o' those. Maybe ye should check your {inventoryAction} or {equipmentAction}.\n"); // The item is not in the character's inventory.
-
-                                                return;
-                                            }
-                                            else
-                                            {
-                                                Console.Write("There be no more space for that here!\n");
-                                            }
                                         }
                                     }
                                 }
@@ -1198,32 +1192,28 @@ class Program
                                             }
                                         }
 
-                                        if (itemToAdd == null) // If item does not exist, the game doesn't know what to grab.
+                                        switch (itemToAdd) // If item does not exist, the game doesn't know what to grab.
                                         {
-                                            Console.Write($"Grab what, the air? Maybe ye should {lookAction} around.\n");
-
-                                            return;
-                                        }
-                                        else
-                                        {
-                                            // Add item
-
-                                            if (player.Inventory.Count <= maxInventorySize || player.Inventory == null) // What happens when the item is added to inventory?
-                                            {
-                                                Console.Write($"You pick up the {itemToAdd.Name}.\n");
-
-                                                player.Inventory.Add(itemToAdd);
-
-                                                room.Layout.Remove(itemToAdd);
-
+                                            case (null):
+                                                Console.Write($"Grab what, the air? Maybe ye should {lookAction} around.\n");
                                                 return;
-                                            }
-                                            else
-                                            {
-                                                Console.Write($"Ye have no more room for that. Maybe ye should {dropAction} somethin'.\n"); // The item is already in the character's inventory.
+                                            default:
+                                                if (player.Inventory.Count <= maxInventorySize || player.Inventory == null) // What happens when the item is added to inventory?
+                                                {
+                                                    Console.Write($"You pick up the {itemToAdd.Name}.\n");
 
-                                                return;
-                                            }
+                                                    player.Inventory.Add(itemToAdd);
+
+                                                    room.Layout.Remove(itemToAdd);
+
+                                                    return;
+                                                }
+                                                else
+                                                {
+                                                    Console.Write($"Ye have no more room for that. Maybe ye should {dropAction} somethin'.\n"); // The item is already in the character's inventory.
+
+                                                    return;
+                                                }
                                         }
                                     }
                                 }
@@ -1237,57 +1227,63 @@ class Program
 
     public static void HandleInventory(Character player) // Shows the current inventory of the player.
     {
-        if (player.Inventory == null || player.Inventory.Count < 1)
+        switch (player.Inventory)
         {
-            Console.Write("You have nothing in your inventory.\n");
-        }
-
-        foreach (Item? item in player.Inventory)
-        {
-            if (item.Attack > 0 && item.Defense == 0)
-            {
-                Console.Write($"{item.Name} - This has an attack of {item.Attack}.\n");
-            }
-            else if (item.Defense > 0 && item.Attack == 0)
-            {
-                Console.Write($"{item.Name} - This has a defense of {item.Defense}.\n");
-            }
-            else if (item.Attack > 0 && item.Defense > 0)
-            {
-                Console.Write($"{item.Name} - This has an attack of {item.Attack} and a defense of {item.Defense}.");
-            }
-            else if (item.Attack == 0 && item.Defense == 0)
-            {
-                Console.Write($"{item.Name} - This is just a {item.Name}. It's nothing special.\n");
-            }
+            case (null):
+                Console.Write("You have nothing equipped.\n");
+                return;
+            default:
+                foreach (Item? item in player.Inventory)
+                {
+                    if (item.Attack > 0 && item.Defense == 0)
+                    {
+                        Console.Write($"{item.Name} - This has an attack of {item.Attack}.\n");
+                    }
+                    else if (item.Defense > 0 && item.Attack == 0)
+                    {
+                        Console.Write($"{item.Name} - This has a defense of {item.Defense}.\n");
+                    }
+                    else if (item.Attack > 0 && item.Defense > 0)
+                    {
+                        Console.Write($"{item.Name} - This has an attack of {item.Attack} and a defense of {item.Defense}.");
+                    }
+                    else if (item.Attack == 0 && item.Defense == 0)
+                    {
+                        Console.Write($"{item.Name} - This is just a {item.Name}. It's nothing special.\n");
+                    }
+                }
+                return;
         }
     }
 
     public static void HandleEquipment(Character player) // Shows the current equipped items.
     {
-        if (player.Equipment == null || player.Equipment.Count < 1)
+        switch (player.Equipment)
         {
-            Console.Write("You have nothing equipped.\n");
-        }
-
-        foreach (Item? item in player.Equipment)
-        {
-            if (item.Attack > 0 && item.Defense == 0)
-            {
-                Console.Write($"{item.Name} - This has an attack of {item.Attack}.\n");
-            }
-            else if (item.Defense > 0 && item.Attack == 0)
-            {
-                Console.Write($"{item.Name} - This has a defense of {item.Defense}.\n");
-            }
-            else if (item.Attack > 0 && item.Defense > 0)
-            {
-                Console.Write($"{item.Name} - This has an attack of {item.Attack} and a defense of {item.Defense}.");
-            }
-            else if (item.Attack == 0 && item.Defense == 0)
-            {
-                Console.Write($"{item.Name} - This is just a {item.Name}. It's nothing special.\n");
-            }
+            case (null):
+                Console.Write("You have nothing equipped.\n");
+                return;
+            default:
+                foreach (Item? item in player.Equipment)
+                {
+                    if (item.Attack > 0 && item.Defense == 0)
+                    {
+                        Console.Write($"{item.Name} - This has an attack of {item.Attack}.\n");
+                    }
+                    else if (item.Defense > 0 && item.Attack == 0)
+                    {
+                        Console.Write($"{item.Name} - This has a defense of {item.Defense}.\n");
+                    }
+                    else if (item.Attack > 0 && item.Defense > 0)
+                    {
+                        Console.Write($"{item.Name} - This has an attack of {item.Attack} and a defense of {item.Defense}.");
+                    }
+                    else if (item.Attack == 0 && item.Defense == 0)
+                    {
+                        Console.Write($"{item.Name} - This is just a {item.Name}. It's nothing special.\n");
+                    }
+                }
+                return;
         }
     }
 
@@ -1321,22 +1317,18 @@ class Program
                 Console.Write($"Ye don't have one o' those. Maybe ye should check your {inventoryAction} o' {equipmentAction}.\n");
                 return;
             default:
-                if (targetItem.AbilityList == null)
+                switch ((targetItem.AbilityList))
                 {
-                    Console.WriteLine($"It's just a(n) {targetItem.Name}.");
+                    case (null):
+                        Console.WriteLine($"This be only a {targetItem.Name}.");
+                        return;
+                    default:
+                        foreach (Ability ability in targetItem.AbilityList)
+                        {
+                            Console.WriteLine($"This item can {ability.Name}. {ability.Description}");
+                        }
+                        return;
                 }
-                else if (targetItem.AbilityList.Count >= 1)
-                {
-                    foreach (Ability ability in targetItem.AbilityList)
-                    {
-                        // int attackValue = (targetItem.Attack * player.BaseAttack) + ability.Attack;
-                        // int defenseValue = (targetItem.Defense * player.BaseDefense) + ability.Defense;
-
-                        Console.WriteLine($"This item can {ability.Name}. {ability.Description}."); // This does an attack of {attackValue} and has a defense of {defenseValue}.");
-                    }
-                }
-
-                return;
         }
     }
 
